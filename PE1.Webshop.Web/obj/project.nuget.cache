@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6WEDARaSqVzU5+2UiNNb/Zitkou6tVATicsXeG4USbbrGpeKfu0NlDRrJej+nVqjyOEhuEc6csZ4FzpfPuAk8Q==",
+  "dgSpecHash": "EQwbDjGtjnKtZscthMxx5RybJwxsAWJNWVbMiU5EGoG5Rlz6TwtG2FoKbUzvQIhMaUgX+2dC2M306k5Tb19bDA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Web\\PE1.Webshop.Web.csproj",
+  "projectFilePath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Web\\PE1.Webshop.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\johan\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\johan\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

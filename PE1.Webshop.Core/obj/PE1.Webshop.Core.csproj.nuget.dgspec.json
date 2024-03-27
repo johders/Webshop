@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj": {}
+    "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj": {
+    "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj",
+        "projectUniqueName": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj",
         "projectName": "PE1.Webshop.Core",
-        "projectPath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj",
+        "projectPath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Core\\PE1.Webshop.Core.csproj",
         "packagesPath": "C:\\Users\\johan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\tester\\PE1.Webshop.Core\\obj\\",
+        "outputPath": "C:\\Users\\johan\\Documents\\School\\JH1-S2\\WBE\\PE02\\testies\\PE1.Webshop.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\johan\\AppData\\Roaming\\NuGet\\NuGet.Config",
