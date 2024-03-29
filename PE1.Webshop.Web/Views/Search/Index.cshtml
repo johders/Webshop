@@ -1,0 +1,23 @@
+﻿
+<h1>Search Index</h1>
+
+<h5> Popular searches </h5>
+
+<div class="list-group">
+    <a asp-controller="Search" asp-action="SearchByMultipleKeys" asp-route-price="20"
+       asp-route-category="dark" asp-route-flavor="nut" class="list-group-item list-group-item-action"> Dark roast coffees under $20 with some kind of nutty flavor </a>
+    <a asp-controller="Search" asp-action="SearchByMultipleKeys" asp-route-price="19"
+       asp-route-category="medium roast" class="list-group-item list-group-item-action"> Medium roast coffees with a max price of $19 </a>
+    <a asp-controller="Search" asp-action="SearchByMultipleKeys"
+       asp-route-region="nicaragua" asp-route-flavor="chocolate" asp-route-certOrganic="true" class="list-group-item list-group-item-action"> Certified Organic coffees from Nicaragua with a chocolatey flavor </a>
+</div>
+
+
+<h5> Search by keyword </h5>
+
+<form class="form-inline" asp-controller="Search" asp-action="SearchByKeyWord" method="get">
+    <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+

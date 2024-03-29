@@ -1,0 +1,211 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    color: hsl(123, 17%, 30%);
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+/* Custom styles
+-------------------------------------------------- */
+.top-buffer{
+    margin-top: 20px;
+}
+
+
+h1, .h-link > p > a, #cat-link > a {
+    color: hsl(123, 17%, 65%);
+}
+
+    .dropdown-item:first-child {
+        color: hsl(123, 17%, 70%);
+        font-weight: bold;
+    }
+
+.card-img-overlay .bolder{  
+    text-transform: uppercase;
+}
+
+.jumbotron {
+    background-image: url("/images/empty-cup-2.jpg");
+    background-size: cover;
+    padding: 11em;
+}
+
+.jumbotron p {
+    color: hsl(123, 17%, 75%);
+    font-weight: 400;
+}
+
+.list-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.list-group-item {  
+    margin-bottom: 5px;
+}
+
+.btn-outline-success, #checkout:hover, #trash, #cart:hover, #apply-now:hover, #close-dialog:hover, .btn-outline-secondary, .carousel-item > div > a:hover {
+    background-color: hsl(123, 17%, 75%);
+    color: hsl(123, 17%, 20%);
+    border-color: hsl(123, 17%, 20%);
+}
+
+.btn-outline-success:hover, #checkout, #trash:hover, #cart, #apply-now, #close-dialog, .btn-outline-secondary:hover, .btn-secundary:hover, .carousel-item > div > a {
+    background-color: hsl(123, 17%, 20%);
+    color: hsl(123, 17%, 90%);
+    border-color: hsl(123, 17%, 90%);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: hsl(123, 17%, 35%);
+}
+
+.navbar-light .navbar-nav .lighter-link, #go-back:hover {
+    color: hsl(123, 17%, 50%);
+}
+
+#category-item h5, #category-item p, #go-back, .navbar-light .navbar-nav .lighter-link:hover{        
+    color: hsl(123, 17%, 20%);
+}
+
+#go-back:hover{
+    text-decoration: none;
+}
+
+#trash{
+    margin-left: 20px;
+}
+
+.payment-info, #volunteer-form, #volunteer-success {
+    background-color: hsl(123, 17%, 90%);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#cart-icon {
+    margin-left: auto;
+    position: relative;
+    padding-right: 10px;
+}
+
+#cart{   
+    font-size: 1.5em;
+}
+
+#count {
+    background-color: hsl(123, 17%, 90%);
+    width: 15px;
+    height: 15px;
+    line-height: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: .75em;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 23px;
+    z-index: 1;
+}
+
+#volunteer-application {
+    background-color: hsl(123, 17%, 95%);
+    border-radius: 5px;
+    padding: 10px;
+    
+}
+
+.table td {
+    padding: 5px;
+    font-size: .8em;
+    background-color: hsl(123, 17%, 95%);
+}
+
+#container-rel{
+    position:relative;
+}
+
+#absolute-organic{
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+}
+
+#organic {    
+    position: absolute;
+    bottom: 9%;
+    right: 5%;
+}
+
+dialog {
+    width: 50%;
+    border-radius: 10px;
+    border: 2px solid hsl(123, 17%, 20%);
+    background-color: hsl(123, 17%, 80%);
+}
