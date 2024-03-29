@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\PE1.Webshop.Web.props" />
-</Project>

@@ -1,8 +1,0 @@
-﻿@model NavigationLinksComponentViewModel
-
-@foreach (var link in Model.MenuLinks)
-{
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="@link.Controller" asp-action="@link.Action">@link.Name</a>
-    </li>
-}
