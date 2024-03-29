@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Models;
@@ -22,17 +23,17 @@ namespace PE1.Webshop.Web.Controllers
 
             var coffees = _coffeeShopContext.Coffees
                 .Select(coffee => new ProductsCoffeeDetailsViewModel
-            {
-                Id = coffee.Id,
-                Name = coffee.Name,
-                Description = coffee.Description,
-                Origin = coffee.Origin,
-                Price = coffee.Price,
-                Category = coffee.Category,
-                Properties = coffee.Properties,
-                ImageString = coffee.ImageString,
-                CertifiedOrganic = coffee.CertifiedOrganic
-            });
+                {
+                    Id = coffee.Id,
+                    Name = coffee.Name,
+                    Description = coffee.Description,
+                    Origin = coffee.Origin,
+                    Price = coffee.Price,
+                    Category = coffee.Category,
+                    Properties = coffee.Properties,
+                    ImageString = coffee.ImageString,
+                    CertifiedOrganic = coffee.CertifiedOrganic
+                });
 
             var allCoffeesModel = new ProductsAllCoffeesViewModel
             {
@@ -42,107 +43,87 @@ namespace PE1.Webshop.Web.Controllers
             return View(allCoffeesModel);
         }
 
-        //public IActionResult CoffeeDetails(int id)
-        //{
+        public IActionResult CoffeeDetails(int id)
+        {
 
-        //    IEnumerable<Coffee> coffees = _coffeeRepository.Coffees;
+            var coffees = _coffeeShopContext.Coffees
+                .Include(c => c.Category)
+                .Include(c => c.Properties);
 
-        //    if (coffees == null)
-        //    {
-        //        return View("Error", new ErrorViewModel());
-        //    }
+            if (coffees == null)
+            {
+                return View("Error", new ErrorViewModel());
+            }
 
-        //    Coffee coffee = coffees.FirstOrDefault(coffee => coffee.Id == id);
+            Coffee coffee = coffees.FirstOrDefault(coffee => coffee.Id == id);
 
-        //    var coffeeDetailsViewModel = new ProductsCoffeeDetailsViewModel
-        //    {
-        //        Id = coffee?.Id,
-        //        Name = coffee?.Name,
-        //        Description = coffee?.Description,
-        //        Origin = coffee?.Origin,
-        //        Price = coffee?.Price,
-        //        Category = coffee?.Category,
-        //        Properties = coffee?.Properties,
-        //        ImageString = coffee?.ImageString,
-        //        CertifiedOrganic = coffee.CertifiedOrganic
-        //    };
-        //    return View(coffeeDetailsViewModel);
-        //}
+            var coffeeDetailsViewModel = new ProductsCoffeeDetailsViewModel
+            {
+                Id = coffee?.Id,
+                Name = coffee?.Name,
+                Description = coffee?.Description,
+                Origin = coffee?.Origin,
+                Price = coffee?.Price,
+                Category = coffee.Category,
+                Properties = coffee?.Properties,
+                ImageString = coffee?.ImageString,
+                CertifiedOrganic = coffee.CertifiedOrganic
+            };
+            return View(coffeeDetailsViewModel);
+        }
 
-        //      private readonly CoffeeRepository _coffeeRepository;
-        //      private readonly PropertyRepository _propertyRepository;
-        //private readonly CategoryRepository _categoryRepository;
+        public IActionResult FilteredByCategory(int id)
+        {
 
-        //public ProductsController()
-        //      {
-        //          _coffeeRepository = new CoffeeRepository();
-        //          _propertyRepository = new PropertyRepository();
-        //	_categoryRepository = new CategoryRepository();
+            var coffees = _coffeeShopContext.Coffees
+                .Where(c => c.CategoryId == id)
+                .Select(coffee => new ProductsCoffeeDetailsViewModel
+                {
+                    Id = coffee.Id,
+                    Name = coffee.Name,
+                    Description = coffee.Description,
+                    Origin = coffee.Origin,
+                    Price = coffee.Price,
+                    Category = coffee.Category,
+                    Properties = coffee.Properties,
+                    ImageString = coffee.ImageString,
+                    CertifiedOrganic = coffee.CertifiedOrganic
+                });
 
-        //}
-        //      public IActionResult Index()
-        //      {
-        //          return View();
-        //      }
+            var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
+            {
+                AllCoffees = coffees.ToList()
+            };
 
-        //      public IActionResult FilteredByCategory(int id)
-        //      {           
-        //	var allCoffeesInCategory = new ProductsAllCoffeesViewModel();
+            return View(allCoffeesByCategoryModel);
 
-        //          var categorySelected = _categoryRepository.GetCategoryById(id);
-        //          categorySelected.Coffees = _coffeeRepository.GetCoffeeInCategory(id);
+        }
 
-        //	var catString = categorySelected.Coffees.Select(c => c.Category.Name).First();
+        public IActionResult FilteredByProperty(int id)
+        {
 
-        //	ViewBag.PageTitle = $"{catString} Coffees";
+            var coffees = _coffeeShopContext.Coffees
+                .Where(c => c.Properties.Any(p => p.Id == id))
+                .Select(coffee => new ProductsCoffeeDetailsViewModel
+                {
+                    Id = coffee.Id,
+                    Name = coffee.Name,
+                    Description = coffee.Description,
+                    Origin = coffee.Origin,
+                    Price = coffee.Price,
+                    Category = coffee.Category,
+                    Properties = coffee.Properties,
+                    ImageString = coffee.ImageString,
+                    CertifiedOrganic = coffee.CertifiedOrganic
+                });
 
-        //	if (categorySelected.Coffees == null)
-        //	{
-        //		return View("Error", new ErrorViewModel());
-        //	}
+            var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
+            {
+                AllCoffees = coffees.ToList()
+            };
 
-        //	allCoffeesInCategory.AllCoffees = categorySelected.Coffees.Select(coffee => new ProductsCoffeeDetailsViewModel
-        //          {
-        //              Id = coffee?.Id,
-        //              Name = coffee?.Name,
-        //              Description = coffee?.Description,
-        //              Origin = coffee?.Origin,
-        //              Price = coffee?.Price,
-        //              Category = coffee?.Category,
-        //              Properties = coffee?.Properties,
-        //              ImageString = coffee?.ImageString,
-        //              CertifiedOrganic = coffee.CertifiedOrganic
-        //          }).Where(coffee => coffee.Category.Id == id);
+            return View(allCoffeesByCategoryModel);
+        }
 
-        //          return View(allCoffeesInCategory);
-
-        //      }
-
-        //      public IActionResult FilteredByProperty(int id)
-        //      {
-
-        //	var productsFilteredByPropertyViewModel = new ProductsAllCoffeesViewModel();
-
-        //	var property = _propertyRepository.GetPropertyById(id);
-
-        //          property.Coffees = _coffeeRepository.GetCoffeeWithProperty(id);
-
-        //          ViewBag.PageTitle = $"{property.Name} flavored Coffees";
-
-        //          productsFilteredByPropertyViewModel.AllCoffees = property.Coffees.Select(coffee => new ProductsCoffeeDetailsViewModel
-        //	{
-        //              Id = coffee?.Id,
-        //              Name = coffee?.Name,
-        //              Description = coffee?.Description,
-        //              Origin = coffee?.Origin,
-        //              Price = coffee?.Price,
-        //              Category = coffee?.Category,
-        //              Properties = coffee?.Properties,
-        //              ImageString = coffee?.ImageString,
-        //              CertifiedOrganic = coffee.CertifiedOrganic
-        //          });
-
-        //	return View(productsFilteredByPropertyViewModel);
-        //}
     }
 }
