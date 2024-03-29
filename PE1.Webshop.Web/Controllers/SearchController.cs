@@ -58,7 +58,7 @@ namespace PE1.Webshop.Web.Controllers
                 Price = coffee?.Price,
                 Category = coffee?.Category,
                 Properties = coffee?.Properties,
-                ImageString = coffee?.Image,
+                ImageString = coffee?.ImageString,
                 CertifiedOrganic = coffee.CertifiedOrganic
             });
 
@@ -86,7 +86,7 @@ namespace PE1.Webshop.Web.Controllers
                 Price = coffee?.Price,
                 Category = coffee?.Category,
                 Properties = coffee?.Properties,
-                ImageString = coffee?.Image,
+                ImageString = coffee?.ImageString,
                 CertifiedOrganic = coffee.CertifiedOrganic
             });
 

@@ -20,7 +20,7 @@
 
                     <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
                         <div class="d-flex flex-row">
-                            <img class="rounded" asp-append-version="true" src="@item.Coffee.Image" alt="Product Image" width="40">
+                            <img class="rounded" asp-append-version="true" src="@item.Coffee.ImageString" alt="Product Image" width="40">
                             <div class="ml-2"><span class="font-weight-bold d-block">@item.Coffee.Name</span><span class="spec">@item.Coffee.Category.Name,</span> <small>@item.Coffee.Origin</small></div>
                         </div>
                         <div class="d-flex flex-row align-items-center"><span class="d-block">@item.Quantity</span><span class="d-block ml-5 font-weight-bold">$@item.ItemsTotal</span>

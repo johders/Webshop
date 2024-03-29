@@ -12,6 +12,9 @@ namespace PE1.Webshop.Core
         public string Name { get; set; }
 		public string ImageString { get; set; }
 
+
 		public ICollection<Coffee> Coffees { get; set; }
+
+		//public IEnumerable<Coffee> Coffees { get; set; }
 	}
 }

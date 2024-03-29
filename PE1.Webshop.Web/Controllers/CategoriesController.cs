@@ -26,8 +26,8 @@ namespace PE1.Webshop.Web.Controllers
                 {
                     Id = category?.Id,
                     Name = category?.Name,
-					ImageString = category?.Image
-				});
+					ImageString = category?.ImageString
+                });
 
             return View(allCategoriesViewModel);
         }
