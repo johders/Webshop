@@ -22,6 +22,10 @@ namespace PE1.Webshop.Web.Data
                 .WithMany(cat => cat.Coffees)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<Coffee>()
+                .Property(c => c.Price)
+                .HasColumnType("decimal");
+
             base.OnModelCreating(modelBuilder);
         }
     }
