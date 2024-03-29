@@ -17,6 +17,7 @@ namespace PE1.Webshop.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+
             modelBuilder.Entity<Coffee>()
                 .HasOne(c => c.Category)
                 .WithMany(cat => cat.Coffees)
@@ -24,8 +25,10 @@ namespace PE1.Webshop.Web.Data
 
             modelBuilder.Entity<Coffee>()
                 .Property(c => c.Price)
-                .HasColumnType("decimal");
+                .HasColumnType("decimal")
+                .HasPrecision(6, 2);
 
+            DataSeeder.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
     }

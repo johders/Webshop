@@ -282,6 +282,87 @@ namespace PE1.Webshop.Web.Data
 					CertifiedOrganic = true
 				}
 			};
+
+			var coffeeProperties = new[]
+            {
+				new { CoffeesId = 1, PropertiesId = 1 },
+                new { CoffeesId = 1, PropertiesId = 2 },
+                new { CoffeesId = 1, PropertiesId = 3 },
+
+                new { CoffeesId = 2, PropertiesId = 4 },
+                new { CoffeesId = 2, PropertiesId = 5 },
+                new { CoffeesId = 2, PropertiesId = 6 },
+
+                new { CoffeesId = 3, PropertiesId = 1 },
+                new { CoffeesId = 3, PropertiesId = 7 },
+                new { CoffeesId = 3, PropertiesId = 8 },
+
+                new { CoffeesId = 4, PropertiesId = 1 },
+                new { CoffeesId = 4, PropertiesId = 2 },
+                new { CoffeesId = 4, PropertiesId = 9 },
+
+                new { CoffeesId = 5, PropertiesId = 1 },
+                new { CoffeesId = 5, PropertiesId = 3 },
+                new { CoffeesId = 5, PropertiesId = 10 },
+
+                new { CoffeesId = 6, PropertiesId = 11 },
+                new { CoffeesId = 6, PropertiesId = 12 },
+                new { CoffeesId = 6, PropertiesId = 13 },
+
+                new { CoffeesId = 7, PropertiesId = 1 },
+                new { CoffeesId = 7, PropertiesId = 14 },
+                new { CoffeesId = 7, PropertiesId = 15 },
+
+                new { CoffeesId = 8, PropertiesId = 1 },
+                new { CoffeesId = 8, PropertiesId = 14 },
+                new { CoffeesId = 8, PropertiesId = 16 },
+
+                new { CoffeesId = 9, PropertiesId = 16 },
+                new { CoffeesId = 9, PropertiesId = 17 },
+                new { CoffeesId = 9, PropertiesId = 18 },
+
+                new { CoffeesId = 10, PropertiesId = 19 },
+                new { CoffeesId = 10, PropertiesId = 20 },
+                new { CoffeesId = 10, PropertiesId = 13 },
+
+                new { CoffeesId = 11, PropertiesId = 1 },
+                new { CoffeesId = 11, PropertiesId = 12 },
+                new { CoffeesId = 11, PropertiesId = 17 },
+
+                new { CoffeesId = 12, PropertiesId = 21 },
+                new { CoffeesId = 12, PropertiesId = 22 },
+                new { CoffeesId = 12, PropertiesId = 23 },
+
+                new { CoffeesId = 13, PropertiesId = 1 },
+                new { CoffeesId = 13, PropertiesId = 14 },
+                new { CoffeesId = 13, PropertiesId = 17 },
+
+                new { CoffeesId = 14, PropertiesId = 2 },
+                new { CoffeesId = 14, PropertiesId = 12 },
+                new { CoffeesId = 14, PropertiesId = 24 },
+
+                new { CoffeesId = 15, PropertiesId = 2 },
+                new { CoffeesId = 15, PropertiesId = 20 },
+                new { CoffeesId = 15, PropertiesId = 11 },
+
+                new { CoffeesId = 16, PropertiesId = 13 },
+                new { CoffeesId = 16, PropertiesId = 24 },
+                new { CoffeesId = 16, PropertiesId = 19 },
+
+                new { CoffeesId = 17, PropertiesId = 20 },
+                new { CoffeesId = 17, PropertiesId = 13 },
+                new { CoffeesId = 17, PropertiesId = 19 },
+
+                new { CoffeesId = 18, PropertiesId = 5 },
+                new { CoffeesId = 18, PropertiesId = 9 },
+                new { CoffeesId = 18, PropertiesId = 20 },
+
+            };
+
+			modelBuilder.Entity<Category>().HasData(categories);
+            modelBuilder.Entity<Property>().HasData(properties);
+            modelBuilder.Entity<Coffee>().HasData(coffees);
+			modelBuilder.Entity($"{nameof(Coffee)}{nameof(Property)}").HasData(coffeeProperties);
 		}
 	}
 }
