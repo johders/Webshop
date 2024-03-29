@@ -9,7 +9,7 @@ namespace PE1.Webshop.Web.ViewModels
         public string Origin { get; set; }
         public decimal? Price { get; set; }
         public Category Category { get; set; }
-        public IEnumerable<Property> Properties { get; set; }
+        public ICollection<Property> Properties { get; set; }
         public string ImageString { get; set; }
         public bool CertifiedOrganic { get; set; }
     }

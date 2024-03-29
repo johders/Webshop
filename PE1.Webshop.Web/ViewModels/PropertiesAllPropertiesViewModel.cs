@@ -4,9 +4,5 @@
     {
         public IEnumerable<PropertiesPropertyDetailsViewModel> AllProperties { get; set; }
 
-        public PropertiesAllPropertiesViewModel()
-        {
-            AllProperties = new List<PropertiesPropertyDetailsViewModel>();
-        }
     }
 }
