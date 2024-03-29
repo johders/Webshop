@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
@@ -90,10 +91,17 @@ namespace PE1.Webshop.Web.Controllers
                     CertifiedOrganic = coffee.CertifiedOrganic
                 });
 
+
             var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
             {
                 AllCoffees = coffees.ToList()
             };
+
+            string selectedCategoryName = allCoffeesByCategoryModel.AllCoffees
+                .Select(c => c.Category.Name)
+                .First();
+
+            ViewBag.PageTitle = $"{selectedCategoryName} Coffees";
 
             return View(allCoffeesByCategoryModel);
 
@@ -117,12 +125,19 @@ namespace PE1.Webshop.Web.Controllers
                     CertifiedOrganic = coffee.CertifiedOrganic
                 });
 
-            var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
+            var allCoffeesByPropertyModel = new ProductsAllCoffeesViewModel
             {
                 AllCoffees = coffees.ToList()
             };
 
-            return View(allCoffeesByCategoryModel);
+            string selectedPropertyName = _coffeeShopContext.Properties
+                .Where(p => p.Id == id)
+                .Select(p => p.Name)
+                .First();
+
+            ViewBag.PageTitle = $"{selectedPropertyName} flavored Coffees";
+
+            return View(allCoffeesByPropertyModel);
         }
 
     }
