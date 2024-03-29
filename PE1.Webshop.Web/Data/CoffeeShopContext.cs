@@ -16,8 +16,6 @@ namespace PE1.Webshop.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Entity<Coffee>()
                 .HasOne(c => c.Category)
                 .WithMany(cat => cat.Coffees)

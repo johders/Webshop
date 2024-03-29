@@ -2,11 +2,8 @@
 {
     public class ProductsAllCoffeesViewModel
     {
-        public IEnumerable<ProductsCoffeeDetailsViewModel> AllCoffees { get; set; }
+        public ICollection<ProductsCoffeeDetailsViewModel> AllCoffees { get; set; }
 
-        public ProductsAllCoffeesViewModel() 
-        {
-            AllCoffees = new List<ProductsCoffeeDetailsViewModel>();
-        }
+       
     }
 }
