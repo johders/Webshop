@@ -87,6 +87,52 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
+		public IActionResult Edit(int id)
+		{
+			var editProduct = _coffeeShopContext.Coffees
+			   .Include(c => c.Category)
+			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
+
+			var editProductModel = new AdminCreateProductViewModel
+			{
+				Id = id,
+				Name = editProduct.Name,
+				Description = editProduct.Description,
+				Origin = editProduct.Origin,
+				Price = (decimal)editProduct.Price,
+				ImageString = "",
+				CertifiedOrganic = editProduct.CertifiedOrganic,
+				CategoryOptions = GetCategories(),
+				PropertyOptions = GetProperties()
+			};
+
+			return View(editProductModel);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(AdminCreateProductViewModel editProductModel)
+		{
+
+			var editProduct = _coffeeShopContext.Coffees
+			   .Include(c => c.Category)
+			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == editProductModel.Id);
+
+			editProduct.Name = editProductModel.Name;
+			editProduct.Description = editProductModel.Description;
+			editProduct.Origin = editProductModel.Origin;
+			editProduct.Price = (decimal)editProductModel.Price;
+			editProduct.ImageString = "";
+			editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
+			editProduct.Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == editProductModel.SelectedCategoryId);
+			editProduct.Properties = _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList();
+
+				_coffeeShopContext.SaveChanges();
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
 		public IActionResult Delete(int id)
 		{
             var deleteProduct = _coffeeShopContext.Coffees
