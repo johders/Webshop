@@ -28,27 +28,7 @@ namespace PE1.Webshop.Web.Controllers
             var searchResultsListView = new SearchByMultipleKeysViewModel();
 
             ICollection<Coffee> coffees = new List<Coffee>();
-            //var coffees = _coffeeShopContext.Coffees
-            //    .Select(coffee => new ProductsCoffeeDetailsViewModel
-            //{
-            //    Id = coffee.Id,
-            //    Name = coffee.Name,
-            //    Description = coffee.Description,
-            //    Origin = coffee.Origin,
-            //    Price = coffee.Price,
-            //    Category = coffee.Category,
-            //    Properties = coffee.Properties,
-            //    ImageString = coffee.ImageString,
-            //    CertifiedOrganic = coffee.CertifiedOrganic
-            //});
-
-
-
-            //if (coffees == null)
-            //{
-            //    return View("Error", new ErrorViewModel());
-            //}
-
+         
             if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(flavor))
             {
                 var priceEntered = (decimal)price;
@@ -57,8 +37,6 @@ namespace PE1.Webshop.Web.Controllers
                     .Include(c => c.Properties)
                     .Where(c => c.Category.Name.ToUpper().Contains(category.ToUpper()) && c.Price == priceEntered)
                     .ToList();
-                    
-                    //GetCoffeeByCategoryAndPrice(priceEntered, category);
             }
             else if (price == 0 && string.IsNullOrEmpty(category))
             {
@@ -68,7 +46,6 @@ namespace PE1.Webshop.Web.Controllers
                     .Where(c => c.Origin.ToUpper().Contains(region.ToUpper()) && c.Properties
                     .Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && c.CertifiedOrganic == certOrganic)
                     .ToList();
-                //coffees = _coffeeShopContext.GetCoffeeByRegionAndFlavor(region, flavor, certOrganic);
             }
             else if (string.IsNullOrEmpty(region))
             {
@@ -79,7 +56,6 @@ namespace PE1.Webshop.Web.Controllers
                     .Where(s => s.Properties.Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && s.Price < price && s.Category.Name.ToUpper()
                     .Contains(category.ToUpper()))
                     .ToList();
-                //coffees = _coffeeShopContext.GetCoffeeByFlavorCategoryAndPrice(flavor, priceEntered, category);
             }
             else
             {
@@ -99,7 +75,6 @@ namespace PE1.Webshop.Web.Controllers
                     ImageString = coffee.ImageString,
                     CertifiedOrganic = coffee.CertifiedOrganic
                 }).ToList();
-
 
             return View(searchResultsListView);
         }

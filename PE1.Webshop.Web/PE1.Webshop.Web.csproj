@@ -20,4 +20,8 @@
     <ProjectReference Include="..\PE1.Webshop.Core\PE1.Webshop.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\ViewModels\" />
+  </ItemGroup>
+
 </Project>
