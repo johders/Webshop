@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Areas.Admin.ViewModels;
 using PE1.Webshop.Web.Data;
@@ -87,7 +89,9 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult Delete(int id)
 		{
-            var deleteProduct = _coffeeShopContext.Coffees.Find(id);
+            var deleteProduct = _coffeeShopContext.Coffees
+				.Include(c => c.Category)
+				.Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
 
 			var coffeeDetailsViewModel = new AdminDeleteProductViewModel
 			{

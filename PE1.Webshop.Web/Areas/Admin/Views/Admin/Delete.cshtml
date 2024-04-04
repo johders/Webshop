@@ -1,7 +1,7 @@
 ﻿@model AdminDeleteProductViewModel
 
 <form method="post" asp-action="DeletePost">
-	<input asp-for="Id" hidden/>
+	<input asp-for="Id" hidden />
 
 	<div class="border p-3 mt-4">
 
@@ -12,34 +12,50 @@
 		<div asp-validation-summary="All"></div>
 		<div class="mb-3">
 			<label asp-for="Name"></label>
-			<input asp-for="Name" class="form-control"></input>
+			<input asp-for="Name" disabled class="form-control"></input>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Description"></label>
-			<input asp-for="Description" class="form-control"></input>
+			<input asp-for="Description" disabled class="form-control"></input>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Origin"></label>
-			<input asp-for="Origin" class="form-control"></input>
+			<input asp-for="Origin" disabled class="form-control"></input>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Price"></label>
-			<input asp-for="Price" class="form-control"></input>
+			<input asp-for="Price" disabled class="form-control"></input>
 		</div>
 		<div class="mb-3">
 			<label asp-for="CertifiedOrganic"></label>
-			<input asp-for="CertifiedOrganic" class="form-control"></input>
+			<input asp-for="CertifiedOrganic" disabled class="form-control"></input>
 		</div>
 		<div class="mb-3">
 
-			<select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select>
+			<label asp-for="Category.Name"></label>
+			<input asp-for="Category.Name" disabled class="form-control"></input>
+
+			@* <select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select> *@
 
 
 		</div>
 		<div class="mb-3">
 
-			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select>
+			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select> *@
+			<table>
+				<tr>
+					<th>Flavors</th>
+				</tr>
 
+				@foreach (var flavor in Model.Properties)
+				{
+					<tr>
+						<td>@flavor.Name</td>
+					</tr>
+				}
+
+
+			</table>
 
 		</div>
 
