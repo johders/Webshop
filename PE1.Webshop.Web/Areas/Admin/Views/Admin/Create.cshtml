@@ -43,8 +43,23 @@
 		</div>
 		<div class="mb-3">
 
-			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select>
-			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
+			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions"></select>
+			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
+
+			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" class="selectpicker" multiple="multiple"></select>
+			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
+
+			<div class="property-options">
+
+				<div class="prop-item">Chocolate</div>
+				<div class="prop-item">Honey</div>
+				<div class="prop-item">Cherry</div>
+				<div class="prop-item">Walnut</div>
+				<div class="prop-item">Blueberry</div>
+				<div class="prop-item">Floral</div>
+
+			</div>
+
 	
 		</div>
 

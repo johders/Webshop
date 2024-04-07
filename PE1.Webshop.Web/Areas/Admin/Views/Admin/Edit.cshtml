@@ -36,6 +36,7 @@
 		</div>
 		<div class="mb-3">
 
+			@* <label asp-for=""></label> *@
 			<select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select>
 			<span asp-validation-for="SelectedCategoryId" class="text-warning d-block"></span>
 
@@ -43,7 +44,8 @@
 		</div>
 		<div class="mb-3">
 
-			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select>
+			@* <label asp-for="SelectedPropertyIdList"></label> *@
+			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" class="selectpicker" multiple="multiple"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
 
 		</div>
