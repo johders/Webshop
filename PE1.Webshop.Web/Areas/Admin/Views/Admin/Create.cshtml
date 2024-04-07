@@ -46,7 +46,7 @@
 			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
 
-			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select>
+			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" id="selectList"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
 
 			<div class="property-options">
