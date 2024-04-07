@@ -10,6 +10,10 @@
 		</div>
 		<div asp-validation-summary="All"></div>
 		<div class="mb-3">
+			<img class="rounded" asp-append-version="true" src="@Model.ImageString" alt="Product Image" width="40">
+		</div>
+		
+		<div class="mb-3">
 			<label asp-for="Name"></label>
 			<input asp-for="Name" class="form-control"></input>
 			<span asp-validation-for="Name" class="text-danger"></span>
