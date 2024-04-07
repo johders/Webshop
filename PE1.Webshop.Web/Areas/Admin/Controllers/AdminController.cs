@@ -103,7 +103,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				ImageString = "",
 				CertifiedOrganic = editProduct.CertifiedOrganic,
 				CategoryOptions = GetCategories(),
-				PropertyOptions = GetProperties()
+				PropertyOptions = GetProperties(),
+				SelectedPropertyIdList = editProduct.Properties.Select(p => p.Id).ToList()
 			};
 
 			return View(editProductModel);
