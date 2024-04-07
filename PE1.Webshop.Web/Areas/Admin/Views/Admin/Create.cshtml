@@ -1,6 +1,6 @@
 ﻿@model AdminCreateProductViewModel
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
 	<div class="border p-3 mt-4">
 
@@ -38,13 +38,11 @@
 
 			<select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select>
 			<span asp-validation-for="SelectedCategoryId" class="text-warning d-block"></span>
-
 			
 		</div>
 		<div class="mb-3">
 
-			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions"></select>
-			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
+			<h5>Coffee Properties</h5>
 
 			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" id="selectList"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
@@ -53,23 +51,22 @@
 
 			@foreach(var item in Model.PropertyOptions)
 			{
-					<div class="prop-item">@item.Text
-						@* <input type="checkbox" class="form-control"></input> *@
+					<div class="prop-item btn btn-sm btn-outline-secondary">
+						@item.Text
 					</div>
 
 			}
-
-@* 				<div class="prop-item">Chocolate</div>
-				
-				<div class="prop-item">Cherry</div>
-				<div class="prop-item">Walnut</div>
-				<div class="prop-item">Blueberry</div>
-				<div class="prop-item">Floral</div> *@
 
 			</div>
 
 	
 		</div>
+
+
+		<div class="mb-3">
+			<input asp-for=ImageFile type="file">
+		</div>
+
 
 		<button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
 		<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>

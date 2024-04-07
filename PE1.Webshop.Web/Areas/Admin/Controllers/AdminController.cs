@@ -62,20 +62,22 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
         public IActionResult Create(AdminCreateProductViewModel createProductModel)
         {
-            //createProductModel.CategoryOptions = GetCategories();
-            //createProductModel.PropertyOptions = GetProperties();
+			//createProductModel.CategoryOptions = GetCategories();
+			//createProductModel.PropertyOptions = GetProperties();
 
-            Coffee newCoffee = new Coffee
-            {
-                Name = createProductModel.Name,
-                Description = createProductModel.Description,
-                Origin = createProductModel.Origin,
-                Price = (decimal)createProductModel.Price,
-                ImageString = "",
-                CertifiedOrganic = createProductModel.CertifiedOrganic,
-                Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
-				Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList()
+			Coffee newCoffee = new Coffee
+			{
+				Name = createProductModel.Name,
+				Description = createProductModel.Description,
+				Origin = createProductModel.Origin,
+				Price = (decimal)createProductModel.Price,
+				CertifiedOrganic = createProductModel.CertifiedOrganic,
+				Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
+				Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
+				ImageString = $"~/images/{createProductModel.ImageFile.FileName}"
 			};
+
+			createProductModel.CreateImageFile(createProductModel.ImageFile);
 
 
 			if (ModelState.IsValid)
@@ -100,7 +102,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				Description = editProduct.Description,
 				Origin = editProduct.Origin,
 				Price = (decimal)editProduct.Price,
-				ImageString = "",
 				CertifiedOrganic = editProduct.CertifiedOrganic,
 				CategoryOptions = GetCategories(),
 				PropertyOptions = GetProperties(),
@@ -149,7 +150,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				Price = deleteProduct?.Price,
 				Category = deleteProduct.Category,
 				Properties = deleteProduct?.Properties,
-				ImageString = deleteProduct?.ImageString,
+				//ImageString = deleteProduct?.ImageString,
 				CertifiedOrganic = deleteProduct.CertifiedOrganic
 			};
 

@@ -5,7 +5,7 @@
 	<div class="border p-3 mt-4">
 
 		<div class="row pb-2">
-			<h2 class="text-primary">Create Product</h2>
+			<h2 class="text-primary">Edit Product</h2>
 			<hr />
 		</div>
 		<div asp-validation-summary="All"></div>
@@ -44,9 +44,7 @@
 		</div>
 		<div class="mb-3">
 
-			@* <label asp-for="SelectedPropertyIdList"></label> *@
-			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" class="selectpicker" multiple="multiple"></select>
-			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
+			<h5>Coffee Properties</h5>
 
 			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" id="selectList"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
@@ -55,19 +53,11 @@
 
 				@foreach (var item in Model.PropertyOptions)
 				{
-					<div class="prop-item">
+					<div class="prop-item btn btn-sm btn-outline-secondary">
 						@item.Text
-						@* <input type="checkbox" class="form-control"></input> *@
 					</div>
 
 				}
-
-				@* 				<div class="prop-item">Chocolate</div>
-
-				<div class="prop-item">Cherry</div>
-				<div class="prop-item">Walnut</div>
-				<div class="prop-item">Blueberry</div>
-				<div class="prop-item">Floral</div> *@
 
 			</div>
 

@@ -11,5 +11,16 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
 
 		public IEnumerable<SelectListItem> PropertyOptions { get; set; }
-	}
+
+        public IFormFile ImageFile { get; set; }
+
+        public async void CreateImageFile(IFormFile file)
+        {
+			string path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images", file.FileName);
+			using (var stream = new FileStream(path, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+		}
+    }
 }

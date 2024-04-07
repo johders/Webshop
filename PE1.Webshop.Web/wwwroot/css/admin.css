@@ -5,19 +5,20 @@
 .property-options{
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 1px;
+    gap: 3px;
     
 }
 
 .prop-item {
     padding: 5px;
     cursor: pointer;
-    text-align: center;
-    border-radius: 3px;
-    background-color: aqua;
     transition: background 0.1s;
 }
 
 .prop-item-selected {
     background-color: lightgoldenrodyellow;
+}
+
+#selectList {
+    display: none;
 }
