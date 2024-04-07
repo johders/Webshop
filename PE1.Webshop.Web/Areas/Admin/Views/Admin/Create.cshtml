@@ -46,17 +46,25 @@
 			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
 
-			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" class="selectpicker" multiple="multiple"></select>
-			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span> *@
+			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select>
+			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
 
 			<div class="property-options">
 
-				<div class="prop-item">Chocolate</div>
-				<div class="prop-item">Honey</div>
+			@foreach(var item in Model.PropertyOptions)
+			{
+					<div class="prop-item">@item.Text
+						@* <input type="checkbox" class="form-control"></input> *@
+					</div>
+
+			}
+
+@* 				<div class="prop-item">Chocolate</div>
+				
 				<div class="prop-item">Cherry</div>
 				<div class="prop-item">Walnut</div>
 				<div class="prop-item">Blueberry</div>
-				<div class="prop-item">Floral</div>
+				<div class="prop-item">Floral</div> *@
 
 			</div>
 
@@ -74,6 +82,8 @@
 	@{
 
 		<partial name="_ValidationScriptsPartial" />
+		<script src="~/js/adminScript.js" asp-append-version="true"></script>
+		
 	}
 }
 
