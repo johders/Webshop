@@ -1,4 +1,4 @@
-﻿@model AdminCreateProductViewModel
+﻿@model AdminEditProductViewModel
 
 @* <form method="post">
 
@@ -76,7 +76,7 @@
 
 <div class="container px-4 px-lg-5 my-5">
 	<div class="row gx-4 gx-lg-5 align-items-center">
-		<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" asp-append-version="true" src="~/images/sku-10.webp" alt="Product Image" /></div>
+		<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" asp-append-version="true" src="@Model.ImageString" alt="Product Image" /></div>
 		<div class="col-md-6 h-link" id="volunteer-form">
 
 				<form method="post">
@@ -98,9 +98,9 @@
 				</div>
 				
 				<div class="form-group">
-						<label asp-for="Price"></label>
-						<input asp-for="Price" class="form-control"></input>
-						<span asp-validation-for="Price" class="text-danger"></span>
+					<label asp-for="PriceInput"></label>
+					<input asp-for="PriceInput" class="form-control"></input>
+					<span asp-validation-for="PriceInput" class="text-danger"></span>
 				</div>
 			
 				<hr class="mx-n1">
@@ -113,6 +113,15 @@
 
 					</div>
 					<hr class="mx-n1">
+
+				<div class="mb-3">
+
+					<label asp-for="SelectedCategoryId"></label> <br />
+					<select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select>
+					<span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
+
+				</div>
+
 					<div class="mb-3">
 
 						<h5>Coffee Properties</h5>
@@ -144,7 +153,7 @@
 @section Scripts {
 	@{
 
-		<partial name="_ValidationScriptsPartial" />
+		// <partial name="_ValidationScriptsPartial" />
 		<script src="~/js/adminScript.js" asp-append-version="true"></script>
 	}
 }
