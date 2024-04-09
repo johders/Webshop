@@ -33,5 +33,13 @@
 .card-title {
     margin-bottom: .25rem;
     font-size: x-small;
-} 
+}
 
+.admin-header {
+    margin-left: auto;
+}
+
+.prop-title {
+    color: hsl(123, 17%, 30%);
+    font-weight:bolder
+}

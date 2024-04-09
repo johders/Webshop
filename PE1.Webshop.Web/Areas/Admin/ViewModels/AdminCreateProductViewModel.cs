@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 {
@@ -11,6 +13,8 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
 
 		public IEnumerable<SelectListItem> PropertyOptions { get; set; }
+
+		public string PriceInput { get; set; }
 
         public IFormFile ImageFile { get; set; }
 

@@ -7,6 +7,10 @@
 </div>
 
     <div class="container py-5">
+
+
+
+
           @foreach (var coffee in Model.AllCoffees)
     {
         <div class="row justify-content-center mb-3">
@@ -26,19 +30,18 @@
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-6">
                                 <h5>@coffee.Name</h5>
-                                <div class="d-flex flex-row">
-                                    <span>Product Id: @coffee.Id</span>
+                                <div class="d-flex flex-row text-muted small">
+                                    <span class="prop-title">Product Id: &nbsp;</span>
+                                    <span>@coffee.Id</span>
                                 </div>
                                 <div class="mt-1 mb-0 text-muted small">
+                                    <span class="prop-title">Description: </span>
                                     <span>@coffee.Description</span>
                                 </div>
-                                @* <div class="mb-2 text-muted small">
-                                    <span>Unique design</span>
-                                    <span class="text-primary"> • </span>s
-                                    <span>For men</span>
-                                    <span class="text-primary"> • </span>
-                                    <span>Casual<br /></span>
-                                </div> *@
+                                <div class="mb-2 text-muted small">
+                                    <span class="prop-title">Origin: </span>
+                                    <span>@coffee.Origin</span>
+                                </div>
                                @*  <p class="text-truncate mb-4 mb-md-0">
                                     There are many variations of passages of Lorem Ipsum available, but the
                                     majority have suffered alteration in some form, by injected humour, or
@@ -56,7 +59,7 @@
                                        type="button" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square button-text"></i><span class="button-text"> Edit</span></a>
 
                                     <a asp-area="Admin" asp-controller="Admin" asp-action="Delete" asp-route-id="@coffee.Id"
-                                       type="button" class="btn btn-outline-primary btn-sm mt-2"><i class="bi bi-pencil-square button-text"></i><span class="button-text"> Delete</span></a>
+                                       type="button" class="btn btn-outline-danger btn-sm mt-2"><i class="bi bi-pencil-square button-text"></i><span class="button-text"> Delete</span></a>
                                  @*    <button class="btn btn-primary btn-sm" type="button">Details</button>
                                     <button class="btn btn-outline-primary btn-sm mt-2" type="button">
                                         Add to wishlist

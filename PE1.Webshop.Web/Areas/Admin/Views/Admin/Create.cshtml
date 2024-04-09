@@ -25,9 +25,9 @@
 			<span asp-validation-for="Origin" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
-			<label asp-for="Price"></label>
-			<input asp-for="Price" class="form-control"></input>
-			<span asp-validation-for="Price" class="text-danger"></span>
+			<label asp-for="PriceInput"></label>
+			<input asp-for="PriceInput" class="form-control"></input>
+			<span asp-validation-for="PriceInput" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
 			<label asp-for="CertifiedOrganic"></label>
@@ -78,7 +78,7 @@
 @section Scripts {
 	@{
 
-		<partial name="_ValidationScriptsPartial" />
+		// <partial name="_ValidationScriptsPartial" />
 		<script src="~/js/adminScript.js" asp-append-version="true"></script>
 		
 	}

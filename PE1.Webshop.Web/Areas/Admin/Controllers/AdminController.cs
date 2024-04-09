@@ -62,15 +62,13 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
         public IActionResult Create(AdminCreateProductViewModel createProductModel)
         {
-			//createProductModel.CategoryOptions = GetCategories();
-			//createProductModel.PropertyOptions = GetProperties();
 
 			Coffee newCoffee = new Coffee
 			{
 				Name = createProductModel.Name,
 				Description = createProductModel.Description,
 				Origin = createProductModel.Origin,
-				Price = (decimal)createProductModel.Price,
+				Price = decimal.Parse(createProductModel.PriceInput),
 				CertifiedOrganic = createProductModel.CertifiedOrganic,
 				Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
 				Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
