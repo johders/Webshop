@@ -25,9 +25,8 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 		[Required(ErrorMessage = "Please enter price")]
 		public string PriceInput { get; set; }
 
-		//[Display(Name = "Product Image")]
-		//[Required(ErrorMessage = "Please select an image file")]
-		//public IFormFile ImageFile { get; set; }
+		[Display(Name = "New product Image (optional)")]
+		public IFormFile ImageFile { get; set; }
 
 		[Display(Name = "Is product Certified Organic?")]
 		public bool CertifiedOrganic { get; set; }

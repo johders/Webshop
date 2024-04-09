@@ -6,6 +6,7 @@ using NuGet.Versioning;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Areas.Admin.ViewModels;
 using PE1.Webshop.Web.Data;
+using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.ViewModels;
 
 namespace PE1.Webshop.Web.Areas.Admin.Controllers
@@ -78,7 +79,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 					ImageString = $"~/images/{createProductModel.ImageFile.FileName}"
 				};
 
-				createProductModel.CreateImageFile(createProductModel.ImageFile);
+				ImageCreator.CreateImageFile(createProductModel.ImageFile);
 
 				_coffeeShopContext.Coffees.Add(newCoffee);
 				_coffeeShopContext.SaveChanges();
@@ -135,7 +136,14 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				editProduct.Description = editProductModel.Description;
 				editProduct.Origin = editProductModel.Origin;
 				editProduct.Price = decimal.Parse(editProductModel.PriceInput);
-				//editProduct.ImageString = editProductModel.ImageString;
+
+				if (editProductModel.ImageFile != null)
+				{
+					ImageCreator.CreateImageFile(editProductModel.ImageFile);
+					editProduct.ImageString = $"~/images/{editProductModel.ImageFile.FileName}";
+				}
+
+				
 				editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
 				editProduct.Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == editProductModel.SelectedCategoryId);
 				editProduct.Properties = _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList();
