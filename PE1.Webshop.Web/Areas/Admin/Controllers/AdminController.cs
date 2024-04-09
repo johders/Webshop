@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using NuGet.Versioning;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Areas.Admin.ViewModels;
@@ -170,9 +171,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				Price = deleteProduct?.Price,
 				Category = deleteProduct.Category,
 				Properties = deleteProduct?.Properties,
-				//ImageString = deleteProduct?.ImageString,
+				ImageString = deleteProduct?.ImageString,
 				CertifiedOrganic = deleteProduct.CertifiedOrganic
 			};
+
+		
 
 			return View(coffeeDetailsViewModel);
 		}
@@ -184,8 +187,20 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 			var deleteProduct = _coffeeShopContext.Coffees.Find(id);
 
-				_coffeeShopContext.Coffees.Remove(deleteProduct);
-				_coffeeShopContext.SaveChanges();
+			var matchingImageCheck = _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString);
+			
+			if (matchingImageCheck.Count() == 1)
+			{
+				string imagePath = deleteProduct.ImageString.Replace("~/images/", "");
+				string path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images", imagePath);
+				if (System.IO.File.Exists(path))
+				{
+					System.IO.File.Delete(path);
+				}
+			}
+
+			_coffeeShopContext.Coffees.Remove(deleteProduct);
+			_coffeeShopContext.SaveChanges();
 
 			return RedirectToAction("Index");
 		}
