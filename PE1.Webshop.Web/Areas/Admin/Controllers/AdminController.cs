@@ -83,16 +83,13 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
                 Price = decimal.Parse(createProductModel.PriceInput),
                 CertifiedOrganic = createProductModel.CertifiedOrganic,
                 Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
-                Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
-                //ImageString = $"~/images/{createProductModel.ImageFile.FileName}"              
+                Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList()
             };
 
             if(createProductModel.ImageFile != null)
             {
                 newCoffee.ImageString = $"~/images/{SaveImage(createProductModel.ImageFile)}";
             }
-            
-            //ImageCreator.CreateImageFile(createProductModel.ImageFile);
 
             try
 			{

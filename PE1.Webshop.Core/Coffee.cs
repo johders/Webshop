@@ -22,6 +22,5 @@ namespace PE1.Webshop.Core
 		public Category Category { get; set; }
 		public int CategoryId { get; set; }
 		public ICollection<Property> Properties { get; set; }
-		//public IEnumerable<Property> Properties { get; set; }
 	}
 }

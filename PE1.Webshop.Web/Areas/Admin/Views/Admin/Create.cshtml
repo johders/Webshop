@@ -43,7 +43,6 @@
 		</div>
 		<div class="mb-3">
 
-			@* <h5>Coffee Properties</h5> *@
 			<label asp-for="SelectedPropertyIdList"></label> <br />
 			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" id="selectList"></select>
 			<span asp-validation-for="SelectedPropertyIdList" class="text-danger"></span>
@@ -55,11 +54,9 @@
 					<div class="prop-item btn btn-sm btn-outline-secondary">
 						@item.Text
 					</div>
-
 			}
 
 			</div>
-
 	
 		</div>
 
@@ -68,7 +65,6 @@
 			<input asp-for=ImageFile type="file">
 			<span asp-validation-for="ImageFile" class="text-danger"></span>
 		</div>
-
 
 		<button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
 		<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>

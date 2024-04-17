@@ -1,79 +1,5 @@
 ﻿@model AdminEditProductViewModel
 
-@* <form method="post">
-
-	<div class="border p-3 mt-4">
-
-		<div class="row pb-2">
-			<h2 class="text-primary">Edit Product</h2>
-			<hr />
-		</div>
-		<div asp-validation-summary="All"></div>
-		<div class="mb-3">
-			<img class="rounded" asp-append-version="true" src="@Model.ImageString" alt="Product Image" width="40">
-		</div>
-		
-		<div class="mb-3">
-			<label asp-for="Name"></label>
-			<input asp-for="Name" class="form-control"></input>
-			<span asp-validation-for="Name" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Description"></label>
-			<input asp-for="Description" class="form-control"></input>
-			<span asp-validation-for="Description" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Origin"></label>
-			<input asp-for="Origin" class="form-control"></input>
-			<span asp-validation-for="Origin" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Price"></label>
-			<input asp-for="Price" class="form-control"></input>
-			<span asp-validation-for="Price" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="CertifiedOrganic"></label>
-			<input asp-for="CertifiedOrganic" class="form-control"></input>
-			<span asp-validation-for="CertifiedOrganic" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-
-			@* <label asp-for=""></label> *@
-			@* <select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select>
-			<span asp-validation-for="SelectedCategoryId" class="text-warning d-block"></span>
-
-
-		</div>
-		<div class="mb-3">
-
-			<h5>Coffee Properties</h5>
-
-			<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" id="selectList"></select>
-			<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
-
-			<div class="property-options">
-
-				@foreach (var item in Model.PropertyOptions)
-				{
-					<div class="prop-item btn btn-sm btn-outline-secondary">
-						@item.Text
-					</div>
-
-				}
-
-			</div>
-
-		</div>
-
-		<button type="submit" class="btn btn-primary" style="width: 150px">Save Changes</button>
-		<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>
-	</div>
-
-
-</form> *@
-
 <div class="container px-4 px-lg-5 my-5">
 	<div class="row gx-4 gx-lg-5 align-items-center">
 		<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" asp-append-version="true" src="@Model.ImageString" alt="Product Image" /></div>
@@ -136,7 +62,6 @@
 								<div class="prop-item btn btn-sm btn-outline-secondary">
 									@item.Text
 								</div>
-
 							}
 
 						</div>

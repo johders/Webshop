@@ -1,72 +1,5 @@
 ﻿@model AdminDeleteProductViewModel
 
-@* <form method="post" asp-action="DeletePost">
-	<input asp-for="Id" hidden />
-
-	<div class="border p-3 mt-4">
-
-		<div class="row pb-2">
-			<h2 class="text-primary">Delete Product</h2>
-			<hr />
-		</div>
-		<div asp-validation-summary="All"></div>
-		<div class="mb-3">
-			<label asp-for="Name"></label>
-			<input asp-for="Name" disabled class="form-control"></input>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Description"></label>
-			<input asp-for="Description" disabled class="form-control"></input>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Origin"></label>
-			<input asp-for="Origin" disabled class="form-control"></input>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Price"></label>
-			<input asp-for="Price" disabled class="form-control"></input>
-		</div>
-		<div class="mb-3">
-			<label asp-for="CertifiedOrganic"></label>
-			<input asp-for="CertifiedOrganic" disabled class="form-control"></input>
-		</div>
-		<div class="mb-3">
-
-			<label asp-for="Category.Name"></label>
-			<input asp-for="Category.Name" disabled class="form-control"></input>
-
-			@* <select asp-for="SelectedCategoryId" asp-items="Model.CategoryOptions"></select> *@
-
-
-	@* 	</div>
-		<div class="mb-3">
-
-			@* <select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple"></select> *@
-@* 			<table>
-				<tr>
-					<th>Flavors</th>
-				</tr>
-
-				@foreach (var flavor in Model.Properties)
-				{
-					<tr>
-						<td>@flavor.Name</td>
-					</tr>
-				}
-
-
-			</table>
-
-		</div>
-
-		<button type="submit" class="btn btn-danger" style="width: 150px"><i class="bi bi-trash"></i> Delete</button>
-		<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>
-	</div> 
-
-
-</form>  *@
-
-
 <div class="container px-4 px-lg-5 my-5">
 	<div class="row gx-4 gx-lg-5 align-items-center">
 		<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" asp-append-version="true" src="@Model.ImageString" alt="Product Image" /></div>
@@ -109,7 +42,6 @@
 				<hr class="mx-n1">
 				<div class="mb-3">
 
-					@* <h5>Coffee Properties</h5> *@
 					<label asp-for="Properties"></label>
 					<select asp-for="SelectedPropertyIdList" asp-items="Model.PropertyOptions" multiple="multiple" disabled id="selectList"></select>
 					<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
@@ -124,7 +56,6 @@
 									<td class="text-muted small">@flavor.Name</td>
 								</tr>
 							}
-
 
 						</table>
 

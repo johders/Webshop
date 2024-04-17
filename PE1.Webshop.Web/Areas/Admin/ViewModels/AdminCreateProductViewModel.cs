@@ -48,14 +48,5 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 		public string ImageString { get; set; }
 		public decimal? Price { get; set; }
 
-
-  //      public async void CreateImageFile(IFormFile file)
-  //      {
-		//	string path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images", file.FileName);
-		//	using (var stream = new FileStream(path, FileMode.Create))
-		//	{
-		//		await file.CopyToAsync(stream);
-		//	}
-		//}
     }
 }

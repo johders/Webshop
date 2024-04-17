@@ -13,6 +13,5 @@ namespace PE1.Webshop.Core
 
 		public ICollection<Coffee> Coffees { get; set; }
 
-		//public IEnumerable<Coffee> Coffees { get; set; }
 	}
 }

@@ -55,8 +55,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 20m,
 					CategoryId = 1,
 					ImageString = $"~/images/sku-1.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 1),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 2 || p.Id == 3),
 					CertifiedOrganic = true
 
 				},
@@ -69,8 +67,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 20m,
 					CategoryId = 1,
 					ImageString = $"~/images/sku-2.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 1),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 4 || p.Id == 5 || p.Id == 6),
 					CertifiedOrganic = true
 				},
 				new Coffee
@@ -82,8 +78,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 18.5m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-3.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 7 || p.Id == 8)
 					CertifiedOrganic = false
                 },
 				 new Coffee
@@ -95,8 +89,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 18.5m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-4.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 2 || p.Id == 9),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -108,8 +100,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 19m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-5.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 3 || p.Id == 10),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -121,8 +111,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 20m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-6.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 11 || p.Id == 12 || p.Id == 13),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -134,8 +122,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 17.5m,
 					CategoryId = 3,
 					ImageString = $"~/images/sku-7.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 3),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 14 || p.Id == 15)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -147,8 +133,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 19m,
 					CategoryId = 3,
 					ImageString = $"~/images/sku-8.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 3),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 14 || p.Id == 16),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -160,8 +144,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 17.5m,
 					CategoryId = 3,
 					ImageString = $"~/images/sku-9.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 3),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 16 || p.Id == 17 || p.Id == 18)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -173,8 +155,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 25m,
 					CategoryId = 1,
 					ImageString = $"~/images/sku-10.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 1),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 19 || p.Id == 20 || p.Id == 13),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -186,8 +166,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 18.5m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-11.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 12 || p.Id == 17 || p.Id == 1),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -199,8 +177,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 18.5m,
 					CategoryId = 1,
 					ImageString = $"~/images/sku-12.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 1),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 21 || p.Id == 22 || p.Id == 23)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -212,8 +188,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 20m,
 					CategoryId = 3,
 					ImageString = $"~/images/sku-13.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 3),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 1 || p.Id == 14 || p.Id == 17)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -225,8 +199,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 19m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-14.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 2 || p.Id == 12 || p.Id == 24)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -238,8 +210,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 19.5m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-15.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 2 || p.Id == 20 || p.Id == 11),
 					CertifiedOrganic = true
 				},
 				  new Coffee
@@ -251,8 +221,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 21m,
 					CategoryId = 2,
 					ImageString = $"~/images/sku-16.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 2),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 13 || p.Id == 24 || p.Id == 19)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -264,8 +232,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 20m,
 					CategoryId = 3,
 					ImageString = $"~/images/sku-17.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 3),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 20 || p.Id == 13 || p.Id == 19)
 					CertifiedOrganic = false
                 },
 				  new Coffee
@@ -277,8 +243,6 @@ namespace PE1.Webshop.Web.Data
 					Price = 24m,
 					CategoryId = 1,
 					ImageString = $"~/images/sku-18.webp",
-					//Category = CategoryRepository.Categories.FirstOrDefault(cat => cat.Id == 1),
-					//Properties = PropertyRepository.Properties.Where(p => p.Id == 5 || p.Id == 9 || p.Id == 20),
 					CertifiedOrganic = true
 				}
 			};
