@@ -17,10 +17,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
     {
 
         private readonly CoffeeShopContext _coffeeShopContext;
-
-        public AdminController(CoffeeShopContext coffeeShopContext)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AdminController(CoffeeShopContext coffeeShopContext, IWebHostEnvironment webHostEnvironment)
         {
             _coffeeShopContext = coffeeShopContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -83,12 +84,17 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
                 CertifiedOrganic = createProductModel.CertifiedOrganic,
                 Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
                 Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
-                ImageString = $"~/images/{createProductModel.ImageFile.FileName}"
+                //ImageString = $"~/images/{createProductModel.ImageFile.FileName}"              
             };
 
-            ImageCreator.CreateImageFile(createProductModel.ImageFile);
+            if(createProductModel.ImageFile != null)
+            {
+                newCoffee.ImageString = $"~/images/{SaveImage(createProductModel.ImageFile)}";
+            }
+            
+            //ImageCreator.CreateImageFile(createProductModel.ImageFile);
 
-			try
+            try
 			{
                 _coffeeShopContext.Coffees.Add(newCoffee);
                 _coffeeShopContext.SaveChanges();
@@ -162,8 +168,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             if (editProductModel.ImageFile != null)
             {
-                ImageCreator.CreateImageFile(editProductModel.ImageFile);
-                editProduct.ImageString = $"~/images/{editProductModel.ImageFile.FileName}";
+                editProduct.ImageString = $"~/images/{SaveImage(editProductModel.ImageFile)}";
             }
 
             editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
@@ -227,7 +232,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 			if (matchingImageCheck.Count() == 1)
 			{
 				string imagePath = deleteProduct.ImageString.Replace("~/images/", "");
-				string path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images", imagePath);
+                string path = Path.Combine(_webHostEnvironment.WebRootPath, "images", imagePath);
+
 				if (System.IO.File.Exists(path))
 				{
 					System.IO.File.Delete(path);
@@ -239,7 +245,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
                 _coffeeShopContext.Coffees.Remove(deleteProduct);
                 _coffeeShopContext.SaveChanges();
             }
-			catch(DbException ex)
+			catch(DbUpdateException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -265,5 +271,25 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				Text = c.Name,
 			});
 		}
-	}
+
+        private string SaveImage(IFormFile image)
+        {
+            string fileName = image.FileName;
+            string savePath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+
+            string saveFilePath = Path.Combine(savePath, fileName);
+
+            using (var newFileStream = new FileStream(saveFilePath, FileMode.Create))
+            {
+                image.CopyTo(newFileStream);
+            }
+
+            return fileName;
+        }
+    }
 }
