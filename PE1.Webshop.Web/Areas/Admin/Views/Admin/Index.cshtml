@@ -1,16 +1,14 @@
 ﻿@model ProductsAllCoffeesViewModel
 
-<h1>Index</h1>
+<h1 class="text-center">Inventory manager</h1>
 
 <partial name="NotificationPartialView"/>
 
-<div class="col-6 text-end">
-    <a asp-area="Admin" asp-controller="Admin" asp-action="Create" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> &nbsp; New Product</a>
+<div class="col-12 text-center">
+    <a asp-area="Admin" asp-controller="Admin" asp-action="Create" class="btn btn-sm btn-outline-secondary"> <i class="bi bi-plus-circle"></i> &nbsp; New Product</a>
 </div>
 
     <div class="container py-5">
-
-
 
 
           @foreach (var coffee in Model.AllCoffees)
@@ -52,7 +50,7 @@
                                
                                 <div class="d-flex flex-column mt-4">
                                     <a asp-area="Admin" asp-controller="Admin" asp-action="Edit" asp-route-id="@coffee.Id"
-                                       type="button" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square button-text"></i><span class="button-text"> Edit</span></a>
+                                       type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square button-text"></i><span class="button-text"> Edit</span></a>
 
                                     <a asp-area="Admin" asp-controller="Admin" asp-action="Delete" asp-route-id="@coffee.Id"
                                        type="button" class="btn btn-outline-danger btn-sm mt-2"><i class="bi bi-trash button-text"></i><span class="button-text"> Delete</span></a>

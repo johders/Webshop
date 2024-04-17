@@ -26,8 +26,8 @@
                         @await Component.InvokeAsync("CategoryList")
                         @await Component.InvokeAsync("FlavorList")
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
+                        <li class="nav-item admin-link">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Index"> <i class="bi bi-tools"></i> Admin Portal</a>
                         </li>
 
                         @await Component.InvokeAsync("ShoppingCart")

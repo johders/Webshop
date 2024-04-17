@@ -117,10 +117,15 @@ h1, .h-link > p > a, #cat-link > a {
     border-color: hsl(123, 17%, 20%);
 }
 
-.btn-outline-success:hover, #checkout, #trash:hover, #cart, #apply-now, #close-dialog, .btn-outline-secondary:hover, .btn-secundary:hover, .carousel-item > div > a {
-    background-color: hsl(123, 17%, 20%);
-    color: hsl(123, 17%, 90%);
-    border-color: hsl(123, 17%, 90%);
+    .btn-outline-success:hover, #checkout, #trash:hover, #cart, #apply-now, #close-dialog, .btn-outline-secondary:hover, .btn-secundary:hover, .carousel-item > div > a, .save-change {
+        background-color: hsl(123, 17%, 20%);
+        color: hsl(123, 17%, 90%);
+        border-color: hsl(123, 17%, 90%);
+    }
+
+.save-change:hover {
+    background-color: hsl(123, 17%, 45%);
+    border-color: hsl(123, 17%, 20%);
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -208,4 +213,8 @@ dialog {
     border-radius: 10px;
     border: 2px solid hsl(123, 17%, 20%);
     background-color: hsl(123, 17%, 80%);
+}
+
+.admin-link {
+    margin-left: auto;
 }
