@@ -8,6 +8,7 @@ using PE1.Webshop.Web.Areas.Admin.ViewModels;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.ViewModels;
+using System.Data.Common;
 
 namespace PE1.Webshop.Web.Areas.Admin.Controllers
 {
@@ -65,34 +66,40 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         public IActionResult Create(AdminCreateProductViewModel createProductModel)
         {
 
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				Coffee newCoffee = new Coffee
-				{
-					Name = createProductModel.Name,
-					Description = createProductModel.Description,
-					Origin = createProductModel.Origin,
-					Price = decimal.Parse(createProductModel.PriceInput),
-					CertifiedOrganic = createProductModel.CertifiedOrganic,
-					Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
-					Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
-					ImageString = $"~/images/{createProductModel.ImageFile.FileName}"
-				};
+                createProductModel.CategoryOptions = GetCategories();
+                createProductModel.PropertyOptions = GetProperties();
 
-				ImageCreator.CreateImageFile(createProductModel.ImageFile);
+                return View(createProductModel);
+            }
 
-				_coffeeShopContext.Coffees.Add(newCoffee);
-				_coffeeShopContext.SaveChanges();
-				return RedirectToAction("Index");
+            Coffee newCoffee = new Coffee
+            {
+                Name = createProductModel.Name,
+                Description = createProductModel.Description,
+                Origin = createProductModel.Origin,
+                Price = decimal.Parse(createProductModel.PriceInput),
+                CertifiedOrganic = createProductModel.CertifiedOrganic,
+                Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
+                Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList(),
+                ImageString = $"~/images/{createProductModel.ImageFile.FileName}"
+            };
+
+            ImageCreator.CreateImageFile(createProductModel.ImageFile);
+
+			try
+			{
+                _coffeeShopContext.Coffees.Add(newCoffee);
+                _coffeeShopContext.SaveChanges();
+            }
+			catch(DbUpdateException ex)
+			{
+				Console.WriteLine(ex.Message);
 			}
-			else
-
-			createProductModel.CategoryOptions = GetCategories();
-			createProductModel.PropertyOptions = GetProperties();
-
-
-				return View(createProductModel);
-		}
+           
+            return RedirectToAction("Index");
+        }
 
 		[HttpGet]
 		public IActionResult Edit(int id)
@@ -101,7 +108,12 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 			   .Include(c => c.Category)
 			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
 
-			var editProductModel = new AdminEditProductViewModel
+            if (editProduct == null)
+            {
+                return NotFound();
+            }
+
+            var editProductModel = new AdminEditProductViewModel
 			{
 				Id = id,
 				Name = editProduct.Name,
@@ -129,39 +141,46 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 			   .Include(c => c.Category)
 			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == editProductModel.Id);
 
-			if (ModelState.IsValid)
+            if (editProduct == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
 			{
+                editProductModel.CategoryOptions = GetCategories();
+                editProductModel.PropertyOptions = GetProperties();
 
-				editProduct.Name = editProductModel.Name;
-				editProduct.Description = editProductModel.Description;
-				editProduct.Origin = editProductModel.Origin;
-				editProduct.Price = decimal.Parse(editProductModel.PriceInput);
+                return View(editProductModel);
 
-				if (editProductModel.ImageFile != null)
-				{
-					ImageCreator.CreateImageFile(editProductModel.ImageFile);
-					editProduct.ImageString = $"~/images/{editProductModel.ImageFile.FileName}";
-				}
+            }
+		
+            editProduct.Name = editProductModel.Name;
+            editProduct.Description = editProductModel.Description;
+            editProduct.Origin = editProductModel.Origin;
+            editProduct.Price = decimal.Parse(editProductModel.PriceInput);
 
-				
-				editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
-				editProduct.Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == editProductModel.SelectedCategoryId);
-				editProduct.Properties = _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList();
+            if (editProductModel.ImageFile != null)
+            {
+                ImageCreator.CreateImageFile(editProductModel.ImageFile);
+                editProduct.ImageString = $"~/images/{editProductModel.ImageFile.FileName}";
+            }
 
-				_coffeeShopContext.SaveChanges();
+            editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
+            editProduct.Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == editProductModel.SelectedCategoryId);
+            editProduct.Properties = _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList();
 
-				return RedirectToAction("Index");
-			}
-			else
-			{
+            try
+            {
+                _coffeeShopContext.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-				editProductModel.CategoryOptions = GetCategories();
-				editProductModel.PropertyOptions = GetProperties();
-
-				return View(editProductModel);
-			}
-			
-		}
+            return RedirectToAction("Index");
+        }
 
 		[HttpGet]
 		public IActionResult Delete(int id)
@@ -170,7 +189,12 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				.Include(c => c.Category)
 				.Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
 
-			var coffeeDetailsViewModel = new AdminDeleteProductViewModel
+            if (deleteProduct == null)
+            {
+                return NotFound();
+            }
+
+            var deleteProductViewModel = new AdminDeleteProductViewModel
 			{
 				Id = deleteProduct?.Id,
 				Name = deleteProduct?.Name,
@@ -182,10 +206,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				ImageString = deleteProduct?.ImageString,
 				CertifiedOrganic = deleteProduct.CertifiedOrganic
 			};
-
 		
-
-			return View(coffeeDetailsViewModel);
+			return View(deleteProductViewModel);
 		}
 
 		[HttpPost]
@@ -195,7 +217,12 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 			var deleteProduct = _coffeeShopContext.Coffees.Find(id);
 
-			var matchingImageCheck = _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString);
+            if (deleteProduct == null)
+            {
+                return NotFound();
+            }
+
+            var matchingImageCheck = _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString);
 			
 			if (matchingImageCheck.Count() == 1)
 			{
@@ -207,8 +234,15 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				}
 			}
 
-			_coffeeShopContext.Coffees.Remove(deleteProduct);
-			_coffeeShopContext.SaveChanges();
+            try
+            {
+                _coffeeShopContext.Coffees.Remove(deleteProduct);
+                _coffeeShopContext.SaveChanges();
+            }
+			catch(DbException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
 			return RedirectToAction("Index");
 		}

@@ -51,12 +51,14 @@ namespace PE1.Webshop.Web.Controllers
                 .Include(c => c.Category)
                 .Include(c => c.Properties);
 
-            if (coffees == null)
-            {
-                return View("Error", new ErrorViewModel());
-            }
+            
 
             Coffee coffee = coffees.FirstOrDefault(coffee => coffee.Id == id);
+
+            if (coffee == null)
+            {
+                return NotFound();
+            }
 
             var coffeeDetailsViewModel = new ProductsCoffeeDetailsViewModel
             {
