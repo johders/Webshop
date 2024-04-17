@@ -12,7 +12,7 @@ namespace PE1.Webshop.Web.ViewComponents
         {
             var shoppingCartViewModel = new ShoppingCartComponentViewModel
             {
-                NumberOfItems = ShoppingCartItemRepository.CartCount
+                NumberOfItems = ShoppingCartItemCounter.CartCount
             };
             return await Task.FromResult(View(shoppingCartViewModel));
         }

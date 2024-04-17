@@ -1,8 +1,8 @@
 ﻿using PE1.Webshop.Core;
 
-namespace PE1.Webshop.Web.Models
+namespace PE1.Webshop.Web.ViewModels
 {
-    public class ShoppingCartItem
+    public class ShoppingCartItemViewModel
     {
         public int Id { get; set; }
         public Coffee Coffee { get; set; }

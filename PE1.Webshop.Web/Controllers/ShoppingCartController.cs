@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
+using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Models;
 using PE1.Webshop.Web.ViewModels;
 
@@ -7,91 +9,142 @@ namespace PE1.Webshop.Web.Controllers
 {
     public class ShoppingCartController : Controller
     {
-    //    private readonly CoffeeRepository _coffeeRepository;
 
-    //    public ShoppingCartController()
-    //    {
-    //        _coffeeRepository = new CoffeeRepository();
-    //    }
+        private readonly CoffeeShopContext _coffeeShopContext;
 
-    //    public IActionResult Index()
-    //    {
-    //        return View();
-    //    }
-        
-    //    public IActionResult AddToCart(int id)
-    //    {
-            
-    //        var coffeeToAdd = _coffeeRepository.Coffees.FirstOrDefault(coffee => coffee.Id == id);
-    //        var existingCartItem = ShoppingCartItemRepository.Items.FirstOrDefault(item => item.Coffee.Id == id);
+        public ShoppingCartController(CoffeeShopContext coffeeShopContext)
+        {
+            _coffeeShopContext = coffeeShopContext;
+        }
 
-    //        if(existingCartItem != null)
-    //        {
-    //            existingCartItem.Quantity++;
-    //        }
-    //        else
-    //        {
-				//ShoppingCartItemRepository.Add(new ShoppingCartItem
-    //            {
-    //                Coffee = coffeeToAdd,
-    //                Quantity = 1
-    //            });
-    //        }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-    //        return RedirectToAction("ViewCart");
-    //    }
-        
-    //    public IActionResult RemoveFromCart(int id)
-    //    {
+        public IActionResult AddToCart(int id)
+        {
 
-    //        var coffeeToRemove = _coffeeRepository.Coffees.FirstOrDefault(coffee => coffee.Id == id);
-    //        var existingCartItem = ShoppingCartItemRepository.Items.FirstOrDefault(item => item.Coffee.Id == id);
+            var coffeeToAdd = _coffeeShopContext.Coffees.FirstOrDefault(coffee => coffee.Id == id);
+            var existingCartItem = _coffeeShopContext.ShoppingCartItems.FirstOrDefault(item => item.Coffee.Id == id);
 
-    //        if (existingCartItem != null)
-    //        {
-    //            existingCartItem.Quantity--;
-    //            if(existingCartItem.Quantity <= 0)
-    //            {
-    //                ShoppingCartItemRepository.Remove(coffeeToRemove);
-    //            }
-    //        }
-            
-    //        return RedirectToAction("ViewCart");
-    //    }
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity++;
+                try
+                {
+                    _coffeeShopContext.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            else
+            {
+                var newItem = new ShoppingCartItem
+                {
+                    Coffee = coffeeToAdd,
+                    Quantity = 1
+                };
 
-    //    public IActionResult ViewCart()
-    //    {
-    //        var cartViewModel = new ShoppingCartViewModel
-    //        {
-    //            CartItems = ShoppingCartItemRepository.Items,
-    //            SubTotal = ShoppingCartItemRepository.Items.Sum(item => item.Coffee.Price * item.Quantity),
-    //            TotalQuantity = ShoppingCartItemRepository.Items.Sum(item => item.Quantity)
-    //        };
+                try
+                {
+                    _coffeeShopContext.ShoppingCartItems.Add(newItem);
+                    _coffeeShopContext.SaveChanges();
+                }
+                catch(DbUpdateException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
-    //        ShoppingCartItemRepository.CartCount = cartViewModel.TotalQuantity;
+            }
 
-    //        return View(cartViewModel);
-    //    }
+            return RedirectToAction("ViewCart");
+        }
 
-    //    public IActionResult Checkout()
-    //    {
-    //        var cartToCheckout = new ShoppingCartViewModel
-    //        {
-    //            CartItems = ShoppingCartItemRepository.Items,
-    //            SubTotal = ShoppingCartItemRepository.Items.Sum(item => item.Coffee.Price * item.Quantity),
-    //            TotalQuantity = ShoppingCartItemRepository.Items.Sum(item => item.Quantity)
-    //        };
+        public IActionResult RemoveFromCart(int id)
+        {
 
-    //        ShoppingCartItemRepository.CartCount = cartToCheckout.TotalQuantity;
-    //        return View(cartToCheckout);
-    //    }
+            var coffeeToRemove = _coffeeShopContext.Coffees.FirstOrDefault(coffee => coffee.Id == id);
+            var existingCartItem = _coffeeShopContext.ShoppingCartItems.FirstOrDefault(item => item.Coffee.Id == id);
 
-    //    public IActionResult ClearCart()
-    //    {
-    //        ShoppingCartItemRepository.Items.Clear();
-    //        ShoppingCartItemRepository.CartCount = 0;
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity--;
+                if (existingCartItem.Quantity <= 0)
+                {
+                    _coffeeShopContext.ShoppingCartItems.Remove(existingCartItem);
+                    _coffeeShopContext.SaveChanges();
+                }
+            }
 
-    //        return RedirectToAction("Index", "Home");
-    //    }
+            return RedirectToAction("ViewCart");
+        }
+
+        public IActionResult ViewCart()
+        {
+
+            var cartItems = _coffeeShopContext.ShoppingCartItems
+                .Include(i => i.Coffee)
+                .ThenInclude(c => c.Category)
+                .Select(item => new ShoppingCartItemViewModel
+            {
+                Id = item.Id,
+                Quantity = item.Quantity,
+                Coffee = item.Coffee,
+            });
+
+
+            var cartViewModel = new ShoppingCartViewModel
+            {
+                CartItems = cartItems,
+                SubTotal = cartItems.Sum(item => item.Coffee.Price * item.Quantity),
+                TotalQuantity = cartItems.Sum(item => item.Quantity)
+            };
+
+            ShoppingCartItemCounter.CartCount = cartViewModel.TotalQuantity;
+
+            return View(cartViewModel);
+        }
+
+        public IActionResult Checkout()
+        {
+            var cartItems = _coffeeShopContext.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel
+            {
+                Id = item.Id,
+                Quantity = item.Quantity,
+                Coffee = item.Coffee,
+            });
+
+            var cartToCheckout = new ShoppingCartViewModel
+            {
+                CartItems = cartItems,
+                SubTotal = cartItems.Sum(item => item.Coffee.Price * item.Quantity),
+                TotalQuantity = cartItems.Sum(item => item.Quantity)
+            };
+
+            ShoppingCartItemCounter.CartCount = cartToCheckout.TotalQuantity;
+            return View(cartToCheckout);
+        }
+
+        public IActionResult ClearCart()
+        {
+            IEnumerable<ShoppingCartItem> allItems = _coffeeShopContext.ShoppingCartItems;
+
+            try
+            {
+                _coffeeShopContext.ShoppingCartItems.RemoveRange(allItems);
+                _coffeeShopContext.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            ShoppingCartItemCounter.CartCount = 0;
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

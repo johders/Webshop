@@ -8,6 +8,7 @@ namespace PE1.Webshop.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Coffee> Coffees { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
         public CoffeeShopContext(DbContextOptions<CoffeeShopContext> options) : base(options)
         {
