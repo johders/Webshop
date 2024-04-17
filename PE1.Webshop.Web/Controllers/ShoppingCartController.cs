@@ -73,10 +73,27 @@ namespace PE1.Webshop.Web.Controllers
             {
                 existingCartItem.Quantity--;
                 if (existingCartItem.Quantity <= 0)
+                {                  
+                    try
+                    {
+                        _coffeeShopContext.ShoppingCartItems.Remove(existingCartItem);
+                        _coffeeShopContext.SaveChanges();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                try
                 {
-                    _coffeeShopContext.ShoppingCartItems.Remove(existingCartItem);
                     _coffeeShopContext.SaveChanges();
                 }
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
 
             return RedirectToAction("ViewCart");
@@ -103,8 +120,6 @@ namespace PE1.Webshop.Web.Controllers
                 TotalQuantity = cartItems.Sum(item => item.Quantity)
             };
 
-            ShoppingCartItemCounter.CartCount = cartViewModel.TotalQuantity;
-
             return View(cartViewModel);
         }
 
@@ -124,7 +139,6 @@ namespace PE1.Webshop.Web.Controllers
                 TotalQuantity = cartItems.Sum(item => item.Quantity)
             };
 
-            ShoppingCartItemCounter.CartCount = cartToCheckout.TotalQuantity;
             return View(cartToCheckout);
         }
 
@@ -141,8 +155,6 @@ namespace PE1.Webshop.Web.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-
-            ShoppingCartItemCounter.CartCount = 0;
 
             return RedirectToAction("Index", "Home");
         }
