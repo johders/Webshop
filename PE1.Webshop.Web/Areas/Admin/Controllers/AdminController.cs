@@ -98,12 +98,14 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 			{
                 _coffeeShopContext.Coffees.Add(newCoffee);
                 _coffeeShopContext.SaveChanges();
+                TempData["success"] = "New product created successfully";
             }
 			catch(DbUpdateException ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
            
+            
             return RedirectToAction("Index");
         }
 
@@ -154,6 +156,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
 			{
+                editProductModel.ImageString = editProduct.ImageString;
                 editProductModel.CategoryOptions = GetCategories();
                 editProductModel.PropertyOptions = GetProperties();
 
@@ -178,6 +181,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             try
             {
                 _coffeeShopContext.SaveChanges();
+                TempData["success"] = "Product updated successfully";
             }
             catch (DbUpdateException ex)
             {
@@ -244,6 +248,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             {
                 _coffeeShopContext.Coffees.Remove(deleteProduct);
                 _coffeeShopContext.SaveChanges();
+                TempData["success"] = "Product deleted successfully";
             }
 			catch(DbUpdateException ex)
             {
@@ -254,7 +259,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		}
 
 
-		public IEnumerable<SelectListItem> GetCategories()
+		private IEnumerable<SelectListItem> GetCategories()
 		{
             return _coffeeShopContext.Categories.Select(c => new SelectListItem
             {
@@ -263,7 +268,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             });
 		}
 
-		public IEnumerable<SelectListItem> GetProperties()
+		private IEnumerable<SelectListItem> GetProperties()
 		{
 			return _coffeeShopContext.Properties.Select(c => new SelectListItem
 			{
