@@ -6,5 +6,6 @@
         public string Action { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
+        public string Area { get; set; }
     }
 }

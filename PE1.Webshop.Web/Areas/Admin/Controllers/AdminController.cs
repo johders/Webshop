@@ -64,7 +64,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-        public IActionResult Create(AdminCreateProductViewModel createProductModel)
+        public async Task<IActionResult> Create(AdminCreateProductViewModel createProductModel)
         {
 
 			if (!ModelState.IsValid)
@@ -94,7 +94,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             try
 			{
                 _coffeeShopContext.Coffees.Add(newCoffee);
-                _coffeeShopContext.SaveChanges();
+                await _coffeeShopContext.SaveChangesAsync();
                 TempData["success"] = "New product created successfully";
             }
 			catch(DbUpdateException ex)

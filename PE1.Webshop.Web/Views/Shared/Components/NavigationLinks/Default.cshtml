@@ -2,7 +2,18 @@
 
 @foreach (var link in Model.MenuLinks)
 {
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="@link.Controller" asp-action="@link.Action">@link.Name</a>
-    </li>
+    @if(link.Area == "Admin")
+    {
+        <li class="nav-item admin-link">
+            <a class="nav-link" asp-area="@link.Area" asp-controller="@link.Controller" asp-action="@link.Action"> <i class="bi bi-tools"></i> @link.Name</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="@link.Controller" asp-action="@link.Action">@link.Name</a>
+        </li>
+    }
+   
+    
 }

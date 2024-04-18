@@ -28,6 +28,13 @@ namespace PE1.Webshop.Web.Services
                     Controller = "Volunteer",
                     Action = "Apply",
                     Name = "Volunteer"
+                },
+                  new ActionLink
+                {
+                    Area = "Admin",
+                    Controller = "Admin",
+                    Action = "Index",
+                    Name = "Admin Portal"
                 }
             };
         }
