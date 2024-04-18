@@ -139,7 +139,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Edit(AdminEditProductViewModel editProductModel)
+		public async Task<IActionResult> Edit(AdminEditProductViewModel editProductModel)
 		{
 
 			var editProduct = _coffeeShopContext.Coffees
@@ -177,7 +177,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             try
             {
-                _coffeeShopContext.SaveChanges();
+                await _coffeeShopContext.SaveChangesAsync();
                 TempData["success"] = "Product updated successfully";
             }
             catch (DbUpdateException ex)
@@ -218,7 +218,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult DeletePost(int id)
+		public async Task<IActionResult> DeletePost(int id)
 		{
 
 			var deleteProduct = _coffeeShopContext.Coffees.Find(id);
@@ -244,7 +244,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             try
             {
                 _coffeeShopContext.Coffees.Remove(deleteProduct);
-                _coffeeShopContext.SaveChanges();
+                await _coffeeShopContext.SaveChangesAsync();
                 TempData["success"] = "Product deleted successfully";
             }
 			catch(DbUpdateException ex)
