@@ -10,7 +10,7 @@ namespace PE1.Webshop.Web.Data
         public DbSet<Coffee> Coffees { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 		public DbSet<VolunteerApplication> VolunteerApplications { get; set; }
-
+		public DbSet<Order> Orders { get; set; }
 
 		public CoffeeShopContext(DbContextOptions<CoffeeShopContext> options) : base(options)
         {

@@ -10,8 +10,9 @@ namespace PE1.Webshop.Core
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
+		public decimal ItemsTotal { get { return Quantity * Coffee.Price; } }
 
-        public int CoffeeId { get; set; }
+		public int CoffeeId { get; set; }
         public Coffee Coffee { get; set; }
     }
 }

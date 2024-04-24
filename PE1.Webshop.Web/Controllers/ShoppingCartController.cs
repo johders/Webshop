@@ -139,7 +139,26 @@ namespace PE1.Webshop.Web.Controllers
                 TotalQuantity = cartItems.Sum(item => item.Quantity)
             };
 
-            return View(cartToCheckout);
+            var newOrder = new Order
+            {
+                ShoppingCartItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync(),
+                TotalQuantity = cartToCheckout.TotalQuantity,
+                SubTotal = cartToCheckout.SubTotal,
+                Shipping = cartToCheckout.Shipping,
+                TotalPrice = cartToCheckout.TotalPrice,
+            };
+
+            try
+            {
+                _coffeeShopContext.Orders.Add(newOrder);
+                await _coffeeShopContext.SaveChangesAsync();
+            }
+			catch (DbUpdateException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+
+			return View(cartToCheckout);
         }
 
         public async Task<IActionResult> ClearCart()
