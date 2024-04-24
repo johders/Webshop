@@ -24,10 +24,10 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            var coffees = _coffeeShopContext.Coffees
+            var coffees = await _coffeeShopContext.Coffees
             .Select(coffee => new ProductsCoffeeDetailsViewModel
             {
                 Id = coffee.Id,
@@ -39,11 +39,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
                 Properties = coffee.Properties,
                 ImageString = coffee.ImageString,
                 CertifiedOrganic = coffee.CertifiedOrganic
-            });
+            }).ToListAsync();
 
             var allCoffeesModel = new ProductsAllCoffeesViewModel
             {
-                AllCoffees = coffees.ToList()
+                AllCoffees = coffees
             };
 
             return View(allCoffeesModel);
@@ -51,12 +51,12 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var createProductModel = new AdminCreateProductViewModel
             {
-                CategoryOptions = GetCategories(),
-                PropertyOptions = GetProperties()
+                CategoryOptions = await GetCategories(),
+                PropertyOptions = await GetProperties()
             };
 
             return View(createProductModel);
@@ -69,21 +69,28 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
 			if (!ModelState.IsValid)
 			{
-                createProductModel.CategoryOptions = GetCategories();
-                createProductModel.PropertyOptions = GetProperties();
+                createProductModel.CategoryOptions = await GetCategories();
+                createProductModel.PropertyOptions = await GetProperties();
 
                 return View(createProductModel);
             }
 
-            Coffee newCoffee = new Coffee
+			string newPrice = createProductModel.PriceInput;
+
+			if (createProductModel.PriceInput.Contains("."))
+			{
+				newPrice = createProductModel.PriceInput.Replace(".", ",");
+			}
+
+			Coffee newCoffee = new Coffee
             {
                 Name = createProductModel.Name,
                 Description = createProductModel.Description,
                 Origin = createProductModel.Origin,
-                Price = decimal.Parse(createProductModel.PriceInput),
+                Price = decimal.Parse(newPrice),
                 CertifiedOrganic = createProductModel.CertifiedOrganic,
-                Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == createProductModel.SelectedCategoryId),
-                Properties = _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList()
+                Category = await _coffeeShopContext.Categories.FirstOrDefaultAsync(c => c.Id == createProductModel.SelectedCategoryId),
+                Properties = await _coffeeShopContext.Properties.Where(p => createProductModel.SelectedPropertyIdList.Contains(p.Id)).ToListAsync()
             };
 
             if(createProductModel.ImageFile != null)
@@ -107,11 +114,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         }
 
 		[HttpGet]
-		public IActionResult Edit(int id)
+		public async Task<IActionResult> Edit(int id)
 		{
-			var editProduct = _coffeeShopContext.Coffees
+			var editProduct = await _coffeeShopContext.Coffees
 			   .Include(c => c.Category)
-			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
+			   .Include(c => c.Properties).FirstOrDefaultAsync(c => c.Id == id);
 
             if (editProduct == null)
             {
@@ -128,8 +135,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 				PriceInput = editProduct.Price.ToString(),
 				CertifiedOrganic = editProduct.CertifiedOrganic,
 				ImageString = editProduct.ImageString,
-				CategoryOptions = GetCategories(),
-				PropertyOptions = GetProperties(),
+				CategoryOptions = await GetCategories(),
+				PropertyOptions = await GetProperties(),
 				SelectedCategoryId = editProduct.CategoryId,
 				SelectedPropertyIdList = editProduct.Properties.Select(p => p.Id).ToList()
 			};
@@ -142,9 +149,9 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		public async Task<IActionResult> Edit(AdminEditProductViewModel editProductModel)
 		{
 
-			var editProduct = _coffeeShopContext.Coffees
+			var editProduct = await _coffeeShopContext.Coffees
 			   .Include(c => c.Category)
-			   .Include(c => c.Properties).FirstOrDefault(c => c.Id == editProductModel.Id);
+			   .Include(c => c.Properties).FirstOrDefaultAsync(c => c.Id == editProductModel.Id);
 
             if (editProduct == null)
             {
@@ -154,8 +161,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
 			{
                 editProductModel.ImageString = editProduct.ImageString;
-                editProductModel.CategoryOptions = GetCategories();
-                editProductModel.PropertyOptions = GetProperties();
+                editProductModel.CategoryOptions = await GetCategories();
+                editProductModel.PropertyOptions = await GetProperties();
 
                 return View(editProductModel);
 
@@ -164,7 +171,15 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             editProduct.Name = editProductModel.Name;
             editProduct.Description = editProductModel.Description;
             editProduct.Origin = editProductModel.Origin;
-            editProduct.Price = decimal.Parse(editProductModel.PriceInput);
+
+            string newPrice = editProductModel.PriceInput;
+
+			if (editProductModel.PriceInput.Contains("."))
+            {
+                newPrice = editProductModel.PriceInput.Replace(".", ",");
+            }
+
+            editProduct.Price = decimal.Parse(newPrice);
 
             if (editProductModel.ImageFile != null)
             {
@@ -172,8 +187,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             }
 
             editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;
-            editProduct.Category = _coffeeShopContext.Categories.FirstOrDefault(c => c.Id == editProductModel.SelectedCategoryId);
-            editProduct.Properties = _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToList();
+            editProduct.Category = await _coffeeShopContext.Categories.FirstOrDefaultAsync(c => c.Id == editProductModel.SelectedCategoryId);
+            editProduct.Properties = await _coffeeShopContext.Properties.Where(p => editProductModel.SelectedPropertyIdList.Contains(p.Id)).ToListAsync();
 
             try
             {
@@ -189,11 +204,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         }
 
 		[HttpGet]
-		public IActionResult Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
-            var deleteProduct = _coffeeShopContext.Coffees
+            var deleteProduct = await _coffeeShopContext.Coffees
 				.Include(c => c.Category)
-				.Include(c => c.Properties).FirstOrDefault(c => c.Id == id);
+				.Include(c => c.Properties).FirstOrDefaultAsync(c => c.Id == id);
 
             if (deleteProduct == null)
             {
@@ -221,14 +236,14 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		public async Task<IActionResult> DeletePost(int id)
 		{
 
-			var deleteProduct = _coffeeShopContext.Coffees.Find(id);
+			var deleteProduct = await _coffeeShopContext.Coffees.FindAsync(id);
 
             if (deleteProduct == null)
             {
                 return NotFound();
             }
 
-            var matchingImageCheck = _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString);
+            var matchingImageCheck = await _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString).ToListAsync();
 			
 			if (matchingImageCheck.Count() == 1)
 			{
@@ -256,22 +271,22 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		}
 
 
-		private IEnumerable<SelectListItem> GetCategories()
+		private async Task<IEnumerable<SelectListItem>> GetCategories()
 		{
-            return _coffeeShopContext.Categories.Select(c => new SelectListItem
+            return await _coffeeShopContext.Categories.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
                 Text = c.Name,
-            });
+            }).ToListAsync();
 		}
 
-		private IEnumerable<SelectListItem> GetProperties()
+		private async Task<IEnumerable<SelectListItem>> GetProperties()
 		{
-			return _coffeeShopContext.Properties.Select(c => new SelectListItem
+			return await _coffeeShopContext.Properties.Select(c => new SelectListItem
 			{
 				Value = c.Id.ToString(),
 				Text = c.Name,
-			});
+			}).ToListAsync();
 		}
 
         private string SaveImage(IFormFile image)

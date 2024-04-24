@@ -22,8 +22,8 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 		[Required(ErrorMessage = "Please enter origin")]
 		public string Origin { get; set; }
 
-		[Display(Name = "Price")]
-		[Required(ErrorMessage = "Please enter price")]
+		[Display(Name = "Price (comma separated)")]
+        [Required(ErrorMessage = "Please enter price")]
 		public string PriceInput { get; set; }
 
 		[Display(Name = "Product Image")]
