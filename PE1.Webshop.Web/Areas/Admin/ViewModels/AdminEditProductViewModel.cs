@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Services;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 {
 	public class AdminEditProductViewModel
 	{
+		[HiddenInput]
 		public int? Id { get; set; }
 
 		[Display(Name = "Product Name")]
@@ -21,8 +23,8 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 		[Required(ErrorMessage = "Please enter origin")]
 		public string Origin { get; set; }
 
-		[Display(Name = "Price (comma separated)")]
-		[Required(ErrorMessage = "Please enter price")]
+		[Display(Name = "Price")]
+		[PriceInputStringDigitValidation(ErrorMessage = "Please enter valid price (eg. 18,50)")]
 		public string PriceInput { get; set; }
 
 		[Display(Name = "New product Image (optional)")]
