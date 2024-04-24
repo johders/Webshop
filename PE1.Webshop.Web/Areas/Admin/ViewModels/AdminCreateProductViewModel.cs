@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PE1.Webshop.Core;
-using PE1.Webshop.Web.Services;
+using PE1.Webshop.Web.Services.Validation;
 using PE1.Webshop.Web.ViewModels;
 using System.ComponentModel.DataAnnotations;
 

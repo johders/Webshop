@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Models;
+using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.ViewModels;
 using System.Reflection;
 
@@ -12,31 +13,37 @@ namespace PE1.Webshop.Web.Controllers
     public class ProductsController : Controller
     {
         private readonly CoffeeShopContext _coffeeShopContext;
+        private IProductBuilder _productBuilder;
 
-        public ProductsController(CoffeeShopContext coffeeShopContext)
-        {
-            _coffeeShopContext = coffeeShopContext;
-        }
+		public ProductsController(CoffeeShopContext coffeeShopContext, IProductBuilder productBuilder)
+		{
+			_coffeeShopContext = coffeeShopContext;
+			_productBuilder = productBuilder;
+		}
 
-        public async Task<IActionResult> AllCoffees()
+		public async Task<IActionResult> AllCoffees()
         {
             ViewBag.PageTitle = "All Coffees";
 
-            var coffees = await _coffeeShopContext.Coffees
-                .Select(coffee => new ProductsCoffeeDetailsViewModel
-                {
-                    Id = coffee.Id,
-                    Name = coffee.Name,
-                    Description = coffee.Description,
-                    Origin = coffee.Origin,
-                    Price = coffee.Price,
-                    Category = coffee.Category,
-                    Properties = coffee.Properties,
-                    ImageString = coffee.ImageString,
-                    CertifiedOrganic = coffee.CertifiedOrganic
-                }).ToListAsync();
+            var coffees = await _productBuilder.GetCoffees();
 
-            var allCoffeesModel = new ProductsAllCoffeesViewModel
+
+
+				//await _coffeeShopContext.Coffees
+				//.Select(coffee => new ProductsCoffeeDetailsViewModel
+				//{
+				//    Id = coffee.Id,
+				//    Name = coffee.Name,
+				//    Description = coffee.Description,
+				//    Origin = coffee.Origin,
+				//    Price = coffee.Price,
+				//    Category = coffee.Category,
+				//    Properties = coffee.Properties,
+				//    ImageString = coffee.ImageString,
+				//    CertifiedOrganic = coffee.CertifiedOrganic
+				//}).ToListAsync();
+
+			var allCoffeesModel = new ProductsAllCoffeesViewModel
             {
                 AllCoffees = coffees
             };
@@ -59,38 +66,42 @@ namespace PE1.Webshop.Web.Controllers
                 return NotFound();
             }
 
-            var coffeeDetailsViewModel = new ProductsCoffeeDetailsViewModel
-            {
-                Id = coffee?.Id,
-                Name = coffee?.Name,
-                Description = coffee?.Description,
-                Origin = coffee?.Origin,
-                Price = coffee?.Price,
-                Category = coffee.Category,
-                Properties = coffee?.Properties,
-                ImageString = coffee?.ImageString,
-                CertifiedOrganic = coffee.CertifiedOrganic
-            };
+            var coffeeDetailsViewModel = _productBuilder.CreateProductDetailsViewModel(coffee);
+                
+            //    new ProductsCoffeeDetailsViewModel
+            //{
+            //    Id = coffee?.Id,
+            //    Name = coffee?.Name,
+            //    Description = coffee?.Description,
+            //    Origin = coffee?.Origin,
+            //    Price = coffee?.Price,
+            //    Category = coffee.Category,
+            //    Properties = coffee?.Properties,
+            //    ImageString = coffee?.ImageString,
+            //    CertifiedOrganic = coffee.CertifiedOrganic
+            //};
             return View(coffeeDetailsViewModel);
         }
 
         public async Task<IActionResult> FilteredByCategory(int id)
         {
 
-            var coffees = await _coffeeShopContext.Coffees
-                .Where(c => c.CategoryId == id)
-                .Select(coffee => new ProductsCoffeeDetailsViewModel
-                {
-                    Id = coffee.Id,
-                    Name = coffee.Name,
-                    Description = coffee.Description,
-                    Origin = coffee.Origin,
-                    Price = coffee.Price,
-                    Category = coffee.Category,
-                    Properties = coffee.Properties,
-                    ImageString = coffee.ImageString,
-                    CertifiedOrganic = coffee.CertifiedOrganic
-                }).ToListAsync();
+            var coffees = await _productBuilder.GetCoffeesByCategory(id);
+                
+                //await _coffeeShopContext.Coffees
+                //.Where(c => c.CategoryId == id)
+                //.Select(coffee => new ProductsCoffeeDetailsViewModel
+                //{
+                //    Id = coffee.Id,
+                //    Name = coffee.Name,
+                //    Description = coffee.Description,
+                //    Origin = coffee.Origin,
+                //    Price = coffee.Price,
+                //    Category = coffee.Category,
+                //    Properties = coffee.Properties,
+                //    ImageString = coffee.ImageString,
+                //    CertifiedOrganic = coffee.CertifiedOrganic
+                //}).ToListAsync();
 
 
             var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
@@ -111,30 +122,33 @@ namespace PE1.Webshop.Web.Controllers
         public async Task<IActionResult> FilteredByProperty(int id)
         {
 
-            var coffees = await _coffeeShopContext.Coffees
-                .Where(c => c.Properties.Any(p => p.Id == id))
-                .Select(coffee => new ProductsCoffeeDetailsViewModel
-                {
-                    Id = coffee.Id,
-                    Name = coffee.Name,
-                    Description = coffee.Description,
-                    Origin = coffee.Origin,
-                    Price = coffee.Price,
-                    Category = coffee.Category,
-                    Properties = coffee.Properties,
-                    ImageString = coffee.ImageString,
-                    CertifiedOrganic = coffee.CertifiedOrganic
-                }).ToListAsync();
+            var coffees = await _productBuilder.GetCoffeesByProperty(id);
+                
+                
+                //await _coffeeShopContext.Coffees
+                //.Where(c => c.Properties.Any(p => p.Id == id))
+                //.Select(coffee => new ProductsCoffeeDetailsViewModel
+                //{
+                //    Id = coffee.Id,
+                //    Name = coffee.Name,
+                //    Description = coffee.Description,
+                //    Origin = coffee.Origin,
+                //    Price = coffee.Price,
+                //    Category = coffee.Category,
+                //    Properties = coffee.Properties,
+                //    ImageString = coffee.ImageString,
+                //    CertifiedOrganic = coffee.CertifiedOrganic
+                //}).ToListAsync();
 
             var allCoffeesByPropertyModel = new ProductsAllCoffeesViewModel
             {
                 AllCoffees = coffees
             };
 
-            string selectedPropertyName = _coffeeShopContext.Properties
+            string selectedPropertyName = await _coffeeShopContext.Properties
                 .Where(p => p.Id == id)
                 .Select(p => p.Name)
-                .First();
+                .FirstOrDefaultAsync();
 
             ViewBag.PageTitle = $"{selectedPropertyName} flavored Coffees";
 

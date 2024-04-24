@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Web.Data;
+using PE1.Webshop.Web.Services;
+using PE1.Webshop.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<CoffeeShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeShopDb")));
 
+builder.Services.AddTransient<IProductBuilder, ProductBuilderService>();
 
 var app = builder.Build();
 
