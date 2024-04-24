@@ -1,12 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using PE1.Webshop.Core;
+using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.ViewModels;
 
 namespace PE1.Webshop.Web.Controllers
 {
     public class VolunteerController : Controller
     {
-        [HttpGet]
+
+        private readonly CoffeeShopContext _coffeeShopContext;
+
+		public VolunteerController(CoffeeShopContext coffeeShopContext)
+		{
+			_coffeeShopContext = coffeeShopContext;
+		}
+
+		[HttpGet]
         public IActionResult Apply()
         {
             var applicationModel = new VolunteerApplyViewModel
@@ -20,17 +31,39 @@ namespace PE1.Webshop.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Apply(VolunteerApplyViewModel applicantForm)
+        public async Task<IActionResult> Apply(VolunteerApplyViewModel applicantForm)
         {
+			applicantForm.Countries = GetCountries();
 
-            applicantForm.Countries = GetCountries();
-
-            if (ModelState.IsValid)
+			if (!ModelState.IsValid)
             {
-                return RedirectToAction("Success", applicantForm);              
-            }
+                
+				return View(applicantForm);
+			}
 
-            return View(applicantForm);
+            var newApplication = new VolunteerApplication
+            {
+                FirstName = applicantForm.FirstName,
+                LastName = applicantForm.LastName,
+                Email = applicantForm.Email,
+                ArrivalDate = applicantForm.FromDate,
+                DepartureDate = applicantForm.ToDate,
+                Country = applicantForm.GetCountry(applicantForm.SelectedCountryId),
+                NewsLetterSignUp = applicantForm.SignUpNewsLetter
+            };
+
+            try
+            {
+                _coffeeShopContext.VolunteerApplications.Add(newApplication);
+                await _coffeeShopContext.SaveChangesAsync();
+            }
+			catch (DbUpdateException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+
+			return RedirectToAction("Success", applicantForm);              
+            
         }
 
         public IActionResult Success(VolunteerApplyViewModel applicantForm)
