@@ -18,11 +18,11 @@ namespace PE1.Webshop.Web.Controllers
             _coffeeShopContext = coffeeShopContext;
         }
 
-        public IActionResult AllCoffees()
+        public async Task<IActionResult> AllCoffees()
         {
             ViewBag.PageTitle = "All Coffees";
 
-            var coffees = _coffeeShopContext.Coffees
+            var coffees = await _coffeeShopContext.Coffees
                 .Select(coffee => new ProductsCoffeeDetailsViewModel
                 {
                     Id = coffee.Id,
@@ -34,26 +34,25 @@ namespace PE1.Webshop.Web.Controllers
                     Properties = coffee.Properties,
                     ImageString = coffee.ImageString,
                     CertifiedOrganic = coffee.CertifiedOrganic
-                });
+                }).ToListAsync();
 
             var allCoffeesModel = new ProductsAllCoffeesViewModel
             {
-                AllCoffees = coffees.ToList()
+                AllCoffees = coffees
             };
 
             return View(allCoffeesModel);
         }
 
-        public IActionResult CoffeeDetails(int id)
+        public async Task <IActionResult> CoffeeDetails(int id)
         {
 
-            var coffees = _coffeeShopContext.Coffees
+			Coffee coffee = await _coffeeShopContext.Coffees
                 .Include(c => c.Category)
-                .Include(c => c.Properties);
+                .Include(c => c.Properties)
+				.FirstOrDefaultAsync(coffee => coffee.Id == id);         
 
-            
-
-            Coffee coffee = coffees.FirstOrDefault(coffee => coffee.Id == id);
+            //Coffee coffee = coffees.FirstOrDefault(coffee => coffee.Id == id);
 
             if (coffee == null)
             {
@@ -75,10 +74,10 @@ namespace PE1.Webshop.Web.Controllers
             return View(coffeeDetailsViewModel);
         }
 
-        public IActionResult FilteredByCategory(int id)
+        public async Task<IActionResult> FilteredByCategory(int id)
         {
 
-            var coffees = _coffeeShopContext.Coffees
+            var coffees = await _coffeeShopContext.Coffees
                 .Where(c => c.CategoryId == id)
                 .Select(coffee => new ProductsCoffeeDetailsViewModel
                 {
@@ -91,12 +90,12 @@ namespace PE1.Webshop.Web.Controllers
                     Properties = coffee.Properties,
                     ImageString = coffee.ImageString,
                     CertifiedOrganic = coffee.CertifiedOrganic
-                });
+                }).ToListAsync();
 
 
             var allCoffeesByCategoryModel = new ProductsAllCoffeesViewModel
             {
-                AllCoffees = coffees.ToList()
+                AllCoffees = coffees
             };
 
             string selectedCategoryName = allCoffeesByCategoryModel.AllCoffees
@@ -109,10 +108,10 @@ namespace PE1.Webshop.Web.Controllers
 
         }
 
-        public IActionResult FilteredByProperty(int id)
+        public async Task<IActionResult> FilteredByProperty(int id)
         {
 
-            var coffees = _coffeeShopContext.Coffees
+            var coffees = await _coffeeShopContext.Coffees
                 .Where(c => c.Properties.Any(p => p.Id == id))
                 .Select(coffee => new ProductsCoffeeDetailsViewModel
                 {
@@ -125,11 +124,11 @@ namespace PE1.Webshop.Web.Controllers
                     Properties = coffee.Properties,
                     ImageString = coffee.ImageString,
                     CertifiedOrganic = coffee.CertifiedOrganic
-                });
+                }).ToListAsync();
 
             var allCoffeesByPropertyModel = new ProductsAllCoffeesViewModel
             {
-                AllCoffees = coffees.ToList()
+                AllCoffees = coffees
             };
 
             string selectedPropertyName = _coffeeShopContext.Properties

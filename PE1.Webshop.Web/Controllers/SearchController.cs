@@ -23,7 +23,7 @@ namespace PE1.Webshop.Web.Controllers
             return View();
         }
 
-        public IActionResult SearchByMultipleKeys(decimal price, string category, string flavor, string region, bool certOrganic)
+        public async Task<IActionResult> SearchByMultipleKeys(decimal price, string category, string flavor, string region, bool certOrganic)
         {
             var searchResultsListView = new SearchByMultipleKeysViewModel();
 
@@ -32,30 +32,30 @@ namespace PE1.Webshop.Web.Controllers
             if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(flavor))
             {
                 var priceEntered = (decimal)price;
-                coffees = _coffeeShopContext.Coffees
+                coffees = await _coffeeShopContext.Coffees
                     .Include(c => c.Category)
                     .Include(c => c.Properties)
                     .Where(c => c.Category.Name.ToUpper().Contains(category.ToUpper()) && c.Price == priceEntered)
-                    .ToList();
+                    .ToListAsync();
             }
             else if (price == 0 && string.IsNullOrEmpty(category))
             {
-                coffees = _coffeeShopContext.Coffees
+                coffees = await _coffeeShopContext.Coffees
                     .Include(c => c.Category)
                     .Include(c => c.Properties)
                     .Where(c => c.Origin.ToUpper().Contains(region.ToUpper()) && c.Properties
                     .Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && c.CertifiedOrganic == certOrganic)
-                    .ToList();
+                    .ToListAsync();
             }
             else if (string.IsNullOrEmpty(region))
             {
                 var priceEntered = (decimal)price;
-                coffees = _coffeeShopContext.Coffees
+                coffees = await _coffeeShopContext.Coffees
                     .Include(c => c.Category)
                     .Include(c => c.Properties)
                     .Where(s => s.Properties.Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && s.Price < price && s.Category.Name.ToUpper()
                     .Contains(category.ToUpper()))
-                    .ToList();
+                    .ToListAsync();
             }
             else
             {
@@ -79,16 +79,16 @@ namespace PE1.Webshop.Web.Controllers
             return View(searchResultsListView);
         }
 
-        public IActionResult SearchByKeyWord(string keyword)
+        public async Task<IActionResult> SearchByKeyWord(string keyword)
         {
             var keywordSearchResultsListView = new SearchByKeywordViewModel();
 
-            var coffees = _coffeeShopContext.Coffees
+            var coffees = await _coffeeShopContext.Coffees
                  .Include(c => c.Category)
                  .Include(c => c.Properties)
                  .Where(s => s.Description.ToUpper().Contains(keyword.ToUpper()) || s.Origin.ToUpper().Contains(keyword.ToUpper()) || s.Properties
                  .Any(c => c.Name.ToUpper().Contains(keyword.ToUpper())) ||s.Category.Name.ToUpper().Contains(keyword.ToUpper()) || s.Name.ToUpper()
-                 .Contains(keyword.ToUpper()));
+                 .Contains(keyword.ToUpper())).ToListAsync();
 
             if (coffees == null)
             {

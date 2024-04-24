@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.ViewModels;
@@ -14,21 +15,21 @@ namespace PE1.Webshop.Web.Controllers
             _coffeeShopContext = coffeeShopContext;
         }
 
-        public IActionResult AllCategories()
+        public async Task<IActionResult> AllCategories()
         {
             ViewBag.PageTitle = "Categories";
 
-            var categories = _coffeeShopContext.Categories;
+            //var categories = _coffeeShopContext.Categories;
 
             var allCategoriesViewModel = new CategoriesAllCategoriesViewModel();
 
-            allCategoriesViewModel.AllCategories = categories
-                .Select(category => new CategoriesCategoryDetailsViewModel
+            allCategoriesViewModel.AllCategories = await _coffeeShopContext.Categories
+				.Select(category => new CategoriesCategoryDetailsViewModel
                 {
                     Id = category.Id,
                     Name = category.Name,
                     ImageString = category.ImageString
-                });
+                }).ToListAsync();
 
             return View(allCategoriesViewModel);
         }

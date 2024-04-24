@@ -22,18 +22,18 @@ namespace PE1.Webshop.Web.Controllers
             return View();
         }
 
-        public IActionResult AddToCart(int id)
+        public async Task<IActionResult> AddToCart(int id)
         {
 
-            var coffeeToAdd = _coffeeShopContext.Coffees.FirstOrDefault(coffee => coffee.Id == id);
-            var existingCartItem = _coffeeShopContext.ShoppingCartItems.FirstOrDefault(item => item.Coffee.Id == id);
+            var coffeeToAdd = await _coffeeShopContext.Coffees.FirstOrDefaultAsync(coffee => coffee.Id == id);
+            var existingCartItem = await _coffeeShopContext.ShoppingCartItems.FirstOrDefaultAsync(item => item.Coffee.Id == id);
 
             if (existingCartItem != null)
             {
                 existingCartItem.Quantity++;
                 try
                 {
-                    _coffeeShopContext.SaveChanges();
+                    await _coffeeShopContext.SaveChangesAsync();
                 }
                 catch (DbUpdateException ex)
                 {
@@ -51,7 +51,7 @@ namespace PE1.Webshop.Web.Controllers
                 try
                 {
                     _coffeeShopContext.ShoppingCartItems.Add(newItem);
-                    _coffeeShopContext.SaveChanges();
+                    await _coffeeShopContext.SaveChangesAsync();
                 }
                 catch(DbUpdateException ex)
                 {
@@ -63,11 +63,11 @@ namespace PE1.Webshop.Web.Controllers
             return RedirectToAction("ViewCart");
         }
 
-        public IActionResult RemoveFromCart(int id)
+        public async Task<IActionResult> RemoveFromCart(int id)
         {
 
-            var coffeeToRemove = _coffeeShopContext.Coffees.FirstOrDefault(coffee => coffee.Id == id);
-            var existingCartItem = _coffeeShopContext.ShoppingCartItems.FirstOrDefault(item => item.Coffee.Id == id);
+            var coffeeToRemove = await _coffeeShopContext.Coffees.FirstOrDefaultAsync(coffee => coffee.Id == id);
+            var existingCartItem = await _coffeeShopContext.ShoppingCartItems.FirstOrDefaultAsync(item => item.Coffee.Id == id);
 
             if (existingCartItem != null)
             {
@@ -77,7 +77,7 @@ namespace PE1.Webshop.Web.Controllers
                     try
                     {
                         _coffeeShopContext.ShoppingCartItems.Remove(existingCartItem);
-                        _coffeeShopContext.SaveChanges();
+                        await _coffeeShopContext.SaveChangesAsync();
                     }
                     catch (DbUpdateException ex)
                     {
@@ -99,10 +99,10 @@ namespace PE1.Webshop.Web.Controllers
             return RedirectToAction("ViewCart");
         }
 
-        public IActionResult ViewCart()
+        public async Task<IActionResult> ViewCart()
         {
 
-            var cartItems = _coffeeShopContext.ShoppingCartItems
+            var cartItems = await _coffeeShopContext.ShoppingCartItems
                 .Include(i => i.Coffee)
                 .ThenInclude(c => c.Category)
                 .Select(item => new ShoppingCartItemViewModel
@@ -110,7 +110,7 @@ namespace PE1.Webshop.Web.Controllers
                 Id = item.Id,
                 Quantity = item.Quantity,
                 Coffee = item.Coffee,
-            });
+            }).ToListAsync();
 
 
             var cartViewModel = new ShoppingCartViewModel
@@ -123,14 +123,14 @@ namespace PE1.Webshop.Web.Controllers
             return View(cartViewModel);
         }
 
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
-            var cartItems = _coffeeShopContext.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel
+            var cartItems = await _coffeeShopContext.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel
             {
                 Id = item.Id,
                 Quantity = item.Quantity,
                 Coffee = item.Coffee,
-            });
+            }).ToListAsync();
 
             var cartToCheckout = new ShoppingCartViewModel
             {
@@ -142,14 +142,14 @@ namespace PE1.Webshop.Web.Controllers
             return View(cartToCheckout);
         }
 
-        public IActionResult ClearCart()
+        public async Task<IActionResult> ClearCart()
         {
-            IEnumerable<ShoppingCartItem> allItems = _coffeeShopContext.ShoppingCartItems;
+            IEnumerable<ShoppingCartItem> allItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync();
 
             try
             {
                 _coffeeShopContext.ShoppingCartItems.RemoveRange(allItems);
-                _coffeeShopContext.SaveChanges();
+                await _coffeeShopContext.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
