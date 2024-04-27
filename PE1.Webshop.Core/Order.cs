@@ -14,9 +14,14 @@ namespace PE1.Webshop.Core
 		[Key]
 		public Guid Id { get; set; }
 		public int? TotalQuantity { get; set; }
+
+		[Column(TypeName = "decimal(6,2)")]
 		public decimal? SubTotal { get; set; }
+
+		[Column(TypeName = "decimal(6,2)")]
 		public decimal? TotalPrice { get; set; }
 
+		[Column(TypeName = "decimal(6,2)")]
 		public decimal? Shipping { get; set; }
 		public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
     }

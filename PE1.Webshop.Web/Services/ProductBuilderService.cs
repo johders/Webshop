@@ -83,5 +83,33 @@ namespace PE1.Webshop.Web.Services
 					CertifiedOrganic = coffee.CertifiedOrganic
 				}).ToListAsync();
 		}
-	}
+
+		public async Task<Coffee> GetCoffeeById(int id)
+		{
+			return await _coffeeShopContext.Coffees
+                .Include(c => c.Category)
+                .Include(c => c.Properties)
+                .FirstOrDefaultAsync(coffee => coffee.Id == id);
+        }
+
+        public string GetCategoryName(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GetPropertyName(int id)
+        {
+            return await _coffeeShopContext.Properties
+                .Where(p => p.Id == id)
+                .Select(p => p.Name)
+                .FirstOrDefaultAsync();
+        }
+
+        public string GetCategoryName(int id, ICollection<ProductsCoffeeDetailsViewModel> model)
+        {
+            return model
+				.Select(c => c.Category.Name)
+                .First();
+        }
+    }
 }

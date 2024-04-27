@@ -50,8 +50,9 @@ namespace PE1.Webshop.Web.Controllers
             else if (string.IsNullOrEmpty(region))
             {
                 var priceEntered = (decimal)price;
+
                 coffees = await _coffeeShopContext.Coffees
-                    .Include(c => c.Category)
+                    .Include (c => c.Category)
                     .Include(c => c.Properties)
                     .Where(s => s.Properties.Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && s.Price < price && s.Category.Name.ToUpper()
                     .Contains(category.ToUpper()))

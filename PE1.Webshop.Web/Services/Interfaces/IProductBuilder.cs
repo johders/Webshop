@@ -9,5 +9,9 @@ namespace PE1.Webshop.Web.Services.Interfaces
 		Task<ICollection<ProductsCoffeeDetailsViewModel>> GetCoffeesByCategory(int id);
 		Task<ICollection<ProductsCoffeeDetailsViewModel>> GetCoffeesByProperty(int id);
 		ProductsCoffeeDetailsViewModel CreateProductDetailsViewModel(Coffee coffee);
-	}
+		Task<Coffee> GetCoffeeById(int id);
+		string GetCategoryName(int id, ICollection<ProductsCoffeeDetailsViewModel> model);
+        Task<string> GetPropertyName(int id);
+
+    }
 }
