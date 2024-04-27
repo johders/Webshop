@@ -13,6 +13,7 @@ builder.Services.AddDbContext<CoffeeShopContext>(options => options.UseSqlServer
 
 builder.Services.AddTransient<IProductBuilder, ProductBuilderService>();
 builder.Services.AddTransient<ISearchFilter, SearchFilterService>();
+builder.Services.AddTransient<IProductManager, InventoryManagerService>();
 
 
 var app = builder.Build();

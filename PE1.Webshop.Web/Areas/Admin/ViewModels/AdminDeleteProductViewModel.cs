@@ -2,7 +2,7 @@
 
 namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 {
-	public class AdminDeleteProductViewModel : AdminCreateProductViewModel
+	public class AdminDeleteProductViewModel : AdminUpdateProductViewModel
 	{
 	}
 }

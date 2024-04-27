@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 {
-	public class AdminCreateProductViewModel
+	public class AdminUpdateProductViewModel
 	{
 		[HiddenInput]
 		public int? Id { get; set; }
@@ -29,7 +29,6 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
 		public string PriceInput { get; set; }
 
 		[Display(Name = "Product Image")]
-		[Required(ErrorMessage = "Please select an image file")]
 		public IFormFile ImageFile { get; set; }
 
 		[Display(Name = "Is product Certified Organic?")]
