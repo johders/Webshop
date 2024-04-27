@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Models;
+using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.ViewModels;
 using System.Linq;
 using System.Xml.Linq;
@@ -11,11 +12,13 @@ namespace PE1.Webshop.Web.Controllers
 {
 	public class SearchController : Controller
 	{
-        private readonly CoffeeShopContext _coffeeShopContext;
+        private readonly ISearchFilter _searchFilter;
+        private readonly IProductBuilder _productBuilder;
 
-        public SearchController(CoffeeShopContext coffeeShopContext)
+        public SearchController(ISearchFilter searchFilter , IProductBuilder productBuilder)
         {
-            _coffeeShopContext = coffeeShopContext;
+            _searchFilter = searchFilter;
+            _productBuilder = productBuilder;
         }
 
         public IActionResult Index()
@@ -32,31 +35,17 @@ namespace PE1.Webshop.Web.Controllers
             if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(flavor))
             {
                 var priceEntered = (decimal)price;
-                coffees = await _coffeeShopContext.Coffees
-                    .Include(c => c.Category)
-                    .Include(c => c.Properties)
-                    .Where(c => c.Category.Name.ToUpper().Contains(category.ToUpper()) && c.Price == priceEntered)
-                    .ToListAsync();
+                coffees = await _searchFilter.FilteredByCategoryAndPrice(priceEntered, category);
             }
             else if (price == 0 && string.IsNullOrEmpty(category))
             {
-                coffees = await _coffeeShopContext.Coffees
-                    .Include(c => c.Category)
-                    .Include(c => c.Properties)
-                    .Where(c => c.Origin.ToUpper().Contains(region.ToUpper()) && c.Properties
-                    .Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && c.CertifiedOrganic == certOrganic)
-                    .ToListAsync();
+                coffees = await _searchFilter.FilteredByIsOrganicRegionAndProperty(certOrganic, region, flavor);
             }
             else if (string.IsNullOrEmpty(region))
             {
                 var priceEntered = (decimal)price;
 
-                coffees = await _coffeeShopContext.Coffees
-                    .Include (c => c.Category)
-                    .Include(c => c.Properties)
-                    .Where(s => s.Properties.Any(c => c.Name.ToUpper().Contains(flavor.ToUpper())) && s.Price < price && s.Category.Name.ToUpper()
-                    .Contains(category.ToUpper()))
-                    .ToListAsync();
+                coffees = await _searchFilter.FilteredByCategoryPriceAndProperty(price, category, flavor);
             }
             else
             {
@@ -64,18 +53,8 @@ namespace PE1.Webshop.Web.Controllers
             }
 
             searchResultsListView.AllCoffees = coffees
-                .Select(coffee => new ProductsCoffeeDetailsViewModel
-                {
-                    Id = coffee.Id,
-                    Name = coffee.Name,
-                    Description = coffee.Description,
-                    Origin = coffee.Origin,
-                    Price = coffee.Price,
-                    Category = coffee.Category,
-                    Properties = coffee.Properties,
-                    ImageString = coffee.ImageString,
-                    CertifiedOrganic = coffee.CertifiedOrganic
-                }).ToList();
+                .Select(coffee => _productBuilder.CreateProductDetailsViewModel(coffee))
+                .ToList();
 
             return View(searchResultsListView);
         }
@@ -84,30 +63,16 @@ namespace PE1.Webshop.Web.Controllers
         {
             var keywordSearchResultsListView = new SearchByKeywordViewModel();
 
-            var coffees = await _coffeeShopContext.Coffees
-                 .Include(c => c.Category)
-                 .Include(c => c.Properties)
-                 .Where(s => s.Description.ToUpper().Contains(keyword.ToUpper()) || s.Origin.ToUpper().Contains(keyword.ToUpper()) || s.Properties
-                 .Any(c => c.Name.ToUpper().Contains(keyword.ToUpper())) ||s.Category.Name.ToUpper().Contains(keyword.ToUpper()) || s.Name.ToUpper()
-                 .Contains(keyword.ToUpper())).ToListAsync();
+            var coffees = await _searchFilter.FilteredByKeyword(keyword);
 
             if (coffees == null)
             {
                 return View("Error", new ErrorViewModel());
             }
 
-            keywordSearchResultsListView.AllCoffees = coffees.Select(coffee => new ProductsCoffeeDetailsViewModel
-            {
-                Id = coffee.Id,
-                Name = coffee.Name,
-                Description = coffee.Description,
-                Origin = coffee.Origin,
-                Price = coffee.Price,
-                Category = coffee.Category,
-                Properties = coffee.Properties,
-                ImageString = coffee.ImageString,
-                CertifiedOrganic = coffee.CertifiedOrganic
-            }).ToList();
+            keywordSearchResultsListView.AllCoffees = coffees
+                .Select(coffee => _productBuilder.CreateProductDetailsViewModel(coffee))
+                .ToList();
 
             return View(keywordSearchResultsListView);
         }

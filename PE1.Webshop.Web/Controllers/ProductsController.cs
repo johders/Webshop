@@ -13,12 +13,10 @@ namespace PE1.Webshop.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IProductBuilder _productBuilder;
 
-		public ProductsController(CoffeeShopContext coffeeShopContext, IProductBuilder productBuilder)
+		public ProductsController(IProductBuilder productBuilder)
 		{
-			_coffeeShopContext = coffeeShopContext;
 			_productBuilder = productBuilder;
 		}
 

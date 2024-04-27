@@ -12,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CoffeeShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeShopDb")));
 
 builder.Services.AddTransient<IProductBuilder, ProductBuilderService>();
+builder.Services.AddTransient<ISearchFilter, SearchFilterService>();
+
 
 var app = builder.Build();
 

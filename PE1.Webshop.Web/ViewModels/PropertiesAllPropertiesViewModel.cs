@@ -2,7 +2,7 @@
 {
     public class PropertiesAllPropertiesViewModel
     {
-        public IEnumerable<PropertiesPropertyDetailsViewModel> AllProperties { get; set; }
+        public ICollection<PropertiesPropertyDetailsViewModel> AllProperties { get; set; }
 
     }
 }

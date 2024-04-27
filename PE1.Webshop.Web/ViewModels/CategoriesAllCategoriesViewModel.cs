@@ -2,7 +2,7 @@
 {
     public class CategoriesAllCategoriesViewModel
     {
-        public IEnumerable<CategoriesCategoryDetailsViewModel> AllCategories { get; set; }
+        public ICollection<CategoriesCategoryDetailsViewModel> AllCategories { get; set; }
         public CategoriesAllCategoriesViewModel()
         {
             AllCategories = new List<CategoriesCategoryDetailsViewModel>();

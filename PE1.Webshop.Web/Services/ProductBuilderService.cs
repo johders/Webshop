@@ -111,5 +111,26 @@ namespace PE1.Webshop.Web.Services
 				.Select(c => c.Category.Name)
                 .First();
         }
+
+        public async Task<ICollection<CategoriesCategoryDetailsViewModel>> GetCategories()
+        {
+            return await _coffeeShopContext.Categories
+                .Select(category => new CategoriesCategoryDetailsViewModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    ImageString = category.ImageString
+                }).ToListAsync();
+        }
+
+        public async Task<ICollection<PropertiesPropertyDetailsViewModel>> GetProperties()
+        {
+            return await _coffeeShopContext.Properties
+                .Select(property => new PropertiesPropertyDetailsViewModel
+                {
+                    Id = property.Id,
+                    Name = property.Name
+                }).OrderBy(p => p.Name).ToListAsync();
+        }
     }
 }
