@@ -139,10 +139,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		{
 
 			var editProduct = await _productBuilder.GetCoffeeById((int)editProductModel.Id);
-                
-      //          _coffeeShopContext.Coffees
-			   //.Include(c => c.Category)
-			   //.Include(c => c.Properties).FirstOrDefaultAsync(c => c.Id == editProductModel.Id);
 
             if (editProduct == null)
             {
@@ -198,10 +194,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
             var deleteProduct = await _productBuilder.GetCoffeeById(id);
-                
-    //            _coffeeShopContext.Coffees
-				//.Include(c => c.Category)
-				//.Include(c => c.Properties).FirstOrDefaultAsync(c => c.Id == id);
 
             if (deleteProduct == null)
             {

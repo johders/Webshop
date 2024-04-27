@@ -12,6 +12,8 @@ namespace PE1.Webshop.Web.Data
 		public DbSet<VolunteerApplication> VolunteerApplications { get; set; }
 		public DbSet<Order> Orders { get; set; }
 
+        public DbSet<WebOrder> WebOrders { get; set; }
+
 		public CoffeeShopContext(DbContextOptions<CoffeeShopContext> options) : base(options)
         {
             
@@ -28,6 +30,20 @@ namespace PE1.Webshop.Web.Data
                 .Property(c => c.Price)
                 .HasColumnType("decimal")
                 .HasPrecision(6, 2);
+
+            modelBuilder.Entity<WebOrderCoffee>()
+                .ToTable("WebOrderCoffee")
+                .HasKey(pt => new { pt.WebOrderId, pt.CoffeeId });
+
+            modelBuilder.Entity<WebOrderCoffee>()
+                .HasOne(pt => pt.WebOrder)
+                .WithMany(t => t.WebOrderCoffees)
+                .HasForeignKey(pt => pt.WebOrderId);
+
+            modelBuilder.Entity<WebOrderCoffee>()
+                .HasOne(pt => pt.Coffee)
+                .WithMany(t => t.WebOrderCoffees)
+                .HasForeignKey(pt => pt.CoffeeId);
 
             DataSeeder.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
