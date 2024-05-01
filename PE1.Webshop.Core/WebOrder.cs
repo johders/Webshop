@@ -21,6 +21,9 @@ namespace PE1.Webshop.Core
 
         [Column(TypeName = "decimal(6,2)")]
         public decimal? Shipping { get; set; }
+
+        public int? UserId { get; set; }
+        public User? User { get; set; }
         public ICollection<WebOrderCoffee> WebOrderCoffees { get; set; }
     }
 }

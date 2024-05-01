@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PE1.Webshop.Web.Data;
 
@@ -11,9 +12,10 @@ using PE1.Webshop.Web.Data;
 namespace PE1.Webshop.Web.Migrations
 {
     [DbContext(typeof(CoffeeShopContext))]
-    partial class CoffeeShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240501150009_UpdateAndSeedUsers")]
+    partial class UpdateAndSeedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -768,7 +770,7 @@ namespace PE1.Webshop.Web.Migrations
                             FirstName = "Bart",
                             IsAdmin = true,
                             LastName = "Soete",
-                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$A8v+NZJPEiuWQw6oB7Iq4A$+t871B4NKi73YhXjS5aJsWcujqEJtwBDRP2wPCXyTYQ",
+                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$dyvCMtMhGS/DHnQch49TLw$htNUL6Jq5XgGQ+rc67dVDQ78VUkLlbzqRPbcJdMildU",
                             UserName = "bsoete"
                         },
                         new
@@ -778,7 +780,7 @@ namespace PE1.Webshop.Web.Migrations
                             FirstName = "Johannes",
                             IsAdmin = true,
                             LastName = "Dereuddre",
-                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$culo6EVMVAELofKvYEUlZw$YssFaV3fU7ygGRz8K/P1JpRI5O080lIYBbD5zwgr8x8",
+                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$IeA3QJKhGAC/O2Hpg6F3lA$Uvsm7Robb05mkO9OGF0AV6P+OCsOlc8i7fv+D800agM",
                             UserName = "jders"
                         },
                         new
@@ -788,7 +790,7 @@ namespace PE1.Webshop.Web.Migrations
                             FirstName = "Joe",
                             IsAdmin = false,
                             LastName = "Mama",
-                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$5pomdZljJMFdemVxdv3RXQ$dGBBnYE96KNOQm3ULOZaUuAXPiNwwvmuzoWTFxXUBUE",
+                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$uq0il56fy9RZbuOM7SmSPA$UDwpW6jjSm962EblbTxQ+9WNTHDYaDZAVjb8bzqSU1Q",
                             UserName = "joemama"
                         },
                         new
@@ -798,7 +800,7 @@ namespace PE1.Webshop.Web.Migrations
                             FirstName = "Bob",
                             IsAdmin = false,
                             LastName = "Bobbers",
-                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$OHqUT5wlQ4VlBBSwJOV23Q$mDeQJyL57eOG/Vm7lMM+1wpl4RPyvjwdU+TaFGQK/iw",
+                            PassWord = "$argon2id$v=19$m=65536,t=3,p=1$NrFTZki87uJcBbAyg6vSzA$nyOS/mjJZulLexj6Q29uU0QIanO3FyhC1qU1m3dreGs",
                             UserName = "bob"
                         });
                 });

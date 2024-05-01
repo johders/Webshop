@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Isopoh.Cryptography.Argon2;
+using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Core;
 using System.Reflection.Emit;
 
@@ -323,9 +324,19 @@ namespace PE1.Webshop.Web.Data
 
             };
 
+			var users = new List<User>
+			{
+				new User { Id = 1, FirstName = "Bart", LastName = "Soete", UserName = "bsoete", PassWord = Argon2.Hash("password"), Email = "bart.soete@howest.be", IsAdmin = true },
+                new User { Id = 2, FirstName = "Johannes", LastName = "Dereuddre",UserName = "jders", PassWord = Argon2.Hash("password"), Email = "johannes.dereuddre@ergens.be", IsAdmin = true },
+                new User { Id = 3, FirstName = "Joe", LastName = "Mama", UserName = "joemama", PassWord = Argon2.Hash("password"), Email = "joe.mama@gmail.com", IsAdmin = false },
+                new User { Id = 4, FirstName = "Bob", LastName = "Bobbers", UserName = "bob", PassWord = Argon2.Hash("password"), Email = "bob.bobbers@bob.be", IsAdmin = false }
+            };
+
+
 			modelBuilder.Entity<Category>().HasData(categories);
             modelBuilder.Entity<Property>().HasData(properties);
             modelBuilder.Entity<Coffee>().HasData(coffees);
+			modelBuilder.Entity<User>().HasData(users);
 			modelBuilder.Entity($"{nameof(Coffee)}{nameof(Property)}").HasData(coffeeProperties);
 		}
 	}

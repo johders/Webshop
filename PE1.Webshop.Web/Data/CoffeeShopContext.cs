@@ -9,6 +9,7 @@ namespace PE1.Webshop.Web.Data
         public DbSet<Property> Properties { get; set; }
         public DbSet<Coffee> Coffees { get; set; }
 		public DbSet<VolunteerApplication> VolunteerApplications { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<WebOrder> WebOrders { get; set; }
 
 		public CoffeeShopContext(DbContextOptions<CoffeeShopContext> options) : base(options)
@@ -27,6 +28,28 @@ namespace PE1.Webshop.Web.Data
                 .Property(c => c.Price)
                 .HasColumnType("decimal")
                 .HasPrecision(6, 2);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.UserName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.PassWord)
+                .IsRequired()
+                .HasMaxLength(300);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.FirstName)
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.LastName)
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<WebOrder>()
+                .Property(o => o.UserId)
+                .IsRequired(false);             
 
             modelBuilder.Entity<WebOrderCoffee>()
                 .ToTable("WebOrderCoffee")
