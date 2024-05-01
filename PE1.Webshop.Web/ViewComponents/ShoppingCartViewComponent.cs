@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Models;
 using PE1.Webshop.Web.Services;
+using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.ViewModels;
 
 namespace PE1.Webshop.Web.ViewComponents
@@ -19,7 +21,15 @@ namespace PE1.Webshop.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var cartItems = _coffeeShopContext.ShoppingCartItems;
+            var sessionCart = new ShoppingCartViewModel();
+            sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
+
+            if (HttpContext.Session.Keys.Contains("Cart"))
+            {
+                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString("Cart"));
+            }
+
+            var cartItems = sessionCart.CartItems;
 
             var shoppingCartViewModel = new ShoppingCartComponentViewModel
             {

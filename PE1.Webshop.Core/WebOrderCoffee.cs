@@ -9,7 +9,7 @@ namespace PE1.Webshop.Core
 {
     public class WebOrderCoffee
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public Guid WebOrderId { get; set; }
 
         public WebOrder WebOrder { get; set; }

@@ -8,9 +8,9 @@ namespace PE1.Webshop.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Coffee> Coffees { get; set; }
-        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        //public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 		public DbSet<VolunteerApplication> VolunteerApplications { get; set; }
-		public DbSet<Order> Orders { get; set; }
+		//public DbSet<Order> Orders { get; set; }
 
         public DbSet<WebOrder> WebOrders { get; set; }
 

@@ -16,12 +16,12 @@ namespace PE1.Webshop.Web.Controllers
     {
         const string stateKey = "Cart";
         private readonly CoffeeShopContext _coffeeShopContext;
-        private List<ShoppingCartItem> _cartItems;
+        private readonly IProductBuilder _productBuilder;
 
-        public ShoppingCartController(CoffeeShopContext coffeeShopContext)
+        public ShoppingCartController(CoffeeShopContext coffeeShopContext, IProductBuilder productBuilder)
         {
             _coffeeShopContext = coffeeShopContext;
-            _cartItems = new List<ShoppingCartItem>();
+            _productBuilder = productBuilder;
         }
 
         public IActionResult Index()
@@ -29,15 +29,12 @@ namespace PE1.Webshop.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AddToCart([FromServices] IProductBuilder productBuilder, int id)
+        public async Task<IActionResult> AddToCart(int id)
         {
             var sessionCart = new ShoppingCartViewModel();
             sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
 
-            var coffeeToAdd = await productBuilder.GetCoffeeById(id);
-                
-                //_coffeeShopContext.Coffees.FirstOrDefaultAsync(coffee => coffee.Id == id);
-
+            var coffeeToAdd = await _productBuilder.GetCoffeeById(id);
 
             if(coffeeToAdd == null)
             {
@@ -54,14 +51,7 @@ namespace PE1.Webshop.Web.Controllers
             if (existingCartItem != null)
             {
                 existingCartItem.Quantity++;
-                //try
-                //{
-                //    await _coffeeShopContext.SaveChangesAsync();
-                //}
-                //catch (DbUpdateException ex)
-                //{
-                //    Console.WriteLine(ex.Message);
-                //}
+
                 HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -82,18 +72,7 @@ namespace PE1.Webshop.Web.Controllers
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 }));
-                //try
-                //{
-                //    _coffeeShopContext.ShoppingCartItems.Add(newItem);
-                //    await _coffeeShopContext.SaveChangesAsync();
-                //}
-                //catch(DbUpdateException ex)
-                //{
-                //    Console.WriteLine(ex.Message);
-                //}
-
             }
-
 
             return RedirectToAction("ViewCart");
         }
@@ -101,28 +80,90 @@ namespace PE1.Webshop.Web.Controllers
         public async Task<IActionResult> RemoveFromCart(int id)
         {
 
-            var coffeeToRemove = await _coffeeShopContext.Coffees.FirstOrDefaultAsync(coffee => coffee.Id == id);
-            var existingCartItem = await _coffeeShopContext.ShoppingCartItems.FirstOrDefaultAsync(item => item.Coffee.Id == id);
+            var sessionCart = new ShoppingCartViewModel();
+            sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
+
+            var coffeeToRemove = await _productBuilder.GetCoffeeById(id);
+
+            if (coffeeToRemove == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (HttpContext.Session.Keys.Contains(stateKey))
+            {
+                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+            }
+
+            var existingCartItem = sessionCart.CartItems.FirstOrDefault(item => item.Coffee.Id == id);
 
             if (existingCartItem != null)
             {
                 existingCartItem.Quantity--;
                 if (existingCartItem.Quantity <= 0)
-                {                  
-                    try
-                    {
-                        _coffeeShopContext.ShoppingCartItems.Remove(existingCartItem);
-                        await _coffeeShopContext.SaveChangesAsync();
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                {
+                    sessionCart.CartItems.Remove(existingCartItem);
                 }
+
+                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                }));
+            }
+
+            return RedirectToAction("ViewCart");
+        }
+
+        public IActionResult ViewCart()
+        {
+            var sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+
+            sessionCart.SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity);
+            sessionCart.TotalQuantity = sessionCart.CartItems.Sum(item => item.Quantity);
+
+            return View(sessionCart);
+        }
+
+        public async Task<IActionResult> Checkout()
+        {
+            var sessionCart = new ShoppingCartViewModel();
+            sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
+
+            if (HttpContext.Session.Keys.Contains(stateKey))
+            {
+                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+            }
+
+            sessionCart.SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity);
+            sessionCart.TotalQuantity = sessionCart.CartItems.Sum(item => item.Quantity);
+
+            if(sessionCart != null)
+            {
+
+                Guid orderId = new Guid();
+
+                WebOrder newOrder = new WebOrder
+                {
+                    Id = orderId,
+                    OrderDate = DateTime.Now,
+                    TotalQuantity = sessionCart.TotalQuantity,
+                    SubTotal = sessionCart.SubTotal,
+                    TotalPrice = sessionCart.SubTotal + sessionCart.Shipping,
+                    Shipping = sessionCart.Shipping,
+                    WebOrderCoffees = sessionCart.CartItems.Select(item => new WebOrderCoffee
+                    {
+                        WebOrderId = orderId,
+                        CoffeeId = item.Coffee.Id,
+                        UnitPrice = item.Coffee.Price,
+                        Quantity = item.Quantity
+                    }).ToList()
+                };
 
                 try
                 {
-                    _coffeeShopContext.SaveChanges();
+                    _coffeeShopContext.WebOrders.Add(newOrder);
+                    await _coffeeShopContext.SaveChangesAsync();
+                    //TempData["success"] = "New product created successfully";
                 }
                 catch (DbUpdateException ex)
                 {
@@ -131,93 +172,22 @@ namespace PE1.Webshop.Web.Controllers
 
             }
 
-            return RedirectToAction("ViewCart");
-        }
-
-        public async Task<IActionResult> ViewCart()
-        {
-            //var sessionCartItems = HttpContext.Session.Get<List<ShoppingCartItem>>(stateKey);
-
-            //var cartItems = await _coffeeShopContext.ShoppingCartItems
-            //    .Include(i => i.Coffee)
-            //    .ThenInclude(c => c.Category)
-            //    .Select(item => new ShoppingCartItemViewModel
-            //{
-            //    Id = item.Id,
-            //    Quantity = item.Quantity,
-            //    Coffee = item.Coffee,
-            //}).ToListAsync();
-
-
-            //var cartViewModel = new ShoppingCartViewModel
-            //{
-            //    CartItems = cartItems,
-            //    SubTotal = cartItems.Sum(item => item.Coffee.Price * item.Quantity),
-            //    TotalQuantity = cartItems.Sum(item => item.Quantity)
-            //};
-            var sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
-
-            var cartViewModel = new ShoppingCartViewModel
-            {
-                CartItems = sessionCart.CartItems,
-                SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity),
-                TotalQuantity = sessionCart.CartItems.Sum(item => item.Quantity)
-            };
-
-            return View(cartViewModel);
-        }
-
-        public async Task<IActionResult> Checkout()
-        {
-            var cartItems = await _coffeeShopContext.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel
-            {
-                Id = item.Id,
-                Quantity = item.Quantity,
-                Coffee = item.Coffee,
-            }).ToListAsync();
-
-            var cartToCheckout = new ShoppingCartViewModel
-            {
-                CartItems = cartItems,
-                SubTotal = cartItems.Sum(item => item.Coffee.Price * item.Quantity),
-                TotalQuantity = cartItems.Sum(item => item.Quantity)
-            };
-
-            var newOrder = new Order
-            {
-                ShoppingCartItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync(),
-                TotalQuantity = cartToCheckout.TotalQuantity,
-                SubTotal = cartToCheckout.SubTotal,
-                Shipping = cartToCheckout.Shipping,
-                TotalPrice = cartToCheckout.TotalPrice,
-            };
-
-            try
-            {
-                _coffeeShopContext.Orders.Add(newOrder);
-                await _coffeeShopContext.SaveChangesAsync();
-            }
-			catch (DbUpdateException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
-			return View(cartToCheckout);
+            return View(sessionCart);
         }
 
         public async Task<IActionResult> ClearCart()
         {
-            IEnumerable<ShoppingCartItem> allItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync();
+            //IEnumerable<ShoppingCartItem> allItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync();
 
-            try
-            {
-                _coffeeShopContext.ShoppingCartItems.RemoveRange(allItems);
-                await _coffeeShopContext.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //try
+            //{
+            //    _coffeeShopContext.ShoppingCartItems.RemoveRange(allItems);
+            //    await _coffeeShopContext.SaveChangesAsync();
+            //}
+            //catch (DbUpdateException ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
             return RedirectToAction("Index", "Home");
         }
