@@ -28,7 +28,7 @@
                                     <td>
                                         <div class="py-2">
                                             <span class="d-block text-muted">Order No</span>
-                                            <span>MT12332345</span>
+                                            <span>@Model.CartId</span>
                                         </div>
                                     </td>
                                     <td>
@@ -125,7 +125,7 @@
                     <p>We will be sending a shipping confirmation email when the item shipped successfully!</p>
                     <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
                     <small>Pachamama Farmers, @DateTime.Now.ToString("D")</small><br></br>
-                    <a asp-controller="ShoppingCart" asp-action="ClearCart" type="button" class="btn btn-sm btn-outline-secondary">
+                    <a asp-controller="Home" asp-action="Index" type="button" class="btn btn-sm btn-outline-secondary">
                         Go Home
                     </a>
                 </div>               

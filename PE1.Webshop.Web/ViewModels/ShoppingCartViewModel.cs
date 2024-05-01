@@ -5,6 +5,7 @@ namespace PE1.Webshop.Web.ViewModels
     public class ShoppingCartViewModel
     {
         public ICollection<ShoppingCartItemViewModel> CartItems { get; set; }
+        public Guid CartId { get; set; }
         public int? TotalQuantity { get; set; }
         public decimal? SubTotal { get; set; }
         public decimal? TotalPrice { get { return SubTotal + Shipping; } }

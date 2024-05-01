@@ -20,7 +20,6 @@ namespace PE1.Webshop.Core
         [Column(TypeName = "decimal(6,2)")]
         public decimal UnitPrice { get; set; }
 
-        public decimal ItemsTotal { get { return Quantity * Coffee.Price; } }
         public int Quantity { get; set; }
     }
 }

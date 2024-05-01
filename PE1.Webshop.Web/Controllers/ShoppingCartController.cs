@@ -140,7 +140,8 @@ namespace PE1.Webshop.Web.Controllers
             if(sessionCart != null)
             {
 
-                Guid orderId = new Guid();
+                Guid orderId = Guid.NewGuid();
+                sessionCart.CartId = orderId;
 
                 WebOrder newOrder = new WebOrder
                 {
@@ -163,33 +164,17 @@ namespace PE1.Webshop.Web.Controllers
                 {
                     _coffeeShopContext.WebOrders.Add(newOrder);
                     await _coffeeShopContext.SaveChangesAsync();
-                    //TempData["success"] = "New product created successfully";
                 }
                 catch (DbUpdateException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
 
+                HttpContext.Session.Clear();
             }
 
             return View(sessionCart);
         }
 
-        public async Task<IActionResult> ClearCart()
-        {
-            //IEnumerable<ShoppingCartItem> allItems = await _coffeeShopContext.ShoppingCartItems.ToListAsync();
-
-            //try
-            //{
-            //    _coffeeShopContext.ShoppingCartItems.RemoveRange(allItems);
-            //    await _coffeeShopContext.SaveChangesAsync();
-            //}
-            //catch (DbUpdateException ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }
