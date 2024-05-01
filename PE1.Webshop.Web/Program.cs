@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.Services.Interfaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddTransient<IProductBuilder, ProductBuilderService>();
 builder.Services.AddTransient<ISearchFilter, SearchFilterService>();
 builder.Services.AddTransient<IProductManager, InventoryManagerService>();
 
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -26,10 +29,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-//SearchByMultipleKeys(decimal price, string category, string flavor, string region)
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 app.UseAuthentication(); ;
