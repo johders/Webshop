@@ -116,7 +116,13 @@ namespace PE1.Webshop.Web.Controllers
 
         public IActionResult ViewCart()
         {
-            var sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+            var sessionCart = new ShoppingCartViewModel();
+            sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
+
+            if (HttpContext.Session.Keys.Contains(stateKey))
+            {
+                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+            }
 
             sessionCart.SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity);
             sessionCart.TotalQuantity = sessionCart.CartItems.Sum(item => item.Quantity);
@@ -139,6 +145,18 @@ namespace PE1.Webshop.Web.Controllers
 
             if(sessionCart != null)
             {
+                var account = new AccountLoginViewModel();
+                var user = new User();
+
+                if (HttpContext.Session.Keys.Contains("Account"))
+                {
+                    account = JsonConvert.DeserializeObject<AccountLoginViewModel>(HttpContext.Session.GetString("Account"));
+                }
+
+                if(account != null)
+                {
+                    user = await _coffeeShopContext.Users.FirstOrDefaultAsync(u => u.UserName.Equals(account.Username));
+                }
 
                 Guid orderId = Guid.NewGuid();
                 sessionCart.CartId = orderId;
@@ -151,6 +169,7 @@ namespace PE1.Webshop.Web.Controllers
                     SubTotal = sessionCart.SubTotal,
                     TotalPrice = sessionCart.SubTotal + sessionCart.Shipping,
                     Shipping = sessionCart.Shipping,
+                    UserId = user.Id,
                     WebOrderCoffees = sessionCart.CartItems.Select(item => new WebOrderCoffee
                     {
                         WebOrderId = orderId,
@@ -170,7 +189,7 @@ namespace PE1.Webshop.Web.Controllers
                     Console.WriteLine(ex.Message);
                 }
 
-                HttpContext.Session.Clear();
+                HttpContext.Session?.Remove(stateKey);
             }
 
             return View(sessionCart);

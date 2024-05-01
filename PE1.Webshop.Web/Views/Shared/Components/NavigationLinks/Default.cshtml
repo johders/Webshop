@@ -1,12 +1,21 @@
-﻿@model NavigationLinksComponentViewModel
+﻿@using Newtonsoft.Json
+@model NavigationLinksComponentViewModel
 
 @foreach (var link in Model.MenuLinks)
 {
     @if(link.Area == "Admin")
     {
-        <li class="nav-item admin-link">
-            <a class="nav-link" asp-area="@link.Area" asp-controller="@link.Controller" asp-action="@link.Action"> <i class="bi bi-tools"></i> @link.Name</a>
-        </li>
+        @if (Context.Session.Keys.Contains("Account"))
+        {
+         var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account")); ;
+
+            if (user.IsAdmin)
+            {
+                <li class="nav-item admin-link">
+                    <a class="nav-link" asp-area="@link.Area" asp-controller="@link.Controller" asp-action="@link.Action"> <i class="bi bi-tools"></i> @link.Name</a>
+                </li>
+            }          
+        }
     }
     else
     {

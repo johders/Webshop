@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +28,37 @@
                         @await Component.InvokeAsync("NavigationLinks")
                         @await Component.InvokeAsync("ShoppingCart")
                     </ul>
+
+                    @if (Context.Session.Keys.Contains("Account"))
+                    {
+
+                        var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account")); ;
+                        <span class="small">
+
+                            @if (user.IsAdmin)
+                            {
+                                @user.Username @:<span class="small">(Admin)</span>
+                            }
+                            else
+                            {
+                                @user.Username
+                            }
+                            
+                        </span>
+                        
+                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                            Logout
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                            Login
+                        </a>
+                    }
+
+                    
+                    
                 </div>
             </div>
         </nav>
