@@ -27,28 +27,45 @@
                         @await Component.InvokeAsync("FlavorList")
                         @await Component.InvokeAsync("NavigationLinks")
                         @await Component.InvokeAsync("ShoppingCart")
-                    </ul>
+                    
 
                     @if (Context.Session.Keys.Contains("Account"))
                     {
 
-                        var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account")); ;
-                        <span class="small">
+                        var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account"));
+
 
                             @if (user.IsAdmin)
                             {
-                                @user.Username @:<span class="small">(Admin)</span>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @user.Username <span class="small">(Admin)</span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                                            Logout
+                                        </a>
+
+                                    </div>
+                                </li>
                             }
                             else
                             {
-                                @user.Username
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @user.Username
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                                            Logout
+                                        </a>
+
+                                    </div>
+                                </li>
+                               
                             }
-                            
-                        </span>
-                        
-                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
-                            Logout
-                        </a>
                     }
                     else
                     {
@@ -56,7 +73,7 @@
                             Login
                         </a>
                     }
-
+                    </ul>
                     
                     
                 </div>

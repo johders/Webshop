@@ -30,9 +30,10 @@ namespace PE1.Webshop.Web.Controllers
         {
             if(_coffeeshopContext.Users.Any(user => user.UserName.Equals(accountRegisterViewModel.UserName)))
             {
+                ModelState.AddModelError("", "Credentials already exist in database");
 
             }
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(accountRegisterViewModel);
             }
@@ -54,6 +55,7 @@ namespace PE1.Webshop.Web.Controllers
             catch (DbUpdateException ex)
             {
                 Console.WriteLine(ex.Message);
+                ModelState.AddModelError("", "Something went wrong...Please try again later..");
             }
 
             return RedirectToAction("RegisterSuccess");
@@ -79,6 +81,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if(user == null || !Argon2.Verify(user?.PassWord, accountLoginViewModel.Password))
             {
+                ModelState.AddModelError("", "Incorrect username or password");
                 return View(accountLoginViewModel);            
             }
 

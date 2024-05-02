@@ -1,20 +1,49 @@
 ﻿@model AccountLoginViewModel
 
-<div class="col-lg-4 mx-auto table-bordered m-4 p-4">
-    <h3>Please log in</h3>
-    <form asp-controller="Account" asp-action="Login" method="post" class="m-2 p-2">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Username"></label>
-            <input asp-for="Username" class="form-control" />
-            <span asp-validation-for="Username" class="alert text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="alert text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a asp-controller="Account" asp-action="Register">New user?</a>
-    </form>
+<div class="col-lg-4 mx-auto m-4 p-4">
+<form asp-controller="Account" asp-action="Login" method="post" class="m-2 p-2">
+        <div asp-validation-summary="ModelOnly" class="text-danger validation-list"></div>
+    <div data-mdb-input-init class="form-outline mb-4">
+        <label asp-for="Username"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="alert text-danger"></span>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="alert text-danger"></span>
+    </div>
+
+        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" id="login">Sign in</button>
+
+    <div class="text-center">
+      
+        <p>Not a member?   <a asp-controller="Account" asp-action="Register">Register</a> </p>
+        <p>or sign up with:</p>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 social">
+            <i class="bi bi-facebook"></i>
+        </button>
+
+            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 social">
+            <i class="bi bi-google"></i>
+        </button>
+
+            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 social">
+            <i class="bi bi-twitter-x"></i>
+        </button>
+
+            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 social">
+            <i class="bi bi-github"></i>
+        </button>
+    </div>
+</form>
 </div>
+
+@section Scripts {
+	@{
+
+		<partial name="_ValidationScriptsPartial" />
+		
+	}
+}

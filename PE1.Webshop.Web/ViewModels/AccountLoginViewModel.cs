@@ -10,9 +10,7 @@ namespace PE1.Webshop.Web.ViewModels
         [Required(ErrorMessage = "Please provide password")]
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
-
         public string Password { get; set; }
-
         public bool IsAdmin { get; set; }
         public bool Authenticated { get; set; }
     }
