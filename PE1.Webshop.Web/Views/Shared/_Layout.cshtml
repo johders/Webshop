@@ -27,7 +27,12 @@
                         @await Component.InvokeAsync("FlavorList")
                         @await Component.InvokeAsync("NavigationLinks")
                         @await Component.InvokeAsync("ShoppingCart")
-                    
+
+                        <li>
+                            <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="nav-link">
+                                Orders
+                            </a>
+                        </li>
 
                     @if (Context.Session.Keys.Contains("Account"))
                     {
@@ -43,7 +48,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                                        <a asp-controller="Account" asp-action="Logout" class="nav-link">
                                             Logout
                                         </a>
 
@@ -58,7 +63,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                        <a asp-controller="Account" asp-action="Logout" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                                        <a asp-controller="Account" asp-action="Logout" class="nav-link">
                                             Logout
                                         </a>
 
@@ -69,9 +74,11 @@
                     }
                     else
                     {
-                        <a asp-controller="Account" asp-action="Login" class="form-inline my-2 my-lg-0 btn btn-outline-secundary">
+                        <li>
+                                <a asp-controller="Account" asp-action="Login" class="nav-link">
                             Login
                         </a>
+                            </li>
                     }
                     </ul>
                     

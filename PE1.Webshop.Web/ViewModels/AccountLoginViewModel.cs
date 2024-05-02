@@ -11,6 +11,7 @@ namespace PE1.Webshop.Web.ViewModels
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string FullName { get; set; }
         public bool IsAdmin { get; set; }
         public bool Authenticated { get; set; }
     }

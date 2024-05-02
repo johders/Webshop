@@ -89,6 +89,7 @@ namespace PE1.Webshop.Web.Controllers
             {
                 accountLoginViewModel.IsAdmin = user.IsAdmin;
                 accountLoginViewModel.Authenticated = true;
+                accountLoginViewModel.FullName = user.FirstName + " " + user.LastName;
                 HttpContext.Session.SetString(accountStateKey, JsonConvert.SerializeObject(accountLoginViewModel));
             }
 
