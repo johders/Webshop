@@ -28,12 +28,6 @@
                         @await Component.InvokeAsync("NavigationLinks")
                         @await Component.InvokeAsync("ShoppingCart")
 
-                        <li>
-                            <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="nav-link">
-                                Orders
-                            </a>
-                        </li>
-
                     @if (Context.Session.Keys.Contains("Account"))
                     {
 

@@ -24,6 +24,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             var coffees = await _productBuilder.GetCoffees();
             var orders = _coffeeShopContext.WebOrders
                 .Include(order => order.WebOrderCoffees)
+                .ThenInclude(weborder => weborder.Coffee)
                 .Select(order => new OrderDetailsViewModel
                 {
                     Id = order.Id,
@@ -35,5 +36,25 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             return View(allOrders);
         }
+
+        public async Task<IActionResult> ShowDetails(Guid id)
+        {
+           
+            var coffees = await _productBuilder.GetCoffees();
+            var orders = _coffeeShopContext.WebOrders
+                .Include(order => order.WebOrderCoffees)
+                .ThenInclude(weborder => weborder.Coffee)
+                .Select(order => new OrderDetailsViewModel
+                {
+                    Id = order.Id,
+                    OrderDate = order.OrderDate,
+                    Items = order.WebOrderCoffees
+                }).ToList();
+
+            var selectedOrder = orders.FirstOrDefault(order => order.Id == id);         
+
+            return View(selectedOrder);
+        }
     }
+
 }
