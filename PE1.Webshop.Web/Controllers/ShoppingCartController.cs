@@ -114,6 +114,40 @@ namespace PE1.Webshop.Web.Controllers
             return RedirectToAction("ViewCart");
         }
 
+        public async Task<IActionResult> RemoveAll(int id)
+        {
+
+            var sessionCart = new ShoppingCartViewModel();
+            sessionCart.CartItems = new List<ShoppingCartItemViewModel>();
+
+            var coffeeToRemove = await _productBuilder.GetCoffeeById(id);
+
+            if (coffeeToRemove == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (HttpContext.Session.Keys.Contains(stateKey))
+            {
+                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+            }
+
+            var existingCartItem = sessionCart.CartItems.FirstOrDefault(item => item.Coffee.Id == id);
+
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity = 0;
+                sessionCart.CartItems.Remove(existingCartItem);
+
+                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                }));
+            }
+
+            return RedirectToAction("ViewCart");
+        }
+
         public IActionResult ViewCart()
         {
             var sessionCart = new ShoppingCartViewModel();

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PE1.Webshop.Web.Areas.Admin.ViewModels;
 using PE1.Webshop.Web.Data;
+using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.Services.Interfaces;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             var allOrders = new OrderAllOrdersViewModel();
 
             var orders = await _orderBuilder.GetOrders();
-            allOrders.AllOrders = orders;
+            allOrders.AllOrders = orders.OrderByDescending(order => order.OrderDate).ToList();
 
             return View(allOrders);
         }
@@ -47,7 +48,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             {
                 string recipientEmail = "djohannes7@gmail.com";
                 string subject = "Your Pachamama order has been dispatched!";
-                string body = WriteEmail(orderCompleted);
+                string body = EmailWriter.WriteEmail(orderCompleted);
 
                 await _emailSender.SendEmailAsync(recipientEmail, subject, body);
 
@@ -68,41 +69,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         
-        }
-
-        private string WriteEmail(OrderDetailsViewModel orderDetails)
-        {
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (var item in orderDetails.Items)
-            {
-                sb.AppendLine($"Product: {item.Coffee.Name} - Quantity: {item.Quantity} - Unit Price: {item.UnitPrice}");
-            }
-
-            string output =
-
-$@"Hello {orderDetails.CustomerName},
-
-
-We thought you'd like to know that we dispatched your order.
-
-ORDER SUMMARY:
-Order #: {orderDetails.Id}
-Order Date: {orderDetails.OrderDate}
-Order Total: {orderDetails.TotalPrice}
-
-ITEMS:
-{sb}
-
-SHIPPING ADDRESS: 
-Kriekenstraat 12, 3500 Hasselt, Limburg
-
-
-Whe hope to see you again soon,
-Pachamama Coffee Farmers";
-
-            return output;
         }
     }
 
