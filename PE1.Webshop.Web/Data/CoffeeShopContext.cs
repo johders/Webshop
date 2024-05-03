@@ -30,12 +30,12 @@ namespace PE1.Webshop.Web.Data
                 .HasPrecision(6, 2);
 
             modelBuilder.Entity<User>()
-                .Property(u => u.UserName)
+                .Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(50);
 
             modelBuilder.Entity<User>()
-                .Property(u => u.PassWord)
+                .Property(u => u.Password)
                 .IsRequired()
                 .HasMaxLength(300);
 
@@ -49,10 +49,10 @@ namespace PE1.Webshop.Web.Data
 
             modelBuilder.Entity<WebOrder>()
                 .Property(o => o.UserId)
-                .IsRequired(false);             
+                .IsRequired(false);
 
             modelBuilder.Entity<WebOrderCoffee>()
-                .ToTable("WebOrderCoffee")
+                .ToTable("WebOrderCoffeeDetails")
                 .HasKey(pt => new { pt.WebOrderId, pt.CoffeeId });
 
             modelBuilder.Entity<WebOrderCoffee>()

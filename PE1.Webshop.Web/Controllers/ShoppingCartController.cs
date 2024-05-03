@@ -155,7 +155,7 @@ namespace PE1.Webshop.Web.Controllers
 
                 if(account != null)
                 {
-                    user = await _coffeeShopContext.Users.FirstOrDefaultAsync(u => u.UserName.Equals(account.Username));
+                    user = await _coffeeShopContext.Users.FirstOrDefaultAsync(u => u.Username.Equals(account.Username));
                 }
 
                 Guid orderId = Guid.NewGuid();

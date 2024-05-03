@@ -28,7 +28,7 @@ namespace PE1.Webshop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(AccountRegisterViewModel accountRegisterViewModel)
         {
-            if(_coffeeshopContext.Users.Any(user => user.UserName.Equals(accountRegisterViewModel.UserName)))
+            if(_coffeeshopContext.Users.Any(user => user.Username.Equals(accountRegisterViewModel.UserName)))
             {
                 ModelState.AddModelError("", "Credentials already exist in database");
 
@@ -40,11 +40,11 @@ namespace PE1.Webshop.Web.Controllers
 
             User newUser = new User
             {
-                UserName = accountRegisterViewModel.UserName,
+                Username = accountRegisterViewModel.UserName,
                 FirstName = accountRegisterViewModel.FirstName,
                 LastName = accountRegisterViewModel.LastName,
                 Email = accountRegisterViewModel.Email,
-                PassWord = Argon2.Hash(accountRegisterViewModel.Password)
+                Password = Argon2.Hash(accountRegisterViewModel.Password)
             };
 
             try
@@ -77,9 +77,9 @@ namespace PE1.Webshop.Web.Controllers
                 return View(accountLoginViewModel);
             }
 
-            var user = await _coffeeshopContext.Users.FirstOrDefaultAsync(u => u.UserName.Equals(accountLoginViewModel.Username));
+            var user = await _coffeeshopContext.Users.FirstOrDefaultAsync(u => u.Username.Equals(accountLoginViewModel.Username));
 
-            if(user == null || !Argon2.Verify(user?.PassWord, accountLoginViewModel.Password))
+            if(user == null || !Argon2.Verify(user?.Password, accountLoginViewModel.Password))
             {
                 ModelState.AddModelError("", "Incorrect username or password");
                 return View(accountLoginViewModel);            
