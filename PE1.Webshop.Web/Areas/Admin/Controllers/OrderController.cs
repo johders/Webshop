@@ -25,7 +25,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             var allOrders = new OrderAllOrdersViewModel();
 
             var orders = await _orderBuilder.GetOrders();
-            allOrders.AllOrders = orders.OrderByDescending(order => order.OrderDate).ToList();
+            allOrders.AllOrders = orders.OrderByDescending(order => order.Status).ToList();
 
             return View(allOrders);
         }
@@ -50,7 +50,15 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
                 string subject = "Your Pachamama order has been dispatched!";
                 string body = EmailWriter.WriteEmail(orderCompleted);
 
-                await _emailSender.SendEmailAsync(recipientEmail, subject, body);
+                try
+                {
+                    await _emailSender.SendEmailAsync(recipientEmail, subject, body);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return NotFound();
+                }
 
                 orderCompleted.Status = "Completed";
             }

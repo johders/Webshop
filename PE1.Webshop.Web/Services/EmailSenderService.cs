@@ -9,7 +9,7 @@ namespace PE1.Webshop.Web.Services
         public Task SendEmailAsync(string email, string subject, string body)
         {
             string mail = "pachamamacoffeeburner@outlook.com";
-            string password = "MorningCuppa35!";
+            string password = "Nosugar1!";
 
             var client = new SmtpClient("smtp-mail.outlook.com", 587)
             {

@@ -72,11 +72,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row d-flex justify-content-end">
-                        <div class="col-md-5">
-                       
-                        </div>
-                    </div>
+                    <br />
+ 
                     @if(Model.Status == "Unshipped")
                     {
                         <a asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id=@Model.Id type="button" class="btn btn-sm btn-outline-secondary">
