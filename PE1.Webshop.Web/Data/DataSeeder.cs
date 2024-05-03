@@ -332,12 +332,47 @@ namespace PE1.Webshop.Web.Data
                 new User { Id = 4, FirstName = "Bob", LastName = "Bobbers", Username = "bob", Password = Argon2.Hash("password"), Email = "bob.bobbers@bob.be", IsAdmin = false }
             };
 
+			Guid orderIdOne = Guid.NewGuid();
+			Guid orderIdTwo = Guid.NewGuid();
+			Guid orderIdThree = Guid.NewGuid();
+			Guid orderIdFour = Guid.NewGuid();
+
+			var webOrders = new List<WebOrder>
+			{
+				new WebOrder { Id = orderIdOne, OrderDate = DateTime.Now, TotalQuantity = 4, SubTotal = 83.5m, TotalPrice = 83.5m, 
+					Shipping = 0, UserId = 1, Status = "Unshipped"},
+                new WebOrder { Id = orderIdTwo, OrderDate = DateTime.Now.AddHours(4), TotalQuantity = 6, SubTotal = 111m, TotalPrice = 111m,
+                    Shipping = 0, UserId = 2, Status = "Completed"},
+                new WebOrder { Id = orderIdThree, OrderDate = DateTime.Now.AddMinutes(32), TotalQuantity = 3, SubTotal = 58.5m, TotalPrice = 62.45m,
+                    Shipping = 3.95m, UserId = 3, Status = "Unshipped"},
+                new WebOrder { Id = orderIdFour, OrderDate = DateTime.Now.AddMinutes(44), TotalQuantity = 2, SubTotal = 37.5m, TotalPrice = 44.45m,
+                    Shipping = 6.95m, UserId = 4, Status = "Completed"},
+            };
+
+			var webOrderDetails = new List<WebOrderCoffee>
+			{
+				new WebOrderCoffee {WebOrderId = orderIdOne, CoffeeId = 12, UnitPrice = 18.5m, Quantity = 1},
+                new WebOrderCoffee {WebOrderId = orderIdOne, CoffeeId = 10, UnitPrice = 25m, Quantity = 1},
+                new WebOrderCoffee {WebOrderId = orderIdOne, CoffeeId = 6, UnitPrice = 20m, Quantity = 2},
+
+                new WebOrderCoffee {WebOrderId = orderIdTwo, CoffeeId = 5, UnitPrice = 19m, Quantity = 4},
+                new WebOrderCoffee {WebOrderId = orderIdTwo, CoffeeId = 9, UnitPrice = 17.5m, Quantity = 2},
+
+                new WebOrderCoffee {WebOrderId = orderIdThree, CoffeeId = 16, UnitPrice = 21m, Quantity = 1},
+                new WebOrderCoffee {WebOrderId = orderIdThree, CoffeeId = 8, UnitPrice = 19m, Quantity = 1},
+                new WebOrderCoffee {WebOrderId = orderIdThree, CoffeeId = 4, UnitPrice = 18.5m, Quantity = 1},
+
+                new WebOrderCoffee {WebOrderId = orderIdTwo, CoffeeId = 11, UnitPrice = 18.5m, Quantity = 1},
+                new WebOrderCoffee {WebOrderId = orderIdTwo, CoffeeId = 14, UnitPrice = 19m, Quantity = 1},
+            };
 
 			modelBuilder.Entity<Category>().HasData(categories);
             modelBuilder.Entity<Property>().HasData(properties);
             modelBuilder.Entity<Coffee>().HasData(coffees);
 			modelBuilder.Entity<User>().HasData(users);
 			modelBuilder.Entity($"{nameof(Coffee)}{nameof(Property)}").HasData(coffeeProperties);
+			modelBuilder.Entity<WebOrder>().HasData(webOrders);
+			modelBuilder.Entity<WebOrderCoffee>().HasData(webOrderDetails);
 		}
 	}
 }
