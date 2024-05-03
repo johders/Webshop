@@ -236,6 +236,6 @@ dialog {
     margin-left: auto;
 }
 
-.username{
-    font-size: .6em;
+.filter-item:focus {
+    background-color: hsl(123, 17%, 75%);
 }

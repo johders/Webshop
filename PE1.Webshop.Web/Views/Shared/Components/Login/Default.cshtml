@@ -6,7 +6,7 @@
     @if (Model.IsAdmin)
     {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @Model.Username <span class="small">(Admin)</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -22,7 +22,7 @@
     else
     {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @Model.Username
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

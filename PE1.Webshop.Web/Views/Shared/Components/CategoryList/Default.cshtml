@@ -1,7 +1,7 @@
 ﻿@model CategoryListComponentViewModel
 
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Categories
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -10,7 +10,7 @@
 
         @foreach (var category in Model.MenuLinks)
         {
-            <a class="dropdown-item" asp-controller="@category.Controller"
+            <a class="dropdown-item filter-item" asp-controller="@category.Controller"
                asp-action="@category.Action" asp-route-id="@category.Id">@category.Name</a>
         }
 
