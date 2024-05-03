@@ -111,13 +111,13 @@ h1, .h-link > p > a, #cat-link > a {
     margin-bottom: 5px;
 }
 
-.btn-outline-success, #checkout:hover, #trash, #cart:hover, #apply-now:hover, #close-dialog:hover, .btn-outline-secondary, .carousel-item > div > a:hover, .btn-primary:hover{
+.btn-outline-success, #checkout:hover, #trash, #cart:hover, #apply-now:hover, #close-dialog:hover, .btn-outline-secondary, .carousel-item > div > a:hover, .btn-primary:hover, .retail{
     background-color: hsl(123, 17%, 75%);
     color: hsl(123, 17%, 20%);
     border-color: hsl(123, 17%, 20%);
 }
 
-    .btn-outline-success:hover, #checkout, #trash:hover, #cart, #apply-now, #close-dialog, .btn-outline-secondary:hover, .btn-secundary:hover, .carousel-item > div > a, .save-change, .btn-primary {
+    .btn-outline-success:hover, #checkout, #trash:hover, #cart, #apply-now, #close-dialog, .btn-outline-secondary:hover, .btn-secundary:hover, .carousel-item > div > a, .save-change, .btn-primary{
         background-color: hsl(123, 17%, 20%);
         color: hsl(123, 17%, 90%);
         border-color: hsl(123, 17%, 90%);
@@ -140,7 +140,7 @@ h1, .h-link > p > a, #cat-link > a {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(106, 149, 108, 0.6);
 }
 
-.save-change:hover {
+.save-change:hover, .retail:hover {
     background-color: hsl(123, 17%, 45%);
     border-color: hsl(123, 17%, 20%);
 }

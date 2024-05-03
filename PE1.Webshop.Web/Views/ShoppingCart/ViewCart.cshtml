@@ -30,15 +30,15 @@
 						<div class="d-flex flex-row align-items-center">
 							<span class="d-block">@item.Quantity</span><span class="d-block ml-5 font-weight-bold">$@item.ItemsTotal</span>
 
-
-							<a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Coffee.Id" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 justify-content-end social">
+							<div class="btn-group ml-2">
+							<a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Coffee.Id" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-sm btn-outline-secondary">
 								<i class="bi bi-dash-lg"></i>
 							</a>
 
-							<a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.Coffee.Id" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1 justify-content-start social">
+							<a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.Coffee.Id" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-sm btn-outline-secondary">
 								<i class="bi bi-plus-lg"></i>
 							</a>
-
+							</div>
 							<a asp-controller="ShoppingCart" asp-action="RemoveAll" asp-route-id="@item.Coffee.Id" type="button" class="btn btn-sm btn-outline-secondary" id="trash">
 								<i class="bi bi-trash"></i>
 							</a>
@@ -75,26 +75,6 @@
 						<div class="col-md-6"><label class="credit-card-label">Date</label><input type="text" class="form-control credit-inputs" value="12/24"></div>
 						<div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text" class="form-control credit-inputs" value="342"></div>
 					</div>
-					@*  }
-				else
-				{
-				<div class="d-flex justify-content-between align-items-center"><span>Card details</span><img class="rounded" src="~/images/@user.Username" width="30"></div>
-				<span class="type d-block mt-3 mb-1">Card type</span>
-
-				<label class="radio"> <input type="radio" name="card" value="payment" checked> <span><img width="30" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-
-				<label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
-
-				<label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
-
-
-				<label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
-				<div><label class="credit-card-label">Name on card</label><input type="text" class="form-control credit-inputs" placeholder="Name"></div>
-				<div><label class="credit-card-label">Card number</label><input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000"></div>
-				<div class="row">
-				<div class="col-md-6"><label class="credit-card-label">Date</label><input type="text" class="form-control credit-inputs" placeholder="12/24"></div>
-				<div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text" class="form-control credit-inputs" placeholder="342"></div>
-				</div> *@
 
 				}
 				else
