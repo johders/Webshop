@@ -24,6 +24,8 @@ namespace PE1.Webshop.Core
 
         public int? UserId { get; set; }
         public User? User { get; set; }
+
+        public string Status { get; set; }
         public ICollection<WebOrderCoffee> WebOrderCoffees { get; set; }
     }
 }

@@ -1,7 +1,90 @@
 ﻿@model OrderDetailsViewModel
-@{
-    ViewData["Title"] = "ShowDetails";
-}
 
-<h1>ShowDetails</h1>
+<h1>Manage order</h1>
+
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="text-left logo p-2 px-5">
+                    <img asp-append-version="true" src="/images/logo-banner.jpg" width="150" height="40" class="d-inline-block align-top" alt="Company Logo">
+                </div>
+                <div class="invoice p-5">
+                    <h5>Order Id: <span class="font-weight-bold">@Model.Id</span> </h5>
+
+                   @*  <span class="font-weight-bold d-block mt-4">Hello, Bart</span>
+                    <span>You order has been confirmed and will be shipped in the next two days!</span> *@
+
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2">
+                                            <span class="d-block text-muted">Order Date</span>
+                                            <span>@Model.OrderDate.ToString("D")</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2">
+                                            <span class="d-block text-muted">Order No</span>
+                                            <span>@Model.Id</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2">
+                                            <span class="d-block text-muted">Customer Name</span>
+                                            <span>@(String.IsNullOrWhiteSpace(Model.CustomerName) ? "Guest" : Model.CustomerName)</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2">
+                                            <span class="d-block text-muted">Shiping Address</span>
+                                            <span>Limburg, Belgium</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td width="20%">
+                                            <img asp-append-version="true" src="@item.Coffee.ImageString" alt="Product Image" width="90">
+                                        </td>
+                                        <td width="40%" class="align-middle">
+                                            <span class="d-block"> Product: <span class="d-inline-block font-weight-bold">@item.Coffee.Name</span></span>
+                                            <span class="d-block">Product Id: <span class="d-inline-block font-weight-bold">@item.Coffee.Id</span></span>
+                                           
+                                        </td>
+                                        <td width="40%" class="align-middle">
+                                        <div class="product-qty">
+                                                <span class="d-block">Quantity: <span class="d-inline-block font-weight-bold"> @item.Quantity</span> </span>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-5">
+                       
+                        </div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id=@Model.Id type="button" class="btn btn-sm btn-outline-secondary">
+                        Confirm Shipping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

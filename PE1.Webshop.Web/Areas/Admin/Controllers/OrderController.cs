@@ -21,16 +21,18 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var allOrders = new OrderAllOrdersViewModel();
-            var coffees = await _productBuilder.GetCoffees();
-            var orders = _coffeeShopContext.WebOrders
+
+            var orders = await _coffeeShopContext.WebOrders
                 .Include(order => order.WebOrderCoffees)
                 .ThenInclude(weborder => weborder.Coffee)
                 .Select(order => new OrderDetailsViewModel
                 {
                     Id = order.Id,
                     OrderDate = order.OrderDate,
+                    CustomerName = order.User.FirstName + " " + order.User.LastName,
+                    Status = "Unshipped",
                     Items = order.WebOrderCoffees
-                }).ToList();
+                }).ToListAsync();
             allOrders.AllOrders = orders;
 
 
@@ -41,19 +43,45 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
         {
            
             var coffees = await _productBuilder.GetCoffees();
-            var orders = _coffeeShopContext.WebOrders
+            var orders = await _coffeeShopContext.WebOrders
                 .Include(order => order.WebOrderCoffees)
                 .ThenInclude(weborder => weborder.Coffee)
                 .Select(order => new OrderDetailsViewModel
                 {
                     Id = order.Id,
                     OrderDate = order.OrderDate,
+                    CustomerName = order.User.FirstName + " " + order.User.LastName,
+                    Status = "Unshipped",
                     Items = order.WebOrderCoffees
-                }).ToList();
+                }).ToListAsync();
 
             var selectedOrder = orders.FirstOrDefault(order => order.Id == id);         
 
             return View(selectedOrder);
+        }
+
+        public async Task<IActionResult> Complete(Guid id) 
+        {
+            var orderCompleted = await _coffeeShopContext.WebOrders
+                .FirstOrDefaultAsync(order => order.Equals(id));
+
+            if(orderCompleted != null)
+            {
+                orderCompleted.Status = "Completed";
+            }
+
+            try
+            {
+                await _coffeeShopContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            return RedirectToAction("Index");
+        
         }
     }
 
