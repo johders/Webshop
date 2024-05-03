@@ -12,6 +12,8 @@ namespace PE1.Webshop.Web.Areas.Admin.ViewModels
         public string CustomerName { get; set; }
         public string Status { get; set; }
 
+        public decimal TotalPrice { get; set; }
+
         public ICollection<WebOrderCoffee> Items { get; set; }
     }
 }

@@ -43,3 +43,11 @@
     color: hsl(123, 17%, 30%);
     font-weight:bolder
 }
+
+.unshipped{
+    color: red;
+}
+
+.completed{
+    color: green;
+}

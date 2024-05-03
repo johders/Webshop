@@ -170,6 +170,7 @@ namespace PE1.Webshop.Web.Controllers
                     TotalPrice = sessionCart.SubTotal + sessionCart.Shipping,
                     Shipping = sessionCart.Shipping,
                     UserId = user.Id,
+                    Status = "Unshipped",
                     WebOrderCoffees = sessionCart.CartItems.Select(item => new WebOrderCoffee
                     {
                         WebOrderId = orderId,
