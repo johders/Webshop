@@ -84,13 +84,19 @@
                         </div>
                     }
                 }
-                 
+                else
+                {
+                    <span>Please <a asp-controller="Account" asp-action="Login">Sign in</a> or <a asp-controller="Account" asp-action="Register">Register</a> to continue</span>
+                }
 
                 <hr class="line">
                 <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$@decimal.Round((decimal)Model.SubTotal, 2)</span></div>
                 <div class="d-flex justify-content-between information"><span>Shipping</span><span>$@decimal.Round((decimal)Model.Shipping, 2)</span></div>
                 <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$@decimal.Round((decimal)Model.TotalPrice, 2)</span></div>
+                @if (Context.Session.Keys.Contains("Account"))
+                {
                 <a asp-controller="ShoppingCart" asp-action="Checkout" type="button" class="btn btn-primary btn-block d-flex justify-content-between mt-3" id="checkout"><span>$@decimal.Round((decimal)Model.TotalPrice, 2)</span><span>Checkout</span></a>
+                }
             </div>
         </div>
     </div>

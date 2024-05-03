@@ -12,13 +12,6 @@ namespace PE1.Webshop.Web.ViewComponents
     public class ShoppingCartViewComponent : ViewComponent
     {
 
-        private readonly CoffeeShopContext _coffeeShopContext;
-
-        public ShoppingCartViewComponent(CoffeeShopContext coffeeShopContext)
-        {
-            _coffeeShopContext = coffeeShopContext;
-        }
-
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var sessionCart = new ShoppingCartViewModel();

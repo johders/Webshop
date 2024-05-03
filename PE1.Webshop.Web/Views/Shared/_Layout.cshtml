@@ -27,56 +27,8 @@
                         @await Component.InvokeAsync("FlavorList")
                         @await Component.InvokeAsync("NavigationLinks")
                         @await Component.InvokeAsync("ShoppingCart")
-
-                    @if (Context.Session.Keys.Contains("Account"))
-                    {
-
-                        var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account"));
-
-
-                            @if (user.IsAdmin)
-                            {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @user.Username <span class="small">(Admin)</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
-                                        <a asp-controller="Account" asp-action="Logout" class="nav-link">
-                                            Logout
-                                        </a>
-
-                                    </div>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle lighter-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @user.Username
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
-                                        <a asp-controller="Account" asp-action="Logout" class="nav-link">
-                                            Logout
-                                        </a>
-
-                                    </div>
-                                </li>
-                               
-                            }
-                    }
-                    else
-                    {
-                        <li>
-                                <a asp-controller="Account" asp-action="Login" class="nav-link">
-                            Login
-                        </a>
-                            </li>
-                    }
-                    </ul>
-                    
-                    
+                        @await Component.InvokeAsync("Login")
+                    </ul>                                    
                 </div>
             </div>
         </nav>

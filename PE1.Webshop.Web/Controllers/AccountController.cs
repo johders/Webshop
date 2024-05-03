@@ -103,7 +103,7 @@ namespace PE1.Webshop.Web.Controllers
 
         public IActionResult LogOut()
         {
-            HttpContext.Session?.Remove(accountStateKey);
+            HttpContext.Session?.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

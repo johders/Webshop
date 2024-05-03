@@ -235,3 +235,7 @@ dialog {
 .admin-link {
     margin-left: auto;
 }
+
+.username{
+    font-size: .6em;
+}

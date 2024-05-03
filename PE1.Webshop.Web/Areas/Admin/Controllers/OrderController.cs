@@ -12,12 +12,10 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
     {
         private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IEmailSender _emailSender;
-        private readonly IProductBuilder _productBuilder;
-        public OrderController(CoffeeShopContext coffeeShopContext, IEmailSender emailSender, IProductBuilder productBuilder)
+        public OrderController(CoffeeShopContext coffeeShopContext, IEmailSender emailSender)
         {
             _coffeeShopContext = coffeeShopContext;
             _emailSender = emailSender;
-            _productBuilder = productBuilder;
         }
         public async Task<IActionResult> Index()
         {
@@ -42,8 +40,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> ShowDetails(Guid id)
         {
-           
-            //var coffees = await _productBuilder.GetCoffees();
             var orders = await _coffeeShopContext.WebOrders
                 .Include(order => order.WebOrderCoffees)
                 .ThenInclude(weborder => weborder.Coffee)
@@ -63,8 +59,6 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Confirm(Guid id) 
         {
-
-            //var coffees = await _productBuilder.GetCoffees();
             var orders = await _coffeeShopContext.WebOrders
                 .Include(order => order.WebOrderCoffees)
                 .ThenInclude(weborder => weborder.Coffee)
