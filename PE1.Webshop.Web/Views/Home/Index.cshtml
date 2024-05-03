@@ -1,4 +1,8 @@
-﻿
+﻿@if (TempData["LoggedIn"] != null)
+{
+    <h5 class="text-center">@TempData["LoggedIn"]</h5>
+}
+
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">

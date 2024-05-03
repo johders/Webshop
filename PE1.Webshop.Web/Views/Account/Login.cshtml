@@ -1,5 +1,10 @@
 ﻿@model AccountLoginViewModel
 
+
+@if (TempData["AccountCreated"] != null)
+{
+    <h5 class="text-center">@TempData["AccountCreated"]</h5>
+}
 <div class="col-lg-4 mx-auto m-4 p-4">
 <form asp-controller="Account" asp-action="Login" method="post" class="m-2 p-2">
         <div asp-validation-summary="ModelOnly" class="text-danger validation-list"></div>

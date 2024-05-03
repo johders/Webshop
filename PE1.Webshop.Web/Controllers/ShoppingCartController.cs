@@ -160,6 +160,7 @@ namespace PE1.Webshop.Web.Controllers
 
                 Guid orderId = Guid.NewGuid();
                 sessionCart.CartId = orderId;
+                sessionCart.CustomerName = account.FullName;
 
                 WebOrder newOrder = new WebOrder
                 {

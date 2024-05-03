@@ -12,46 +12,26 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
     {
         private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IEmailSender _emailSender;
-        public OrderController(CoffeeShopContext coffeeShopContext, IEmailSender emailSender)
+        private readonly IOrderBuilder _orderBuilder;
+        public OrderController(CoffeeShopContext coffeeShopContext, IEmailSender emailSender, IOrderBuilder orderBuilder)
         {
             _coffeeShopContext = coffeeShopContext;
             _emailSender = emailSender;
+            _orderBuilder = orderBuilder;
         }
         public async Task<IActionResult> Index()
         {
             var allOrders = new OrderAllOrdersViewModel();
 
-            var orders = await _coffeeShopContext.WebOrders
-                .Include(order => order.WebOrderCoffees)
-                .ThenInclude(weborder => weborder.Coffee)
-                .Select(order => new OrderDetailsViewModel
-                {
-                    Id = order.Id,
-                    OrderDate = order.OrderDate,
-                    CustomerName = order.User.FirstName + " " + order.User.LastName,
-                    Status = order.Status,
-                    Items = order.WebOrderCoffees
-                }).ToListAsync();
+            var orders = await _orderBuilder.GetOrders();
             allOrders.AllOrders = orders;
-
 
             return View(allOrders);
         }
 
         public async Task<IActionResult> ShowDetails(Guid id)
         {
-            var orders = await _coffeeShopContext.WebOrders
-                .Include(order => order.WebOrderCoffees)
-                .ThenInclude(weborder => weborder.Coffee)
-                .Select(order => new OrderDetailsViewModel
-                {
-                    Id = order.Id,
-                    OrderDate = order.OrderDate,
-                    CustomerName = order.User.FirstName + " " + order.User.LastName,
-                    Status = order.Status,
-                    Items = order.WebOrderCoffees
-                }).ToListAsync();
-
+            var orders = await _orderBuilder.GetOrders();
             var selectedOrder = orders.FirstOrDefault(order => order.Id == id);         
 
             return View(selectedOrder);
@@ -59,25 +39,12 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Confirm(Guid id) 
         {
-            var orders = await _coffeeShopContext.WebOrders
-                .Include(order => order.WebOrderCoffees)
-                .ThenInclude(weborder => weborder.Coffee)
-                .Select(order => new OrderDetailsViewModel
-                {
-                    Id = order.Id,
-                    OrderDate = order.OrderDate,
-                    CustomerName = order.User.FirstName + " " + order.User.LastName,
-                    Status = order.Status,
-                    Items = order.WebOrderCoffees,
-                    TotalPrice = (decimal)order.TotalPrice
-                }).ToListAsync();
-
+            var orders = await _orderBuilder.GetOrders();
             var orderCompleted = orders
                 .FirstOrDefault(order => order.Id == id);
 
             if(orderCompleted != null)
             {
-
                 string recipientEmail = "djohannes7@gmail.com";
                 string subject = "Your Pachamama order has been dispatched!";
                 string body = WriteEmail(orderCompleted);
@@ -116,6 +83,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
             string output =
 
 $@"Hello {orderDetails.CustomerName},
+
 
 We thought you'd like to know that we dispatched your order.
 

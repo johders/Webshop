@@ -51,6 +51,7 @@ namespace PE1.Webshop.Web.Controllers
             {
                 _coffeeshopContext.Users.Add(newUser);
                 await _coffeeshopContext.SaveChangesAsync();
+                TempData["AccountCreated"] = "Thanks for registering, please sign in below";
             }
             catch (DbUpdateException ex)
             {
@@ -58,7 +59,7 @@ namespace PE1.Webshop.Web.Controllers
                 ModelState.AddModelError("", "Something went wrong...Please try again later..");
             }
 
-            return RedirectToAction("RegisterSuccess");
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
@@ -91,14 +92,10 @@ namespace PE1.Webshop.Web.Controllers
                 accountLoginViewModel.Authenticated = true;
                 accountLoginViewModel.FullName = user.FirstName + " " + user.LastName;
                 HttpContext.Session.SetString(accountStateKey, JsonConvert.SerializeObject(accountLoginViewModel));
+                TempData["LoggedIn"] = $"Welcome, {accountLoginViewModel.FullName}";
             }
 
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Registered()
-        {
-            return View();
         }
 
         public IActionResult LogOut()
