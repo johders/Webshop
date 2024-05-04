@@ -168,6 +168,13 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             editProduct.Price = decimal.Parse(newPrice);
 
+            var matchingImageCheck = await _coffeeShopContext.Coffees.Where(c => c.ImageString == editProduct.ImageString).ToListAsync();
+
+            if (matchingImageCheck.Count() == 1 && !editProduct.ImageString.Contains("placeholder"))
+            {
+                _productManager.DeleteImage(editProduct);
+            }
+
             if (editProductModel.ImageFile != null)
             {
                 editProduct.ImageString = $"~/images/{_productManager.SaveImage(editProductModel.ImageFile)}";

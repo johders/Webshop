@@ -37,7 +37,11 @@ namespace PE1.Webshop.Web.Services
 
         public string SaveImage(IFormFile image)
         {
-            string fileName = image.FileName;
+            string extension = Path.GetExtension(image.FileName);
+
+            string uniqueGuid = Guid.NewGuid().ToString();
+            string newFileName = uniqueGuid + extension;
+
             string savePath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
 
             if (!Directory.Exists(savePath))
@@ -45,14 +49,14 @@ namespace PE1.Webshop.Web.Services
                 Directory.CreateDirectory(savePath);
             }
 
-            string saveFilePath = Path.Combine(savePath, fileName);
+            string saveFilePath = Path.Combine(savePath, newFileName);
 
             using (var newFileStream = new FileStream(saveFilePath, FileMode.Create))
             {
                 image.CopyToAsync(newFileStream);
             }
 
-            return fileName;
+            return newFileName;
         }
 
         public void DeleteImage(Coffee coffeeToDelete)
