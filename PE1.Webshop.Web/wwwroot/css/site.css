@@ -135,7 +135,7 @@ h1, .h-link > p > a, #cat-link > a {
     list-style-type: none;
 }
 
-.form-control:focus {
+.form-control:focus{
     border-color: hsl(123, 17%, 20%);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(106, 149, 108, 0.6);
 }
@@ -236,6 +236,13 @@ dialog {
     margin-left: auto;
 }
 
-.filter-item:focus {
+.filter-item:focus{
     background-color: hsl(123, 17%, 75%);
+
+}
+
+#login:focus, #register:focus {
+    border-color: hsl(123, 17%, 20%);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(106, 149, 108, 0.6);
+    background-color: hsl(123, 17%, 20%);
 }
