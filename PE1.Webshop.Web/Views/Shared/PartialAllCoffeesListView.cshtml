@@ -15,7 +15,7 @@
                     <p class="card-text"><small class="text-muted">From $@coffee.Price</small></p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                                <a asp-controller="Products" asp-action="CoffeeDetails" asp-route-id="@coffee.Id" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                <a asp-controller="Products" asp-action="CoffeeDetails" asp-route-id="@coffee.Id" asp-route-slug="@coffee.Name" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                                 <a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@coffee.Id" type="button" class="btn btn-sm btn-outline-secondary">Add to cart</a>
                         </div>
                     </div>

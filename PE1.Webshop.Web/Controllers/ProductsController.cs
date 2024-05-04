@@ -7,6 +7,7 @@ using PE1.Webshop.Web.Models;
 using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace PE1.Webshop.Web.Controllers
@@ -34,8 +35,12 @@ namespace PE1.Webshop.Web.Controllers
             return View(allCoffeesModel);
         }
 
-        public async Task <IActionResult> CoffeeDetails(int id)
+        public async Task <IActionResult> CoffeeDetails(int id, [RegularExpression("^[a-zA-Z0-9- ]+$")] string slug)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
             Coffee coffee = await _productBuilder.GetCoffeeById(id);
 
