@@ -52,12 +52,11 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
                 try
                 {
-                    await _emailSender.SendEmailAsync(recipientEmail, subject, body);
+                    _emailSender.SendEmail(recipientEmail, subject, body);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return NotFound();
                 }
 
                 orderCompleted.Status = "Completed";

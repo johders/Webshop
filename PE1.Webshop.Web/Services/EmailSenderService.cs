@@ -1,28 +1,32 @@
-﻿using PE1.Webshop.Web.Services.Interfaces;
-using System.Net;
-using System.Net.Mail;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using PE1.Webshop.Web.Services.Interfaces;
 
 namespace PE1.Webshop.Web.Services
 {
     public class EmailSenderService : IEmailSender
     {
-        public Task SendEmailAsync(string email, string subject, string body)
+        public void SendEmail(string email, string subject, string body)
         {
             string mail = "pachamamacoffeeburner@outlook.com";
             string password = "Nosugar1!";
 
-            var client = new SmtpClient("smtp-mail.outlook.com", 587)
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(mail, password)
-            };
+            var message = new MimeMessage();
 
-            return client.SendMailAsync(
-                new MailMessage(
-                    from: mail, 
-                    to: email, 
-                    subject: subject, 
-                    body: body));
+            message.From.Add(new MailboxAddress("Pachamama Coffee", mail));
+            message.To.Add(new MailboxAddress("", email));
+            message.Subject = subject;
+            message.Body = new TextPart("plain") { Text = body };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
+                client.Authenticate(mail, password);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+
         }
     }
 }
