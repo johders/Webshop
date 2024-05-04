@@ -9,7 +9,7 @@
 		{
 			
 			<div class="col-12 col-md-6 col-lg-4 top-buffer">
-				<a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@category.Id">
+				<a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@category.Id" asp-route-slug="@category.Name">
 				<div class="card">
 					 
 						 <img asp-append-version="true" src="@category.ImageString" class="card-img-top" id="cat-card" alt="Product Primary Image">

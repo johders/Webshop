@@ -11,7 +11,7 @@
         @foreach(var flavor in Model.MenuLinks)
         {
             <a class="dropdown-item filter-item" asp-controller="@flavor.Controller"
-               asp-action="@flavor.Action" asp-route-id="@flavor.Id">@flavor.Name</a>
+               asp-action="@flavor.Action" asp-route-id="@flavor.Id" asp-route-slug="@flavor.Name">@flavor.Name</a>
         }
 
     </div>

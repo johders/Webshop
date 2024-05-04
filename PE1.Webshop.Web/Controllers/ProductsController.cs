@@ -54,8 +54,12 @@ namespace PE1.Webshop.Web.Controllers
             return View(coffeeDetailsViewModel);
         }
 
-        public async Task<IActionResult> FilteredByCategory(int id)
+        public async Task<IActionResult> FilteredByCategory(int id, [RegularExpression("^[a-zA-Z0-9- ]+$")] string slug)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
             var coffees = await _productBuilder.GetCoffeesByCategory(id);
 
@@ -72,8 +76,13 @@ namespace PE1.Webshop.Web.Controllers
 
         }
 
-        public async Task<IActionResult> FilteredByProperty(int id)
+        public async Task<IActionResult> FilteredByProperty(int id, [RegularExpression("^[a-zA-Z0-9- ]+$")] string slug)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
             var coffees = await _productBuilder.GetCoffeesByProperty(id);             
 

@@ -1,17 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using PE1.Webshop.Web.Constraints;
 using PE1.Webshop.Web.Data;
 using PE1.Webshop.Web.Services;
 using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.Transformers;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddRouting(options => {
-    //options.ConstraintMap["validateSlug"] = typeof(SlugConstraint);
     options.ConstraintMap["slugTransform"] = typeof(SlugParameterTransformer);
 });
 
@@ -76,6 +73,16 @@ app.MapControllerRoute(
     name: "productDetails",
     pattern: "/ProductDetails/{id:int}/{slug:slugTransform}",
     defaults: new { Controller = "Products", Action = "CoffeeDetails" });
+
+app.MapControllerRoute(
+    name: "categoryRoutes",
+    pattern: "/Category/{id:int}/{slug:slugTransform}",
+    defaults: new { Controller = "Products", Action = "FilteredByCategory" });
+
+app.MapControllerRoute(
+    name: "propertyRoutes",
+    pattern: "/Flavor/{id:int}/{slug:slugTransform}",
+    defaults: new { Controller = "Products", Action = "FilteredByProperty" });
 
 app.MapControllerRoute(
     name: "default",

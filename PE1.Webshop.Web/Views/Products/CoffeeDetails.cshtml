@@ -16,14 +16,14 @@
 			</div>
 			<p class="lead">@Model.Description</p>
 
-			<p>Roast: <a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@Model.Category.Id">@Model.Category.Name</a></p>
+			<p>Roast: <a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@Model.Category.Id" asp-route-slug="@Model.Category.Name">@Model.Category.Name</a></p>
 			<p>
 				Characteristics:
 
 
 				@foreach (var p in Model.Properties)
 				{
-					<a asp-area="" asp-controller="Products" asp-action="FilteredByProperty" asp-route-id="@p.Id"><span>@p.Name</span></a>
+					<a asp-area="" asp-controller="Products" asp-action="FilteredByProperty" asp-route-id="@p.Id" asp-route-slug="@p.Name"><span>@p.Name</span></a>
 
 				}
 			</p>

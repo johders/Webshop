@@ -11,7 +11,7 @@
                 <img asp-append-version="true" src="@coffee.ImageString" class="card-img-top" alt="Product Primary Image">
                 <div class="card-body">
                     <h5 class="card-title">@coffee.Name</h5>
-                        <small id="cat-link"><a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@coffee.Category.Id">@coffee.Category.Name</a></small>
+                        <small id="cat-link"><a asp-area="" asp-controller="Products" asp-action="FilteredByCategory" asp-route-id="@coffee.Category.Id" asp-route-slug="@coffee.Category.Name">@coffee.Category.Name</a></small>
                     <p class="card-text"><small class="text-muted">From $@coffee.Price</small></p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
