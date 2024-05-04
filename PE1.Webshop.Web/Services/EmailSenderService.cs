@@ -26,7 +26,6 @@ namespace PE1.Webshop.Web.Services
                 client.Send(message);
                 client.Disconnect(true);
             }
-
         }
     }
 }

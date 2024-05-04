@@ -14,5 +14,16 @@ namespace PE1.Webshop.Web.ViewModels
         public string FullName { get; set; }
         public bool IsAdmin { get; set; }
         public bool Authenticated { get; set; }
+        public string ImageString 
+        { 
+            get 
+            {
+                if (Username == "bsoete" || Username == "jders" || Username == "bob" || Username == "joemama")
+                {
+                    return Username;
+                }
+                else return "generic";
+            } 
+        }
     }
 }
