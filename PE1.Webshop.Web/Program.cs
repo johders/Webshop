@@ -21,6 +21,7 @@ builder.Services.AddTransient<ISearchFilter, SearchFilterService>();
 builder.Services.AddTransient<IProductManager, InventoryManagerService>();
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 builder.Services.AddTransient<IOrderBuilder, OrderBuilderService>();
+builder.Services.AddTransient<IStateHelper, SessionStateService>();
 
 
 builder.Services.AddSession();

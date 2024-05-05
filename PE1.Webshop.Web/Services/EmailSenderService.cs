@@ -21,7 +21,7 @@ namespace PE1.Webshop.Web.Services
 
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
+                client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
                 client.Authenticate(mail, password);
                 client.Send(message);
                 client.Disconnect(true);

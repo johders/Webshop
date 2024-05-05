@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Data;
+using PE1.Webshop.Web.Services.Interfaces;
 using PE1.Webshop.Web.ViewModels;
 
 namespace PE1.Webshop.Web.Controllers
@@ -70,7 +71,7 @@ namespace PE1.Webshop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(AccountLoginViewModel accountLoginViewModel)
+        public async Task<IActionResult> Login(AccountLoginViewModel accountLoginViewModel, [FromServices] IStateHelper stateHelper)
         {
 
             if (!ModelState.IsValid)
@@ -91,7 +92,7 @@ namespace PE1.Webshop.Web.Controllers
                 accountLoginViewModel.IsAdmin = user.IsAdmin;
                 accountLoginViewModel.Authenticated = true;
                 accountLoginViewModel.FullName = user.FirstName + " " + user.LastName;
-                HttpContext.Session.SetString(accountStateKey, JsonConvert.SerializeObject(accountLoginViewModel));
+                stateHelper.SetValue(accountStateKey, accountLoginViewModel);
                 TempData["LoggedIn"] = $"Welcome, {accountLoginViewModel.FullName}";
             }
 

@@ -1,4 +1,7 @@
 ﻿@using Newtonsoft.Json
+@using PE1.Webshop.Web.Services.Interfaces
+
+@inject IStateHelper stateHelper
 @model NavigationLinksComponentViewModel
 
 @foreach (var link in Model.MenuLinks)
@@ -7,7 +10,7 @@
     {
         @if (Context.Session.Keys.Contains("Account"))
         {
-         var user = JsonConvert.DeserializeObject<AccountLoginViewModel>(Context.Session.GetString("Account")); ;
+            var user = stateHelper.GetValue<AccountLoginViewModel>("Account");
 
             if (user.IsAdmin)
             {

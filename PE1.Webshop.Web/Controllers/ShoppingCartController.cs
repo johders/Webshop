@@ -15,13 +15,16 @@ namespace PE1.Webshop.Web.Controllers
     public class ShoppingCartController : Controller
     {
         const string stateKey = "Cart";
+
         private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IProductBuilder _productBuilder;
+        private readonly IStateHelper _stateHelper;
 
-        public ShoppingCartController(CoffeeShopContext coffeeShopContext, IProductBuilder productBuilder)
+        public ShoppingCartController(CoffeeShopContext coffeeShopContext, IProductBuilder productBuilder, IStateHelper stateHelper)
         {
             _coffeeShopContext = coffeeShopContext;
             _productBuilder = productBuilder;
+            _stateHelper = stateHelper;
         }
 
         public IActionResult Index()
@@ -43,7 +46,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if(HttpContext.Session.Keys.Contains(stateKey))
             {
-                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+                sessionCart = _stateHelper.GetValue<ShoppingCartViewModel>(stateKey);
             }
 
             var existingCartItem = sessionCart.CartItems.FirstOrDefault(item => item.Coffee.Id == id);
@@ -51,11 +54,7 @@ namespace PE1.Webshop.Web.Controllers
             if (existingCartItem != null)
             {
                 existingCartItem.Quantity++;
-
-                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                }));
+                _stateHelper.SetValue(stateKey, sessionCart);
             }
             else
             {
@@ -68,10 +67,7 @@ namespace PE1.Webshop.Web.Controllers
 
                 sessionCart.CartItems.Add(newItem);
 
-                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                }));
+                _stateHelper.SetValue(stateKey, sessionCart);
             }
 
             return RedirectToAction("ViewCart");
@@ -92,7 +88,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if (HttpContext.Session.Keys.Contains(stateKey))
             {
-                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+                sessionCart = _stateHelper.GetValue<ShoppingCartViewModel>(stateKey);
             }
 
             var existingCartItem = sessionCart.CartItems.FirstOrDefault(item => item.Coffee.Id == id);
@@ -105,10 +101,7 @@ namespace PE1.Webshop.Web.Controllers
                     sessionCart.CartItems.Remove(existingCartItem);
                 }
 
-                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                }));
+                _stateHelper.SetValue(stateKey, sessionCart);
             }
 
             return RedirectToAction("ViewCart");
@@ -129,7 +122,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if (HttpContext.Session.Keys.Contains(stateKey))
             {
-                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+                sessionCart = _stateHelper.GetValue<ShoppingCartViewModel>(stateKey);
             }
 
             var existingCartItem = sessionCart.CartItems.FirstOrDefault(item => item.Coffee.Id == id);
@@ -139,10 +132,7 @@ namespace PE1.Webshop.Web.Controllers
                 existingCartItem.Quantity = 0;
                 sessionCart.CartItems.Remove(existingCartItem);
 
-                HttpContext.Session.SetString(stateKey, JsonConvert.SerializeObject(sessionCart, new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                }));
+                _stateHelper.SetValue(stateKey, sessionCart);
             }
 
             return RedirectToAction("ViewCart");
@@ -155,7 +145,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if (HttpContext.Session.Keys.Contains(stateKey))
             {
-                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+                sessionCart = _stateHelper.GetValue<ShoppingCartViewModel>(stateKey);
             }
 
             sessionCart.SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity);
@@ -171,7 +161,7 @@ namespace PE1.Webshop.Web.Controllers
 
             if (HttpContext.Session.Keys.Contains(stateKey))
             {
-                sessionCart = JsonConvert.DeserializeObject<ShoppingCartViewModel>(HttpContext.Session.GetString(stateKey));
+                sessionCart = _stateHelper.GetValue<ShoppingCartViewModel>(stateKey);
             }
 
             sessionCart.SubTotal = sessionCart.CartItems.Sum(item => item.Coffee.Price * item.Quantity);
@@ -184,7 +174,7 @@ namespace PE1.Webshop.Web.Controllers
 
                 if (HttpContext.Session.Keys.Contains("Account"))
                 {
-                    account = JsonConvert.DeserializeObject<AccountLoginViewModel>(HttpContext.Session.GetString("Account"));
+                    account = _stateHelper.GetValue<AccountLoginViewModel>("Account");
                 }
 
                 if(account != null)
@@ -225,7 +215,7 @@ namespace PE1.Webshop.Web.Controllers
                     Console.WriteLine(ex.Message);
                 }
 
-                HttpContext.Session?.Remove(stateKey);
+                _stateHelper.Remove(stateKey);
             }
 
             return View(sessionCart);
