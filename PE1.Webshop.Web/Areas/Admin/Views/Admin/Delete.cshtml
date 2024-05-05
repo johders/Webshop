@@ -8,7 +8,7 @@
 		<div class="col-md-6 h-link" id="volunteer-form">
 
 			<form method="post" asp-action="DeletePost">
-				<input asp-for="Id"/>
+				<input asp-for="Id" />
 
 				<div class="form-group">
 					<label asp-for="Name"></label>
@@ -37,7 +37,7 @@
 				<div class="form-group form-check">
 
 					<input asp-for="CertifiedOrganic" class="form-check-input" disabled>
-					<label asp-for="CertifiedOrganic" class="form-check-label" ></label>
+					<label asp-for="CertifiedOrganic" class="form-check-label"></label>
 					<span asp-validation-for="CertifiedOrganic" class="text-warning d-block"></span>
 
 				</div>
@@ -49,7 +49,7 @@
 					<span asp-validation-for="SelectedPropertyIdList" class="text-warning d-block"></span>
 
 					<div class="property-options">
-						
+
 						<table>
 
 							@foreach (var flavor in Model.Properties)
@@ -65,12 +65,36 @@
 
 				</div>
 
-				<button type="submit" class="btn btn-danger" style="width: 150px"><i class="bi bi-trash"></i> Delete</button>
-				<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+					<i class="bi bi-trash"></i> Delete
+				</button>
+				<a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn btn-secondary" style="width: 150px" data-bs-dismiss="modal">Back to List</a>
+
+				<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="staticBackdropLabel">Are you sure about this?</h5>
+							</div>
+							<div class="modal-body">
+								By confirming, product: <b> @Model.Name </b> will be removed from inventory.
+								<br />
+								Do you want to proceed?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Go Back</button>
+
+								<button type="submit" class="btn btn-danger" style="width: 150px"><i class="bi bi-trash"></i> Delete</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</form>
 		</div>
 	</div>
 </div>
+
 
 @section Scripts {
 	@{
