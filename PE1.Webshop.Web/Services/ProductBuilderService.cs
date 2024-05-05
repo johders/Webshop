@@ -92,11 +92,6 @@ namespace PE1.Webshop.Web.Services
                 .FirstOrDefaultAsync(coffee => coffee.Id == id);
         }
 
-        public string GetCategoryName(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<string> GetPropertyName(int id)
         {
             return await _coffeeShopContext.Properties

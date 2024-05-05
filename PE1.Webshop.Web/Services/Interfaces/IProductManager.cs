@@ -5,7 +5,7 @@ using PE1.Webshop.Web.Data;
 
 namespace PE1.Webshop.Web.Services.Interfaces
 {
-    public interface IProductManager
+    public interface IProductManager : IDbHelper<Coffee>
     {
         string SaveImage(IFormFile image);
 
@@ -20,13 +20,5 @@ namespace PE1.Webshop.Web.Services.Interfaces
         Task<Category> SetCategory(AdminUpdateProductViewModel producToUpdate);
 
         Task<ICollection<Property>> SetProperties(AdminUpdateProductViewModel producToUpdate);
-
-        Task Create(Coffee coffee);
-
-
-        Task Update(Coffee coffee);
-
-
-        Task Delete(Coffee coffee);
 	}
 }

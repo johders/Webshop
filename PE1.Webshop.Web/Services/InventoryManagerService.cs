@@ -86,7 +86,7 @@ namespace PE1.Webshop.Web.Services
 
 		public async Task Create(Coffee coffee)
 		{
-			await _coffeeShopContext.Coffees.AddAsync(coffee);
+            await _coffeeShopContext.Coffees.AddAsync(coffee);
 			await _coffeeShopContext.SaveChangesAsync();
 		}
 
