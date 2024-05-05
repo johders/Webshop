@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using PE1.Webshop.Core;
 using PE1.Webshop.Web.Areas.Admin.ViewModels;
+using PE1.Webshop.Web.Data;
 
 namespace PE1.Webshop.Web.Services.Interfaces
 {
@@ -10,6 +11,8 @@ namespace PE1.Webshop.Web.Services.Interfaces
 
         void DeleteImage(Coffee coffeeToDelete);
 
+        Task<IEnumerable<Coffee>> FindImageMatch(Coffee coffee);
+
         Task<IEnumerable<SelectListItem>> GetCategories();
 
         Task<IEnumerable<SelectListItem>> GetProperties();
@@ -17,5 +20,13 @@ namespace PE1.Webshop.Web.Services.Interfaces
         Task<Category> SetCategory(AdminUpdateProductViewModel producToUpdate);
 
         Task<ICollection<Property>> SetProperties(AdminUpdateProductViewModel producToUpdate);
-    }
+
+        Task Create(Coffee coffee);
+
+
+        Task Update(Coffee coffee);
+
+
+        Task Delete(Coffee coffee);
+	}
 }

@@ -8,7 +8,8 @@ using PE1.Webshop.Web.Services.Interfaces;
 namespace PE1.Webshop.Web.Services
 {
     public class InventoryManagerService : IProductManager
-    {
+
+	{
         private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
         public InventoryManagerService(CoffeeShopContext coffeeShopContext, IWebHostEnvironment webHostEnvironment)
@@ -82,5 +83,28 @@ namespace PE1.Webshop.Web.Services
                 .Where(p => updateProductModel.SelectedPropertyIdList.Contains(p.Id))
                 .ToListAsync();
         }
-    }
+
+		public async Task Create(Coffee coffee)
+		{
+			await _coffeeShopContext.Coffees.AddAsync(coffee);
+			await _coffeeShopContext.SaveChangesAsync();
+		}
+
+		public async Task Update(Coffee coffee)
+		{
+			_coffeeShopContext.Coffees.Update(coffee);
+			await _coffeeShopContext.SaveChangesAsync();
+		}
+
+		public async Task Delete(Coffee coffee)
+		{
+			_coffeeShopContext.Coffees.Remove(coffee);
+			await _coffeeShopContext.SaveChangesAsync();
+		}
+
+		public async Task<IEnumerable<Coffee>> FindImageMatch(Coffee coffee)
+		{
+			return await _coffeeShopContext.Coffees.Where(c => c.ImageString == coffee.ImageString).ToListAsync();
+		}
+	}
 }

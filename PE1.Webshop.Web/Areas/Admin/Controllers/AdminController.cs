@@ -16,21 +16,18 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdminController : Controller
     {
-
-        private readonly CoffeeShopContext _coffeeShopContext;
         private readonly IProductManager _productManager;
         private readonly IProductBuilder _productBuilder;
-        public AdminController(CoffeeShopContext coffeeShopContext, IProductManager productManager, IProductBuilder productBuilder)
+        public AdminController(IProductManager productManager, IProductBuilder productBuilder)
         {
-            _coffeeShopContext = coffeeShopContext;
             _productManager = productManager;
             _productBuilder = productBuilder;
         }
 
-        public async Task<IActionResult> Index([FromServices] IProductBuilder productBuilder)
+        public async Task<IActionResult> Index()
         {
 
-            var coffees = await productBuilder.GetCoffees();
+            var coffees = await _productBuilder.GetCoffees();
 
             var allCoffeesModel = new ProductsAllCoffeesViewModel
             {
@@ -92,8 +89,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             try
 			{
-                _coffeeShopContext.Coffees.Add(newCoffee);
-                await _coffeeShopContext.SaveChangesAsync();
+                await _productManager.Create(newCoffee);
                 TempData["success"] = "New product created successfully";
             }
 			catch(DbUpdateException ex)
@@ -168,9 +164,9 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             editProduct.Price = decimal.Parse(newPrice);
 
-            var matchingImageCheck = await _coffeeShopContext.Coffees.Where(c => c.ImageString == editProduct.ImageString).ToListAsync();
+			var matchingImageCheck = await _productManager.FindImageMatch(editProduct);
 
-            if (matchingImageCheck.Count() == 1 && !editProduct.ImageString.Contains("placeholder"))
+			if (matchingImageCheck.Count() == 1 && !editProduct.ImageString.Contains("placeholder"))
             {
                 _productManager.DeleteImage(editProduct);
             }
@@ -186,7 +182,7 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             try
             {
-                await _coffeeShopContext.SaveChangesAsync();
+                await _productManager.Update(editProduct);
                 TempData["success"] = "Product updated successfully";
             }
             catch (DbUpdateException ex)
@@ -227,25 +223,23 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeletePost(int id)
 		{
+			var deleteProduct = await _productBuilder.GetCoffeeById(id);
 
-			var deleteProduct = await _coffeeShopContext.Coffees.FindAsync(id);
-
-            if (deleteProduct == null)
+			if (deleteProduct == null)
             {
                 return NotFound();
             }
 
-            var matchingImageCheck = await _coffeeShopContext.Coffees.Where(c => c.ImageString == deleteProduct.ImageString).ToListAsync();
+            var matchingImageCheck = await _productManager.FindImageMatch(deleteProduct);
 
-            if (matchingImageCheck.Count() == 1 && !deleteProduct.ImageString.Contains("placeholder"))
+			if (matchingImageCheck.Count() == 1 && !deleteProduct.ImageString.Contains("placeholder"))
 			{
                 _productManager.DeleteImage(deleteProduct);
 			}
 
             try
             {
-                _coffeeShopContext.Coffees.Remove(deleteProduct);
-                await _coffeeShopContext.SaveChangesAsync();
+                await _productManager.Delete(deleteProduct);
                 TempData["success"] = "Product deleted successfully";
             }
 			catch(DbUpdateException ex)
