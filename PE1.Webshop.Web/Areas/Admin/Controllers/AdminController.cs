@@ -83,7 +83,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             if (createProductModel.ImageFile != null)
             {
-                newCoffee.ImageString = $"~/images/{_productManager.SaveImage(createProductModel.ImageFile)}";
+                string newImageString = _productManager.SaveImage(createProductModel.ImageFile);
+				newCoffee.ImageString = $"~/images/{newImageString}";
             }
             else newCoffee.ImageString = $"~/images/placeholder.webp";
 
@@ -164,16 +165,15 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             editProduct.Price = decimal.Parse(newPrice);
 
-			var matchingImageCheck = await _productManager.FindImageMatch(editProduct);
-
-			if (matchingImageCheck.Count() == 1 && !editProduct.ImageString.Contains("placeholder"))
-            {
-                _productManager.DeleteImage(editProduct);
-            }
-
             if (editProductModel.ImageFile != null)
             {
-                editProduct.ImageString = $"~/images/{_productManager.SaveImage(editProductModel.ImageFile)}";
+                if (!editProduct.ImageString.Contains("placeholder"))
+                {
+				    _productManager.DeleteImage(editProduct);
+                }
+
+				string newImageString = _productManager.SaveImage(editProductModel.ImageFile);
+				editProduct.ImageString = $"~/images/{newImageString}";
             }
 
             editProduct.CertifiedOrganic = editProductModel.CertifiedOrganic;

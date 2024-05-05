@@ -54,7 +54,7 @@ namespace PE1.Webshop.Web.Services
 
             using (var newFileStream = new FileStream(saveFilePath, FileMode.Create))
             {
-                image.CopyToAsync(newFileStream);
+                image.CopyTo(newFileStream);
             }
 
             return newFileName;
