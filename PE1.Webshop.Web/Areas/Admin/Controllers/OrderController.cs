@@ -46,7 +46,8 @@ namespace PE1.Webshop.Web.Areas.Admin.Controllers
 
             if(orderCompleted != null)
             {
-                string recipientEmail = "djohannes7@gmail.com";
+                //Enter recipient email address below
+                string recipientEmail = "someone@somewhere.com";
                 string subject = "Your Pachamama order has been dispatched!";
                 string body = EmailWriter.WriteEmail(orderCompleted);
 
